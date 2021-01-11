@@ -8,12 +8,9 @@ import {
   Button,
   Divider,
   Toolbar,
-  Hidden,
-  Typography,
   Link,
   makeStyles
 } from '@material-ui/core';
-import { APP_VERSION } from 'src/constants';
 import Logo from 'src/components/Logo';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,16 +50,6 @@ const TopBar = ({ className, ...rest }) => {
         <RouterLink to="/">
           <Logo className={classes.logo} />
         </RouterLink>
-        <Hidden mdDown>
-          <Typography
-            variant="caption"
-            color="textSecondary"
-          >
-            Version
-            {' '}
-            {APP_VERSION}
-          </Typography>
-        </Hidden>
         <Box flexGrow={1} />
         <Link
           className={classes.link}

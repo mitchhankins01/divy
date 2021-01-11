@@ -45,15 +45,7 @@ const NotFoundView = () => {
           variant={mobileDevice ? 'h4' : 'h1'}
           color="textPrimary"
         >
-          404: The page you are looking for isn’t here
-        </Typography>
-        <Typography
-          align="center"
-          variant="subtitle2"
-          color="textSecondary"
-        >
-          You either tried some shady route or you
-          came here by mistake. Whichever it is, try using the navigation.
+          404: Page not Found
         </Typography>
         <Box
           mt={6}

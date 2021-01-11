@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
-  Chip,
   Divider,
   Drawer,
   Hidden,
@@ -17,25 +16,13 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import {
-  Briefcase as BriefcaseIcon,
-  Calendar as CalendarIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Folder as FolderIcon,
   BarChart as BarChartIcon,
   Lock as LockIcon,
   UserPlus as UserPlusIcon,
-  AlertCircle as AlertCircleIcon,
-  Trello as TrelloIcon,
   User as UserIcon,
-  Layout as LayoutIcon,
-  Edit as EditIcon,
   DollarSign as DollarSignIcon,
-  Mail as MailIcon,
-  MessageCircle as MessageCircleIcon,
   PieChart as PieChartIcon,
-  Share2 as ShareIcon,
   Users as UsersIcon
 } from 'react-feather';
 import Logo from 'src/components/Logo';
@@ -44,17 +31,17 @@ import NavItem from './NavItem';
 
 const sections = [
   {
-    subheader: 'Reports',
+    subheader: 'Main',
     items: [
       {
         title: 'Dashboard',
         icon: PieChartIcon,
-        href: '/app/reports/dashboard'
+        href: '/app/dashboard'
       },
       {
         title: 'Dashboard Alternative',
         icon: BarChartIcon,
-        href: '/app/reports/dashboard-alternative'
+        href: '/app/dashboard-alternative'
       }
     ]
   },
@@ -80,128 +67,6 @@ const sections = [
           }
         ]
       },
-      {
-        title: 'Products',
-        icon: ShoppingCartIcon,
-        href: '/app/management/products',
-        items: [
-          {
-            title: 'List Products',
-            href: '/app/management/products'
-          },
-          {
-            title: 'Create Product',
-            href: '/app/management/products/create'
-          }
-        ]
-      },
-      {
-        title: 'Orders',
-        icon: FolderIcon,
-        href: '/app/management/orders',
-        items: [
-          {
-            title: 'List Orders',
-            href: '/app/management/orders'
-          },
-          {
-            title: 'View Order',
-            href: '/app/management/orders/1'
-          }
-        ]
-      },
-      {
-        title: 'Invoices',
-        icon: ReceiptIcon,
-        href: '/app/management/invoices',
-        items: [
-          {
-            title: 'List Invoices',
-            href: '/app/management/invoices'
-          },
-          {
-            title: 'View Invoice',
-            href: '/app/management/invoices/1'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    subheader: 'Applications',
-    items: [
-      {
-        title: 'Projects Platform',
-        href: '/app/projects',
-        icon: BriefcaseIcon,
-        items: [
-          {
-            title: 'Overview',
-            href: '/app/projects/overview'
-          },
-          {
-            title: 'Browse Projects',
-            href: '/app/projects/browse'
-          },
-          {
-            title: 'Create Project',
-            href: '/app/projects/create'
-          },
-          {
-            title: 'View Project',
-            href: '/app/projects/1'
-          }
-        ]
-      },
-      {
-        title: 'Social Platform',
-        href: '/app/social',
-        icon: ShareIcon,
-        items: [
-          {
-            title: 'Profile',
-            href: '/app/social/profile'
-          },
-          {
-            title: 'Feed',
-            href: '/app/social/feed'
-          }
-        ]
-      },
-      {
-        title: 'Kanban',
-        href: '/app/kanban',
-        icon: TrelloIcon
-      },
-      {
-        title: 'Mail',
-        href: '/app/mail',
-        icon: MailIcon
-      },
-      {
-        title: 'Chat',
-        href: '/app/chat',
-        icon: MessageCircleIcon,
-        info: () => (
-          <Chip
-            color="secondary"
-            size="small"
-            label="Updated"
-          />
-        )
-      },
-      {
-        title: 'Calendar',
-        href: '/app/calendar',
-        icon: CalendarIcon,
-        info: () => (
-          <Chip
-            color="secondary"
-            size="small"
-            label="Updated"
-          />
-        )
-      }
     ]
   },
   {
@@ -228,63 +93,12 @@ const sections = [
         icon: UserIcon
       },
       {
-        title: 'Error',
-        href: '/404',
-        icon: AlertCircleIcon
-      },
-      {
         title: 'Pricing',
         href: '/pricing',
         icon: DollarSignIcon
       }
     ]
   },
-  {
-    subheader: 'Extra',
-    items: [
-      {
-        title: 'Charts',
-        href: '/app/extra/charts',
-        icon: BarChartIcon,
-        items: [
-          {
-            title: 'Apex Charts',
-            href: '/app/extra/charts/apex'
-          }
-        ]
-      },
-      {
-        title: 'Forms',
-        href: '/app/extra/forms',
-        icon: EditIcon,
-        items: [
-          {
-            title: 'Formik',
-            href: '/app/extra/forms/formik'
-          },
-          {
-            title: 'Redux Forms',
-            href: '/app/extra/forms/redux'
-          },
-        ]
-      },
-      {
-        title: 'Editors',
-        href: '/app/extra/editors',
-        icon: LayoutIcon,
-        items: [
-          {
-            title: 'DraftJS Editor',
-            href: '/app/extra/editors/draft-js'
-          },
-          {
-            title: 'Quill Editor',
-            href: '/app/extra/editors/quill'
-          }
-        ]
-      }
-    ]
-  }
 ];
 
 function renderNavItems({
@@ -467,7 +281,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               variant="h6"
               color="textPrimary"
             >
-              Need Help?
+              Free Version
             </Typography>
             <Link
               variant="subtitle1"
@@ -475,7 +289,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               component={RouterLink}
               to="/docs"
             >
-              Check our docs
+              Upgrade to Pro
             </Link>
           </Box>
         </Box>

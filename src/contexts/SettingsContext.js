@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { THEMES } from 'src/constants';
 
 const defaultSettings = {
-  direction: 'ltr',
   responsiveFontSizes: true,
   theme: THEMES.ONE_DARK
 };
@@ -56,10 +55,6 @@ export const SettingsProvider = ({ settings, children }) => {
       setCurrentSettings(restoredSettings);
     }
   }, []);
-
-  useEffect(() => {
-    document.dir = currentSettings.direction;
-  }, [currentSettings]);
 
   return (
     <SettingsContext.Provider
