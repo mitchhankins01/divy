@@ -15,7 +15,6 @@ import { Menu as MenuIcon } from 'react-feather';
 import Logo from 'src/components/Logo';
 import { THEMES } from 'src/constants';
 import Account from './Account';
-import Contacts from './Contacts';
 import Notifications from './Notifications';
 import Search from './Search';
 import Settings from './Settings';
@@ -69,7 +68,6 @@ const TopBar = ({
           flexGrow={1}
         />
         <Search />
-        <Contacts />
         <Notifications />
         <Settings />
         <Box ml={2}>

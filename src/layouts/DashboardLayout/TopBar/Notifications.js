@@ -25,8 +25,6 @@ import {
   MessageCircle as MessageIcon,
   Truck as TruckIcon
 } from 'react-feather';
-import { useDispatch, useSelector } from 'src/store';
-import { getNotifications } from 'src/slices/notification';
 
 const iconsMap = {
   order_placed: PackageIcon,
@@ -46,10 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Notifications = () => {
   const classes = useStyles();
-  const { notifications } = useSelector((state) => state.notifications);
   const ref = useRef(null);
-  const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
+  const notifications = [];
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,9 +56,9 @@ const Notifications = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    dispatch(getNotifications());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getNotifications());
+  // }, [dispatch]);
 
   return (
     <>

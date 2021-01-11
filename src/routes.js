@@ -90,19 +90,6 @@ const routes = [
       },
       {
         exact: true,
-        path: [
-          '/app/chat/new',
-          '/app/chat/:threadKey'
-        ],
-        component: lazy(() => import('src/views/chat/ChatView'))
-      },
-      {
-        exact: true,
-        path: '/app/chat',
-        component: () => <Redirect to="/app/chat/new" />
-      },
-      {
-        exact: true,
         path: '/app/extra/charts/apex',
         component: lazy(() => import('src/views/extra/charts/ApexChartsView'))
       },
@@ -113,11 +100,6 @@ const routes = [
       },
       {
         exact: true,
-        path: '/app/extra/forms/redux',
-        component: lazy(() => import('src/views/extra/forms/ReduxFormView'))
-      },
-      {
-        exact: true,
         path: '/app/extra/editors/draft-js',
         component: lazy(() => import('src/views/extra/editors/DraftEditorView'))
       },
@@ -125,24 +107,6 @@ const routes = [
         exact: true,
         path: '/app/extra/editors/quill',
         component: lazy(() => import('src/views/extra/editors/QuillEditorView'))
-      },
-      {
-        exact: true,
-        path: '/app/kanban',
-        component: lazy(() => import('src/views/kanban/KanbanView'))
-      },
-      {
-        exact: true,
-        path: [
-          '/app/mail/label/:customLabel/:mailId?',
-          '/app/mail/:systemLabel/:mailId?'
-        ],
-        component: lazy(() => import('src/views/mail/MailView'))
-      },
-      {
-        exact: true,
-        path: '/app/mail',
-        component: () => <Redirect to="/app/mail/all" />
       },
       {
         exact: true,
