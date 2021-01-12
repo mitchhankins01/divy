@@ -101,12 +101,12 @@ const routes = [
       {
         exact: true,
         path: '/app/dashboard',
-        component: lazy(() => import('src/views/reports/DashboardView'))
+        component: lazy(() => import('src/views/dashboard/DashboardView'))
       },
       {
         exact: true,
         path: '/app/dashboard-alternative',
-        component: lazy(() => import('src/views/reports/DashboardAlternativeView'))
+        component: lazy(() => import('src/views/dashboard/DashboardAlternativeView'))
       },
       {
         exact: true,

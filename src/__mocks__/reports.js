@@ -79,15 +79,25 @@ mock.onGet('/api/reports/customer-activity').reply(() => {
   return [200, { activities }];
 });
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 mock.onGet('/api/reports/earnings').reply(200, {
   earnings: {
     datasets: [
       {
-        data: [56, 24, 20],
-        backgroundColor: ['#3d72eb', '#4b9e86', '#b658f5']
+        data: [11, 15, 10, 16, 9, 17, 13],
+        // backgroundColor: ['#3d72eb', '#4b9e86', '#b658f5']
+        backgroundColor: [colors.blueGrey['500'], colors.cyan['500'], colors.indigo['500'], colors.red['500'], colors.orange['500'], colors.purple['500'], colors.blue['500']]
       }
     ],
-    labels: ['Subscriptions', 'Affiliate', 'Sales']
+    labels: ['Net Lease', 'Industrial', 'Malls', 'Residential', 'Shopping Center', 'Mortgage', 'Residential']
   }
 });
 

@@ -5,6 +5,7 @@ import React, {
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Avatar,
+  Badge,
   Box,
   Button,
   IconButton,
@@ -38,6 +39,21 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText
+  },
+  badge: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    marginRight: 5
+  },
+  badgeHide: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    marginRight: 5,
+    display: 'none',
   }
 }));
 
@@ -45,7 +61,11 @@ const Notifications = () => {
   const classes = useStyles();
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
-  const notifications = [];
+  const [notifications, setNotifications] = React.useState([
+    { title: 'Test Notification 0', description: 'Test Notification 0 Description', id: 0, type: 'order_placed' },
+    { title: 'Test Notification 1', description: 'Test Notification 1 Description', id: 1, type: 'new_message' },
+    { title: 'Test Notification 2', description: 'Test Notification 2 Description', id: 2, type: 'item_shipped' },
+  ]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -61,16 +81,22 @@ const Notifications = () => {
 
   return (
     <>
-      <Tooltip title="Notifications">
-        <IconButton
-          color="inherit"
-          ref={ref}
-          onClick={handleOpen}
+      <Tooltip title="Settings">
+        <Badge
+          color="secondary"
+          variant="dot"
+          classes={{ badge: notifications.length !== 0 ? classes.badge : classes.badgeHide }}
         >
-          <SvgIcon>
-            <BellIcon />
-          </SvgIcon>
-        </IconButton>
+          <IconButton
+            color="inherit"
+            ref={ref}
+            onClick={handleOpen}
+          >
+            <SvgIcon>
+              <BellIcon />
+            </SvgIcon>
+          </IconButton>
+        </Badge>
       </Tooltip>
       <Popover
         anchorOrigin={{
@@ -100,51 +126,52 @@ const Notifications = () => {
             </Typography>
           </Box>
         ) : (
-          <>
-            <List disablePadding>
-              {notifications.map((notification) => {
-                const Icon = iconsMap[notification.type];
+            <>
+              <List disablePadding>
+                {notifications.map((notification) => {
+                  const Icon = iconsMap[notification.type];
 
-                return (
-                  <ListItem
-                    component={RouterLink}
-                    divider
-                    key={notification.id}
-                    to="#"
-                  >
-                    <ListItemAvatar>
-                      <Avatar
-                        className={classes.icon}
-                      >
-                        <SvgIcon fontSize="small">
-                          <Icon />
-                        </SvgIcon>
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={notification.title}
-                      primaryTypographyProps={{ variant: 'subtitle2', color: 'textPrimary' }}
-                      secondary={notification.description}
-                    />
-                  </ListItem>
-                );
-              })}
-            </List>
-            <Box
-              p={1}
-              display="flex"
-              justifyContent="center"
-            >
-              <Button
-                component={RouterLink}
-                size="small"
-                to="#"
+                  return (
+                    <ListItem
+                      component={RouterLink}
+                      divider
+                      key={notification.id}
+                      to="#"
+                    >
+                      <ListItemAvatar>
+                        <Avatar
+                          className={classes.icon}
+                        >
+                          <SvgIcon fontSize="small">
+                            <Icon />
+                          </SvgIcon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={notification.title}
+                        primaryTypographyProps={{ variant: 'subtitle2', color: 'textPrimary' }}
+                        secondary={notification.description}
+                      />
+                    </ListItem>
+                  );
+                })}
+              </List>
+              <Box
+                p={1}
+                display="flex"
+                justifyContent="center"
               >
-                Mark all as read
+                <Button
+                  component={RouterLink}
+                  size="small"
+                  to="#"
+                  onClick={() => setNotifications([])}
+                >
+                  Mark all as read
               </Button>
-            </Box>
-          </>
-        )}
+              </Box>
+            </>
+          )}
       </Popover>
     </>
   );

@@ -9,12 +9,12 @@ const JWT_EXPIRES_IN = '2 days';
 const users = [
   {
     id: '5e86809283e28b96d2d38537',
-    avatar: '/static/images/avatars/avatar_6.png',
+    avatar: 'https://picsum.photos/200/300',
     canHire: false,
     country: 'USA',
     email: 'demo@devias.io',
     isPublic: true,
-    name: 'Katarina Smith',
+    name: 'Mitch Hankins',
     password: 'Password123',
     phone: '+40 777666555',
     role: 'admin',

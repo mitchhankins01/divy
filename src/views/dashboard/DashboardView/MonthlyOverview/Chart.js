@@ -1,9 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Line } from 'react-chartjs-2';
+import clsx from 'clsx';
+import { Bar } from 'react-chartjs-2';
 import {
-  fade,
   makeStyles,
   useTheme
 } from '@material-ui/core';
@@ -15,42 +14,43 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Chart = ({
-  className,
   data: dataProp,
   labels,
+  className,
   ...rest
 }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-
-    gradient.addColorStop(0, fade(theme.palette.secondary.main, 0.2));
-    gradient.addColorStop(0.9, 'rgba(255,255,255,0)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
-
-    return {
-      datasets: [
-        {
-          data: dataProp,
-          backgroundColor: gradient,
-          borderColor: theme.palette.secondary.main,
-          pointBorderColor: theme.palette.background.default,
-          pointBorderWidth: 3,
-          pointRadius: 6,
-          pointBackgroundColor: theme.palette.secondary.main
-        }
-      ],
-      labels
-    };
+  const data = {
+    datasets: [
+      {
+        label: 'Dividends',
+        backgroundColor: theme.palette.secondary.main,
+        data: dataProp,
+        barThickness: 20,
+        maxBarThickness: 20,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5
+      },
+      // {
+      //   label: 'Last year',
+      //   backgroundColor: fade(theme.palette.secondary.main, 0.25),
+      //   data: dataProp.lastYear,
+      //   barThickness: 12,
+      //   maxBarThickness: 10,
+      //   barPercentage: 0.5,
+      //   categoryPercentage: 0.5
+      // }
+    ],
+    labels
   };
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
+    cornerRadius: 5,
     legend: {
       display: false
     },
@@ -65,7 +65,7 @@ const Chart = ({
             drawBorder: false
           },
           ticks: {
-            padding: 20,
+            padding: 10,
             fontColor: theme.palette.text.secondary
           }
         }
@@ -86,8 +86,8 @@ const Chart = ({
             fontColor: theme.palette.text.secondary,
             beginAtZero: true,
             min: 0,
-            maxTicksLimit: 7,
-            callback: (value) => (value > 0 ? `${value}K` : value)
+            maxTicksLimit: 5,
+            callback: (value) => (value > 0 ? `$${value}` : value)
           }
         }
       ]
@@ -101,20 +101,14 @@ const Chart = ({
       xPadding: 20,
       borderWidth: 1,
       borderColor: theme.palette.divider,
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.dark,
       titleFontColor: theme.palette.text.primary,
       bodyFontColor: theme.palette.text.secondary,
       footerFontColor: theme.palette.text.secondary,
       callbacks: {
         title: () => {},
         label: (tooltipItem) => {
-          let label = `Income: ${tooltipItem.yLabel}`;
-
-          if (tooltipItem.yLabel > 0) {
-            label += 'K';
-          }
-
-          return label;
+          return `Total: $${tooltipItem.yLabel}`;
         }
       }
     }
@@ -125,7 +119,7 @@ const Chart = ({
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <Line
+      <Bar
         data={data}
         options={options}
       />
@@ -135,7 +129,7 @@ const Chart = ({
 
 Chart.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   labels: PropTypes.array.isRequired
 };
 

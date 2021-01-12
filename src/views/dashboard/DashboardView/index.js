@@ -8,8 +8,8 @@ import Page from 'src/components/Page';
 import Header from './Header';
 import LatestProjects from './LatestProjects';
 import NewProjects from './NewProjects';
-import PerformanceOverTime from './PerformanceOverTime';
-import RealTime from './RealTime';
+import MonthlyOverview from './MonthlyOverview';
+import Allocation from './Allocation';
 import RoiPerCustomer from './RoiPerCustomer';
 import SystemHealth from './SystemHealth';
 import TeamTasks from './TeamTasks';
@@ -72,17 +72,17 @@ const DashboardView = () => {
           </Grid>
           <Grid
             item
-            lg={3}
-            xs={12}
-          >
-            <RealTime />
-          </Grid>
-          <Grid
-            item
             lg={9}
             xs={12}
           >
-            <PerformanceOverTime />
+            <MonthlyOverview />
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            xs={12}
+          >
+            <Allocation />
           </Grid>
           <Grid
             item

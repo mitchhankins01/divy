@@ -67,20 +67,20 @@ const Header = ({ className, ...rest }) => {
             to="/app"
             component={RouterLink}
           >
-            Dashboard
+            Main
           </Link>
           <Typography
             variant="body1"
             color="textPrimary"
           >
-            Reports
+            Dashboard
           </Typography>
         </Breadcrumbs>
         <Typography
           variant="h3"
           color="textPrimary"
         >
-          Here&apos;s what&apos;s happening
+          Your Dividend Dashboard
         </Typography>
       </Grid>
       <Grid item>

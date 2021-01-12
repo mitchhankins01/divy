@@ -7,11 +7,9 @@ import {
   Badge,
   Box,
   Button,
-  FormControlLabel,
   IconButton,
   Popover,
   SvgIcon,
-  Switch,
   TextField,
   Tooltip,
   Typography,
@@ -22,13 +20,6 @@ import useSettings from 'src/hooks/useSettings';
 import { THEMES } from 'src/constants';
 
 const useStyles = makeStyles((theme) => ({
-  badge: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    marginRight: 5
-  },
   popover: {
     width: 320,
     padding: theme.spacing(2)
@@ -69,21 +60,15 @@ const Settings = () => {
   return (
     <>
       <Tooltip title="Settings">
-        <Badge
-          color="secondary"
-          variant="dot"
-          classes={{ badge: classes.badge }}
+        <IconButton
+          color="inherit"
+          onClick={handleOpen}
+          ref={ref}
         >
-          <IconButton
-            color="inherit"
-            onClick={handleOpen}
-            ref={ref}
-          >
-            <SvgIcon fontSize="small">
-              <SettingsIcon />
-            </SvgIcon>
-          </IconButton>
-        </Badge>
+          <SvgIcon fontSize="small">
+            <SettingsIcon />
+          </SvgIcon>
+        </IconButton>
       </Tooltip>
       <Popover
         anchorOrigin={{
@@ -101,23 +86,7 @@ const Settings = () => {
         >
           Settings
         </Typography>
-        <Box
-          mt={2}
-          px={1}
-        >
-          <FormControlLabel
-            control={(
-              <Switch
-                checked={values.direction === 'rtl'}
-                edge="start"
-                name="direction"
-                onChange={(event) => handleChange('direction', event.target.checked ? 'rtl' : 'ltr')}
-              />
-            )}
-            label="RTL"
-          />
-        </Box>
-        <Box
+        {/* <Box
           mt={2}
           px={1}
         >
@@ -132,7 +101,7 @@ const Settings = () => {
             )}
             label="Responsive font sizes"
           />
-        </Box>
+        </Box> */}
         <Box mt={2}>
           <TextField
             fullWidth
