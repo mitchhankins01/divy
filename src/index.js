@@ -10,7 +10,7 @@ import 'prismjs/components/prism-jsx';
 import 'nprogress/nprogress.css';
 import 'src/__mocks__';
 import 'src/assets/css/prism.css';
-import 'src/mixins/chartjs';
+import 'src/utils/chartjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { enableES5 } from 'immer';

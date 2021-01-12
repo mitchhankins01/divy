@@ -63,6 +63,7 @@ const Invoices = ({ className, ...rest }) => {
         action={<GenericMoreButton />}
         title="Customer invoices"
       />
+      <h1>HERE</h1>
       <Divider />
       <PerfectScrollbar>
         <Box minWidth={1150}>
