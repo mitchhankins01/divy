@@ -7,13 +7,13 @@ import {
 import Page from 'src/components/Page';
 import Header from './Header';
 import LatestProjects from './LatestProjects';
-import NewProjects from './NewProjects';
+import TotalDividends from './TotalDividends';
 import MonthlyOverview from './MonthlyOverview';
 import Allocation from './Allocation';
-import RoiPerCustomer from './RoiPerCustomer';
-import SystemHealth from './SystemHealth';
+import MarketValue from './MarketValue';
+import IncomeThisMonth from './IncomeThisMonth';
 import TeamTasks from './TeamTasks';
-import TodaysMoney from './TodaysMoney';
+import UnrealizedGain from './UnrealizedGain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +44,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <TodaysMoney />
+            <IncomeThisMonth />
           </Grid>
           <Grid
             item
@@ -52,7 +52,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <NewProjects />
+            <TotalDividends />
           </Grid>
           <Grid
             item
@@ -60,7 +60,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <SystemHealth />
+            <UnrealizedGain />
           </Grid>
           <Grid
             item
@@ -68,7 +68,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <RoiPerCustomer />
+            <MarketValue />
           </Grid>
           <Grid
             item

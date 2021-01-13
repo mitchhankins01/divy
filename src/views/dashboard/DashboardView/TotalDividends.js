@@ -8,8 +8,8 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import FolderOpenIcon from '@material-ui/icons/FolderOpenOutlined';
-import Label from 'src/components/Label';
+import HistoryIcon from '@material-ui/icons/History';
+// import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  label: {
-    marginLeft: theme.spacing(1)
-  },
+  // label: {
+  //   marginLeft: theme.spacing(1)
+  // },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
@@ -29,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NewProjects = ({ className, ...rest }) => {
+const TotalDividends = ({ className, ...rest }) => {
   const classes = useStyles();
   const data = {
-    value: 12,
-    difference: -10
+    value: '7,894.28',
+    difference: -10,
+    currency: '$',
   };
 
   return (
@@ -48,38 +49,39 @@ const NewProjects = ({ className, ...rest }) => {
           variant="overline"
           color="textSecondary"
         >
-          New projects
+          Total Dividends Received
         </Typography>
         <Box
           display="flex"
           alignItems="center"
           flexWrap="wrap"
         >
-          <Typography
+           <Typography
             variant="h3"
             color="textPrimary"
           >
+            {data.currency}
             {data.value}
           </Typography>
-          <Label
+          {/* <Label
             className={classes.label}
             color={data.difference > 0 ? 'success' : 'error'}
           >
             {data.difference > 0 ? '+' : ''}
             {data.difference}
             %
-          </Label>
+          </Label> */}
         </Box>
       </Box>
       <Avatar className={classes.avatar}>
-        <FolderOpenIcon />
+        <HistoryIcon />
       </Avatar>
     </Card>
   );
 };
 
-NewProjects.propTypes = {
+TotalDividends.propTypes = {
   className: PropTypes.string
 };
 
-export default NewProjects;
+export default TotalDividends;

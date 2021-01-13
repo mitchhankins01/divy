@@ -8,32 +8,35 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+// import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: theme.palette.secondary.contrastText,
-    backgroundColor: theme.palette.secondary.main,
     padding: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
+  label: {
+    marginLeft: theme.spacing(1)
+  },
   avatar: {
-    backgroundColor: theme.palette.secondary.contrastText,
-    color: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.contrastText,
     height: 48,
     width: 48
   }
 }));
 
-const RoiPerCustomer = ({ className, ...rest }) => {
+const UnrealizedGain = ({ className, ...rest }) => {
   const classes = useStyles();
   const data = {
-    value: '25.50',
-    currency: '$'
+    value: '-4,328.38',
+    currency: '$',
+    difference: 4
   };
-
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -41,12 +44,12 @@ const RoiPerCustomer = ({ className, ...rest }) => {
     >
       <Box flexGrow={1}>
         <Typography
-          color="inherit"
           component="h3"
           gutterBottom
           variant="overline"
+          color="textSecondary"
         >
-          Roi per customer
+          Unrealized Gain
         </Typography>
         <Box
           display="flex"
@@ -54,26 +57,31 @@ const RoiPerCustomer = ({ className, ...rest }) => {
           flexWrap="wrap"
         >
           <Typography
-            color="inherit"
             variant="h3"
+            color="textPrimary"
           >
             {data.currency}
             {data.value}
           </Typography>
+          <Label
+            className={classes.label}
+            color={data.difference > 0 ? 'success' : 'error'}
+          >
+            {data.difference > 0 ? '+' : ''}
+            {data.difference}
+            %
+          </Label>
         </Box>
       </Box>
-      <Avatar
-        className={classes.avatar}
-        color="inherit"
-      >
-        <AttachMoneyIcon />
+      <Avatar className={classes.avatar}>
+        <TrendingUpIcon />
       </Avatar>
     </Card>
   );
 };
 
-RoiPerCustomer.propTypes = {
+UnrealizedGain.propTypes = {
   className: PropTypes.string
 };
 
-export default RoiPerCustomer;
+export default UnrealizedGain;

@@ -59,7 +59,7 @@ const TopBar = ({
           </IconButton>
         </Hidden>
         <Hidden mdDown>
-          <RouterLink to="/">
+          <RouterLink to="/" style={{ textDecoration: 'none' }}>
             <Logo />
           </RouterLink>
         </Hidden>

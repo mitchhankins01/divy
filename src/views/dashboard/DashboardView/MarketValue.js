@@ -9,32 +9,29 @@ import {
   makeStyles
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    color: theme.palette.secondary.contrastText,
+    backgroundColor: theme.palette.secondary.main,
     padding: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  label: {
-    marginLeft: theme.spacing(1)
-  },
   avatar: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.contrastText,
+    backgroundColor: theme.palette.secondary.contrastText,
+    color: theme.palette.secondary.main,
     height: 48,
     width: 48
   }
 }));
 
-const TodaysMoney = ({ className, ...rest }) => {
+const RoiPerCustomer = ({ className, ...rest }) => {
   const classes = useStyles();
   const data = {
-    value: '24,000',
-    currency: '$',
-    difference: 4
+    value: '153,453.32',
+    currency: '$'
   };
 
   return (
@@ -44,12 +41,12 @@ const TodaysMoney = ({ className, ...rest }) => {
     >
       <Box flexGrow={1}>
         <Typography
+          color="inherit"
           component="h3"
           gutterBottom
           variant="overline"
-          color="textSecondary"
         >
-          Todays money
+          Market Value
         </Typography>
         <Box
           display="flex"
@@ -57,31 +54,26 @@ const TodaysMoney = ({ className, ...rest }) => {
           flexWrap="wrap"
         >
           <Typography
+            color="inherit"
             variant="h3"
-            color="textPrimary"
           >
             {data.currency}
             {data.value}
           </Typography>
-          <Label
-            className={classes.label}
-            color={data.difference > 0 ? 'success' : 'error'}
-          >
-            {data.difference > 0 ? '+' : ''}
-            {data.difference}
-            %
-          </Label>
         </Box>
       </Box>
-      <Avatar className={classes.avatar}>
+      <Avatar
+        className={classes.avatar}
+        color="inherit"
+      >
         <AttachMoneyIcon />
       </Avatar>
     </Card>
   );
 };
 
-TodaysMoney.propTypes = {
+RoiPerCustomer.propTypes = {
   className: PropTypes.string
 };
 
-export default TodaysMoney;
+export default RoiPerCustomer;
