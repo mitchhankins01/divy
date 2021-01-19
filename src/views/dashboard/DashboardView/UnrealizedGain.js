@@ -35,7 +35,7 @@ const UnrealizedGain = ({ className, ...rest }) => {
   const data = {
     value: '-4,328.38',
     currency: '$',
-    difference: 4
+    difference: -4
   };
   return (
     <Card

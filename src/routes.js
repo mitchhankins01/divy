@@ -100,7 +100,12 @@ const routes = [
       {
         exact: true,
         path: '/app/transactions',
-        component: lazy(() => import('src/views/transaction/TransactionsView'))
+        component: lazy(() => import('src/views/transaction/TransactionListView'))
+      },
+      {
+        exact: true,
+        path: '/app/transactions/create',
+        component: lazy(() => import('src/views/transaction/TransactionEditView'))
       },
       {
         exact: true,

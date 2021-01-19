@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
 const TransactionsView = () => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
-  const [customers, setCustomers] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
-  const getCustomers = useCallback(async () => {
+  const getTransactions = useCallback(async () => {
     try {
       const response = await axios.get('/api/transactions');
 
       if (isMountedRef.current) {
-        setCustomers(response.data.transactions);
+        setTransactions(response.data.transactions);
       }
     } catch (err) {
       console.error(err);
@@ -41,8 +41,8 @@ const TransactionsView = () => {
   }, [isMountedRef]);
 
   useEffect(() => {
-    getCustomers();
-  }, [getCustomers]);
+    getTransactions();
+  }, [getTransactions]);
   
   return (
     <Page
@@ -52,7 +52,7 @@ const TransactionsView = () => {
       <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results transactions={transactions} />
         </Box>
       </Container>
     </Page>

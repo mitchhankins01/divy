@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Results = ({
   className,
-  customers,
+  transactions,
   ...rest
 }) => {
   const classes = useStyles();
@@ -158,23 +158,23 @@ const Results = ({
       <PerfectScrollbar>
         <Box minWidth={700} style={{ minHeight: '70vh' }}>
           <DataGrid
-            rows={customers}
+            rows={transactions}
             columns={[
               { headerName: 'Symbol', field: 'symbol', flex: 1 },
               { headerName: 'Shares', field: 'numberOfShares', flex: 1 },
               { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}` },
               { headerName: 'Fees', field: 'fees', flex: 1 },
-              { 
-                headerName: 'Side', 
-                field: 'side', 
+              {
+                headerName: 'Side',
+                field: 'side',
                 flex: 1,
                 renderCell: params => (
-                  <Chip 
-                  size='small' 
-                    label={params.row.side === 'BUY' ? 'Buy' : 'Sell'} 
+                  <Chip
+                    size='small'
+                    label={params.row.side === 'BUY' ? 'Buy' : 'Sell'}
                     className={params.row.side === 'BUY' ? classes.buyChip : classes.sellChip}
                   />
-              )
+                )
               },
               { headerName: 'Date', field: 'date', flex: 1 },
             ]}
@@ -192,11 +192,11 @@ const Results = ({
 
 Results.propTypes = {
   className: PropTypes.string,
-  customers: PropTypes.array.isRequired
+  transactions: PropTypes.array.isRequired
 };
 
 Results.defaultProps = {
-  customers: []
+  transactions: []
 };
 
 export default Results;

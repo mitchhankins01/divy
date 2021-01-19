@@ -87,13 +87,15 @@ const Header = ({ className, ...rest }) => {
         <Button
           color="secondary"
           variant="contained"
+          component={RouterLink}
+          to="/app/transactions/create"
           startIcon={
             <SvgIcon fontSize="small">
               <PlusCircleIcon />
             </SvgIcon>
           }
         >
-          Add Transaction
+          New Transaction
         </Button>
       </Grid>
     </Grid>
