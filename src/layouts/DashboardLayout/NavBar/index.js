@@ -46,6 +46,16 @@ const sections = [
     ]
   },
   {
+    subheader: 'Transactions',
+    items: [
+      {
+        title: 'Transactions',
+        href: '/app/transactions',
+        icon: DollarSignIcon
+      },
+    ]
+  },
+  {
     subheader: 'Management',
     items: [
       {

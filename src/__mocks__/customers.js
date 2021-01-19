@@ -1,6 +1,31 @@
 import moment from 'moment';
 import mock from 'src/utils/mock';
 
+mock.onGet('/api/transactions').reply(() => {
+  const transactions = [
+    {
+      id: Math.random() * 10000,
+      date: new Date(),
+      numberOfShares: Math.floor(Math.random() * 1000),
+      price: (Math.random() * 100).toFixed(2),
+      fees: Math.ceil(Math.random() * 10),
+      side: 'BUY',
+      symbol: 'AAPL',
+    },
+    {
+      id: Math.random() * 10000,
+      date: new Date(),
+      numberOfShares: Math.floor(Math.random() * 1000),
+      price: (Math.random() * 100).toFixed(2),
+      fees: Math.ceil(Math.random() * 10),
+      side: 'SELL',
+      symbol: 'AAPL',
+    },
+  ];
+
+  return [200, { transactions }];
+});
+
 mock.onGet('/api/customers').reply(() => {
   const customers = [
     {
@@ -23,185 +48,6 @@ mock.onGet('/api/customers').reply(() => {
         .toDate()
         .getTime()
     },
-    {
-      id: '5e887b209c28ac3dd97f6db5',
-      avatar: '/static/images/avatars/avatar_4.png',
-      city: 'Atlanta',
-      country: 'USA',
-      currency: '$',
-      email: 'alex.richardson@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: true,
-      isReturning: false,
-      name: 'Alex Richardson',
-      state: 'Georgia',
-      totalAmountSpent: 0.00,
-      totalOrders: 0,
-      updatedAt: moment()
-        .subtract(2, 'days')
-        .subtract(1, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e887b7602bdbc4dbb234b27',
-      avatar: '/static/images/avatars/avatar_5.png',
-      city: 'North Canton',
-      country: 'USA',
-      currency: '$',
-      email: 'anje.keizer@devias.io',
-      hasAcceptedMarketing: false,
-      isProspect: false,
-      isReturning: false,
-      name: 'Anje Keizer',
-      state: 'Ohio',
-      totalAmountSpent: 5600.00,
-      totalOrders: 6,
-      updatedAt: moment()
-        .subtract(2, 'days')
-        .subtract(4, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/static/images/avatars/avatar_6.png',
-      city: 'Madrid',
-      country: 'Spain',
-      currency: '$',
-      email: 'katarina.smith@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: false,
-      isReturning: true,
-      name: 'Katarina Smith',
-      state: 'Madrid',
-      totalAmountSpent: 500.00,
-      totalOrders: 1,
-      updatedAt: moment()
-        .subtract(2, 'days')
-        .subtract(11, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e86805e2bafd54f66cc95c3',
-      avatar: '/static/images/avatars/avatar_7.png',
-      city: 'San Diego',
-      country: 'USA',
-      currency: '$',
-      email: 'adam.denisov@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: true,
-      isReturning: false,
-      name: 'Adam Denisov',
-      totalAmountSpent: 0.00,
-      totalOrders: 0,
-      state: 'California',
-      updatedAt: moment()
-        .subtract(3, 'days')
-        .subtract(7, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e887a1fbefd7938eea9c981',
-      avatar: '/static/images/avatars/avatar_8.png',
-      city: 'Berkeley',
-      country: 'USA',
-      currency: '$',
-      email: 'miller.edwards@devias.io',
-      hasAcceptedMarketing: false,
-      isProspect: true,
-      isReturning: false,
-      name: 'Miller Edwards',
-      state: 'California',
-      totalAmountSpent: 0.00,
-      totalOrders: 0,
-      updatedAt: moment()
-        .subtract(4, 'days')
-        .subtract(5, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e887d0b3d090c1b8f162003',
-      avatar: '/static/images/avatars/avatar_9.png',
-      currency: '$',
-      email: 'emilee.simchenko@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: false,
-      isReturning: false,
-      city: 'Carson City',
-      country: 'USA',
-      name: 'Emilee Simchenko',
-      state: 'Nevada',
-      totalAmountSpent: 100.00,
-      totalOrders: 4,
-      updatedAt: moment()
-        .subtract(4, 'days')
-        .subtract(15, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e88792be2d4cfb4bf0971d9',
-      avatar: '/static/images/avatars/avatar_10.png',
-      city: 'Los Angeles',
-      country: 'USA',
-      currency: '$',
-      email: 'elliott.stone@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: false,
-      isReturning: true,
-      name: 'Elliott Stone',
-      state: 'California',
-      totalAmountSpent: 1000.00,
-      totalOrders: 2,
-      updatedAt: moment()
-        .subtract(5, 'days')
-        .subtract(2, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e8877da9a65442b11551975',
-      avatar: '/static/images/avatars/avatar_11.png',
-      city: 'Murray',
-      country: 'USA',
-      email: 'shen.zhi@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: true,
-      isReturning: false,
-      name: 'Shen Zhi',
-      state: 'Utah',
-      totalAmountSpent: 0.00,
-      totalOrders: 0,
-      updatedAt: moment()
-        .subtract(6, 'days')
-        .subtract(8, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e8680e60cba5019c5ca6fda',
-      avatar: '/static/images/avatars/avatar_12.png',
-      city: 'Salt Lake City',
-      country: 'USA',
-      currency: '$',
-      email: 'merrile.burgett@devias.io',
-      hasAcceptedMarketing: false,
-      isProspect: false,
-      isReturning: true,
-      name: 'Merrile Burgett',
-      state: 'Utah',
-      totalAmountSpent: 200.00,
-      totalOrders: 7,
-      updatedAt: moment()
-        .subtract(9, 'days')
-        .subtract(1, 'hours')
-        .toDate()
-        .getTime()
-    }
   ];
 
   return [200, { customers }];

@@ -87,7 +87,6 @@ const routes = [
         path: '/app/extra/charts/apex',
         component: lazy(() => import('src/views/extra/charts/ApexChartsView'))
       },
-      
       {
         exact: true,
         path: '/app/management/customers',
@@ -97,6 +96,11 @@ const routes = [
         exact: true,
         path: '/app/management/customers/:customerId',
         component: lazy(() => import('src/views/customer/CustomerDetailsView'))
+      },
+      {
+        exact: true,
+        path: '/app/transactions',
+        component: lazy(() => import('src/views/transaction/TransactionsView'))
       },
       {
         exact: true,
