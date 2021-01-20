@@ -47,7 +47,7 @@ const Header = ({ className, ...rest }) => {
         variant="h3"
         color="textPrimary"
       >
-        New Transaction
+        Add Transaction
       </Typography>
     </div>
   );

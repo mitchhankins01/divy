@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { Link as RouterLink } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
     Box,
@@ -10,19 +11,33 @@ import {
     Card,
     CardContent,
     Grid,
-    Switch,
     TextField,
-    Typography,
-    makeStyles
+    makeStyles,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    FormLabel
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns'; import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import wait from 'src/utils/wait';
+import { buyColor, sellColor } from '../../../theme';
 
 const useStyles = makeStyles(() => ({
-    root: {}
+    root: {},
+    buyRadio: {
+        '&.Mui-checked': {
+            color: buyColor
+        }
+    },
+    sellRadio: {
+        '&.Mui-checked': {
+            color: sellColor
+        }
+    }
 }));
 
 const TransactionEditForm = ({
@@ -43,13 +58,14 @@ const TransactionEditForm = ({
                 hasDiscountedPrices: customer.hasDiscountedPrices || false,
                 symbol: transaction.symbol || '',
                 date: transaction.date || new Date(),
+                side: transaction.side || 'buy',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
                 price: Yup.number().required('Price per share is required'),
                 numberOfShares: Yup.number().required('Number of shares are required'),
                 symbol: Yup.string().max(255).required('Symbol is required'),
-                date: Yup.date().required('Date is required')
+                date: Yup.date().required('Date is required'),
             })}
             onSubmit={async (values, {
                 resetForm,
@@ -60,12 +76,17 @@ const TransactionEditForm = ({
                 try {
                     // NOTE: Make API request
                     await wait(500);
+                    console.log(values)
                     resetForm();
                     setStatus({ success: true });
                     setSubmitting(false);
-                    enqueueSnackbar('Customer updated', {
+                    enqueueSnackbar('Transaction Added', {
                         variant: 'success',
-                        action: <Button>See all</Button>
+                        action: (
+                            <Button component={RouterLink} to="/app/transactions">
+                                See All
+                            </Button>
+                        )
                     });
                 } catch (err) {
                     console.error(err);
@@ -110,7 +131,7 @@ const TransactionEditForm = ({
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         required
-                                        value={values.symbol}
+                                        value={values.symbol.toUpperCase()}
                                         variant="outlined"
                                     />
                                 </Grid>
@@ -174,6 +195,22 @@ const TransactionEditForm = ({
                                         />
                                     </MuiPickersUtilsProvider>
                                 </Grid>
+                                <Grid
+                                    item
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <FormControl
+                                        component="fieldset"
+                                        error={Boolean(touched.side && errors.side)}
+                                    >
+                                        <FormLabel component="legend">Side</FormLabel>
+                                        <RadioGroup row={true} name="side" value={values.side} onChange={handleChange} onBlur={handleBlur}>
+                                            <FormControlLabel value="buy" control={<Radio className={classes.buyRadio} />} label="Buy" />
+                                            <FormControlLabel value="sell" control={<Radio className={classes.sellRadio} />} label="Sell" />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
                             <Box mt={2}>
                                 <Button
@@ -183,7 +220,7 @@ const TransactionEditForm = ({
                                     disabled={isSubmitting}
                                 >
                                     Add Transaction
-                </Button>
+                                </Button>
                             </Box>
                         </CardContent>
                     </Card>

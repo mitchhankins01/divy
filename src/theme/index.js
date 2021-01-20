@@ -8,6 +8,9 @@ import { THEMES } from 'src/constants';
 import { softShadows, strongShadows } from './shadows';
 import typography from './typography';
 
+export const buyColor = '#27ae60';
+export const sellColor = '#c0392b';
+
 const baseOptions = {
   direction: 'ltr',
   typography,

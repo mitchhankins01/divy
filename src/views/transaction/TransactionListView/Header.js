@@ -95,7 +95,7 @@ const Header = ({ className, ...rest }) => {
             </SvgIcon>
           }
         >
-          New Transaction
+          Add Transaction
         </Button>
       </Grid>
     </Grid>

@@ -37,11 +37,15 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <StylesProvider jss={jss}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <SnackbarProvider
-            dense
-            maxSnack={3}
-          >
-            <Router history={history}>
+          <Router history={history}>
+            <SnackbarProvider
+              dense
+              maxSnack={3}
+              anchorOrigin={{
+                horizontal: 'right',
+                vertical: 'bottom'
+              }}
+            >
               <AuthProvider>
                 <GlobalStyles />
                 <ScrollReset />
@@ -50,8 +54,8 @@ const App = () => {
                 <SettingsNotification />
                 {renderRoutes(routes)}
               </AuthProvider>
-            </Router>
-          </SnackbarProvider>
+            </SnackbarProvider>
+          </Router>
         </MuiPickersUtilsProvider>
       </StylesProvider>
     </ThemeProvider>
