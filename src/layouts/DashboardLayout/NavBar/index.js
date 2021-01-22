@@ -23,8 +23,9 @@ import {
   User as UserIcon,
   DollarSign as DollarSignIcon,
   PieChart as PieChartIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
 } from 'react-feather';
+import ShowChartIcon from '@material-ui/icons/Timeline';
 import Logo from 'src/components/Logo';
 import useAuth from 'src/hooks/useAuth';
 import NavItem from './NavItem';
@@ -38,11 +39,6 @@ const sections = [
         icon: PieChartIcon,
         href: '/app/dashboard'
       },
-      {
-        title: 'Dashboard Alternative',
-        icon: BarChartIcon,
-        href: '/app/dashboard-alternative'
-      }
     ]
   },
   {
@@ -52,6 +48,11 @@ const sections = [
         title: 'Transactions',
         href: '/app/transactions',
         icon: DollarSignIcon
+      },
+      {
+        title: 'Chart',
+        href: '/app/chart/sp500',
+        icon: ShowChartIcon
       },
     ]
   },
@@ -95,7 +96,7 @@ const sections = [
     ]
   },
   {
-    subheader: 'Pages',
+    subheader: 'Miscellaneous',
     items: [
       {
         title: 'Account',

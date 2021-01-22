@@ -308,110 +308,109 @@ mock.onGet('/api/reports/latest-projects').reply(() => {
 });
 
 mock.onGet('/api/reports/latest-tasks').reply(() => {
-  const tasks = [
+  const news = [
     {
-      id: '5eff24b501ba5281ddb5378c',
-      deadline: moment()
-        .add(1, 'days')
-        .add(1, 'hour')
-        .toDate()
-        .getTime(),
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_2.png',
-          name: 'Ekaterina Tankova'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_3.png',
-          name: 'Cao Yu'
-        }
-      ],
-      title: 'Update the API for the project'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     },
     {
-      id: '5eff24bb5bb3bd1beeddde78',
-      deadline: moment()
-        .add(2, 'day')
-        .add(1, 'hour')
-        .toDate()
-        .getTime(),
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_8.png',
-          name: 'Miller Edwards'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_10.png',
-          name: 'Elliott Stone'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_12.png',
-          name: 'Merrile Burgett'
-        }
-      ],
-      title: 'Redesign the landing page'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     },
     {
-      id: '5eff24c019175119993fc1ff',
-      deadline: moment()
-        .toDate()
-        .getTime(),
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_7.png',
-          name: 'Adam Denisov'
-        }
-      ],
-      title: 'Solve the bug for the showState'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     },
     {
-      id: '5eff24c52ce9fdadffa11959',
-      deadline: null,
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_2.png',
-          name: 'Ekaterina Tankova'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_10.png',
-          name: 'Elliott Stone'
-        }
-      ],
-      title: 'Release v1.0 Beta'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     },
     {
-      id: '5eff24ca3ffab939b667258b',
-      deadline: null,
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_5.png',
-          name: 'Anje Keizer'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_2.png',
-          name: 'Ekaterina Tankova'
-        },
-        {
-          avatar: '/static/images/avatars/avatar_6.png',
-          name: 'Katarina Smith'
-        }
-      ],
-      title: 'GDPR Compliance'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     },
     {
-      id: '5eff24cf8740fc9faca4e463',
-      deadline: null,
-      members: [
-        {
-          avatar: '/static/images/avatars/avatar_8.png',
-          name: 'Miller Edwards'
-        }
-      ],
-      title: 'Redesign Landing Page'
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
+    },
+    {
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
+    },
+    {
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
+    },
+    {
+      "datetime": 1545215400000,
+      "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+      "source": "Benzinga",
+      "url": "https://cloud.iexapis.com/stable/news/article/8348646549980454",
+      "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+      "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+      "image": "https://cloud.iexapis.com/stable/news/image/7594023985414148",
+      "lang": "en",
+      "hasPaywall": true
     }
-  ];
+  ]
 
-  return [200, { tasks }];
+  return [200, { news }];
 });
 
 mock.onGet('/api/reports/profitable-products').reply(() => {

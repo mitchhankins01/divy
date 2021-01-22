@@ -99,6 +99,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/chart/:ticker',
+        component: lazy(() => import('src/views/chart/ChartView'))
+      },
+      {
+        exact: true,
         path: '/app/transactions',
         component: lazy(() => import('src/views/transaction/TransactionListView'))
       },
@@ -111,11 +116,6 @@ const routes = [
         exact: true,
         path: '/app/dashboard',
         component: lazy(() => import('src/views/dashboard/DashboardView'))
-      },
-      {
-        exact: true,
-        path: '/app/dashboard-alternative',
-        component: lazy(() => import('src/views/dashboard/DashboardAlternativeView'))
       },
       {
         exact: true,

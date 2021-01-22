@@ -17,7 +17,7 @@ import {
 import axios from 'src/utils/axios';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import GenericMoreButton from 'src/components/GenericMoreButton';
-import TaskItem from './TaskItem';
+import NewsItem from './NewsItem';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -26,14 +26,14 @@ const useStyles = makeStyles(() => ({
 const TeamTasks = ({ className, ...rest }) => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
-  const [tasks, setTasks] = useState([]);
+  const [news, setNews] = useState([]);
 
   const getTasks = useCallback(async () => {
     try {
       const response = await axios.get('/api/reports/latest-tasks');
   
       if (isMountedRef.current) {
-        setTasks(response.data.tasks);
+        setNews(response.data.news);
       }
     } catch (err) {
       console.error(err);
@@ -51,17 +51,17 @@ const TeamTasks = ({ className, ...rest }) => {
     >
       <CardHeader
         action={<GenericMoreButton />}
-        title="Team Tasks"
+        title="Market News"
       />
       <Divider />
       <PerfectScrollbar>
-        <Box minWidth={400}>
+        <Box minWidth={400} maxHeight={450}>
           <List>
-            {tasks.map((task, i) => (
-              <TaskItem
-                divider={i < tasks.length - 1}
-                key={task.id}
-                task={task}
+            {news.map((item, i) => (
+              <NewsItem
+                divider={i < news.length - 1}
+                key={item.id}
+                item={item}
               />
             ))}
           </List>
