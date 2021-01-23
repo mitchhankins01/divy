@@ -12,6 +12,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Logo from 'src/components/Logo';
+import Dashboard from '@material-ui/icons/Dashboard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,35 +52,16 @@ const TopBar = ({ className, ...rest }) => {
           <Logo className={classes.logo} />
         </RouterLink>
         <Box flexGrow={1} />
-        <Link
-          className={classes.link}
-          color="textSecondary"
-          component={RouterLink}
-          to="/app"
-          underline="none"
-          variant="body2"
-        >
-          Dashboard
-        </Link>
-        <Link
-          className={classes.link}
-          color="textSecondary"
-          component={RouterLink}
-          to="/docs"
-          underline="none"
-          variant="body2"
-        >
-          Documentation
-        </Link>
         <Divider className={classes.divider} />
         <Button
           color="secondary"
           component="a"
-          href="https://material-ui.com/store/items/devias-kit-pro"
+          startIcon={<Dashboard />}
+          href='/app/dashboard'
           variant="contained"
           size="small"
         >
-          Get the kit
+          Dashboard
         </Button>
       </Toolbar>
     </AppBar>

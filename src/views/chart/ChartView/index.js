@@ -33,8 +33,8 @@ const ChartView = () => {
       title="Chart"
     >
       <Container maxWidth={false}>
-        <Header />
-        <Box mt={1}>
+        {/* <Header /> */}
+        <Box>
           <Chart symbol='sp500' />
         </Box>
       </Container>

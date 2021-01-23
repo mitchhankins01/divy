@@ -10,20 +10,15 @@ import {
   Button,
   Box,
   Checkbox,
-  makeStyles
+  makeStyles,
+  IconButton
 } from '@material-ui/core';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import SettingsIcon from '@material-ui/icons/Settings';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  action: {
-    marginBottom: theme.spacing(1),
-    '& + &': {
-      marginLeft: theme.spacing(1)
-    }
-  }
 }));
 
 const Header = ({ className, ...rest }) => {
@@ -57,22 +52,6 @@ const Header = ({ className, ...rest }) => {
             Transactions
           </Typography>
         </Breadcrumbs>
-      </Grid>
-      <Grid item>
-        <FormGroup row>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={true}
-                onChange={() => {}}
-                name="checkedB"
-                color="primary"
-              />
-            }
-            label="Primary"
-          />
-
-        </FormGroup>
       </Grid>
     </Grid>
   );

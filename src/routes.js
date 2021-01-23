@@ -79,6 +79,11 @@ const routes = [
     routes: [
       {
         exact: true,
+        path: '/app',
+        component: () => <Redirect to="/app/dashboard" />
+      },
+      {
+        exact: true,
         path: '/app/account',
         component: lazy(() => import('src/views/account/AccountView'))
       },
@@ -116,16 +121,6 @@ const routes = [
         exact: true,
         path: '/app/dashboard',
         component: lazy(() => import('src/views/dashboard/DashboardView'))
-      },
-      {
-        exact: true,
-        path: '/app',
-        component: () => <Redirect to="/app/dashboard" />
-      },
-      {
-        exact: true,
-        path: '/app',
-        component: () => <Redirect to="/app/dashboard" />
       },
       {
         component: () => <Redirect to="/404" />

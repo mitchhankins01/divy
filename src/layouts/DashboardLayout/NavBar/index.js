@@ -22,6 +22,7 @@ import {
   UserPlus as UserPlusIcon,
   User as UserIcon,
   DollarSign as DollarSignIcon,
+  List as ListIcon,
   PieChart as PieChartIcon,
   Users as UsersIcon,
 } from 'react-feather';
@@ -47,11 +48,11 @@ const sections = [
       {
         title: 'Transactions',
         href: '/app/transactions',
-        icon: DollarSignIcon
+        icon: ListIcon
       },
       {
         title: 'Chart',
-        href: '/app/chart/sp500',
+        href: '/app/chart/aapl',
         icon: ShowChartIcon
       },
     ]

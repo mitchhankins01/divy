@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2)
   },
   cardContainer: {
-    paddingBottom: 80,
-    paddingTop: 80,
+    paddingBottom: 20,
+    paddingTop: 20,
   },
   cardContent: {
     padding: theme.spacing(4),
@@ -74,74 +74,17 @@ const RegisterView = () => {
       className={classes.root}
       title="Register"
     >
-      <div className={classes.banner}>
-        <Container maxWidth="md">
-          <Box
-            alignItems="center"
-            display="flex"
-            justifyContent="center"
-          >
-            <Chip
-              color="secondary"
-              label="NEW"
-              size="small"
-              className={classes.bannerChip}
-            />
-            <Box
-              alignItems="center"
-              display="flex"
-            >
-              <Typography
-                color="textPrimary"
-                variant="h6"
-              >
-                Visit our
-                {' '}
-                <Link
-                  component={RouterLink}
-                  to="/docs"
-                >
-                  docs
-                </Link>
-                {' '}
-                and find out how to switch between
-              </Typography>
-              <Tooltip title="Auth0">
-                <img
-                  alt="Auth0"
-                  className={classes.methodIcon}
-                  src={methodIcons['Auth0']}
-                />
-              </Tooltip>
-              <Tooltip title="Firebase">
-                <img
-                  alt="Firebase"
-                  className={classes.methodIcon}
-                  src={methodIcons['FirebaseAuth']}
-                />
-              </Tooltip>
-              <Tooltip title="JSON Web Token">
-                <img
-                  alt="JWT"
-                  className={classes.methodIcon}
-                  src={methodIcons['JWT']}
-                />
-              </Tooltip>
-            </Box>
-          </Box>
-        </Container>
-      </div>
       <Container
         className={classes.cardContainer}
         maxWidth="sm"
       >
         <Box
-          mb={8}
+          mb={2}
           display="flex"
           justifyContent="center"
         >
           <RouterLink to="/">
-            <Logo />
+            <Logo rem={2}/>
           </RouterLink>
         </Box>
         <Card>
@@ -158,25 +101,18 @@ const RegisterView = () => {
                   gutterBottom
                   variant="h2"
                 >
-                  Register
+                  Create an Account
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
                 >
-                  Register on the internal platform
+                  Welcome to Divy
                 </Typography>
-              </div>
-              <div className={classes.currentMethodIcon}>
-                <img
-                  alt="Auth method"
-                  src={methodIcons[method]}
-                />
               </div>
             </Box>
             <Box
               flexGrow={1}
-              mt={3}
             >
               {method === 'Auth0' && <Auth0Register /> }
               {method === 'FirebaseAuth' && <FirebaseAuthRegister /> }
@@ -191,7 +127,7 @@ const RegisterView = () => {
               variant="body2"
               color="textSecondary"
             >
-              Having an account
+              Do you already have an account with us?
             </Link>
           </CardContent>
         </Card>

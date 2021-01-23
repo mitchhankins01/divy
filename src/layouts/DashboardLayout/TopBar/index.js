@@ -21,6 +21,7 @@ import Settings from './Settings';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    color: 'white',
     zIndex: theme.zIndex.drawer + 100,
     ...theme.name === THEMES.LIGHT ? {
       boxShadow: 'none',

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   Button,
   Collapse,
   ListItem,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   buttonLeaf: {
+    userSelect: 'none',
     color: theme.palette.text.secondary,
     padding: '10px 8px',
     justifyContent: 'flex-start',
@@ -50,16 +52,17 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   },
   title: {
-    marginRight: 'auto'
+    marginRight: 'auto',
+    fontSize: '0.9rem',
   },
-  active: {
+  activeLink: {
     color: theme.palette.secondary.main,
-    '& $title': {
-      fontWeight: theme.typography.fontWeightMedium
-    },
-    '& $icon': {
-      color: theme.palette.secondary.main
-    }
+    // '& $title': {
+    //   fontWeight: theme.typography.fontWeightMedium
+    // },
+    // '& $icon': {
+    //   color: theme.palette.secondary.main
+    // }
   }
 }));
 
@@ -75,6 +78,7 @@ const NavItem = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const history = useHistory();
   const [open, setOpen] = useState(openProp);
 
   const handleToggle = () => {
@@ -119,33 +123,33 @@ const NavItem = ({
       </ListItem>
     );
   }
-
+  
   return (
     <ListItem
       className={clsx(classes.itemLeaf, className)}
       disableGutters
       key={title}
+      activeClassName={classes.active}
+      className={clsx(classes.buttonLeaf, `depth-${depth}`, window.location.pathname === href && classes.activeLink)}
+      component={RouterLink}
+      exact
+      style={style}
+      to={href}
       {...rest}
     >
-      <Button
-        activeClassName={classes.active}
-        className={clsx(classes.buttonLeaf, `depth-${depth}`)}
-        component={RouterLink}
-        exact
-        style={style}
-        to={href}
+      {Icon && (
+        <Icon
+          className={classes.icon}
+          size="20"
+        />
+      )}
+      <Typography
+      className={clsx(classes.title, window.location.pathname === href && classes.activeLink)}
+        color="textPrimary"
       >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
-        <span className={classes.title}>
-          {title}
-        </span>
-        {Info && <Info />}
-      </Button>
+        {title}
+      </Typography>
+      {Info && <Info />}
     </ListItem>
   );
 };

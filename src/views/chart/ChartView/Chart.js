@@ -25,10 +25,20 @@ import { buyColor, sellColor } from '../../../theme';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    position: 'absolute',
+    top: 64,
+    left: 256,
+    bottom: 0,
+    right: 0,
+    [theme.breakpoints.down('md')]: {
+      left: 0
+    },
+    
+  },
   dark: {
     test: theme.palette.type === 'dark' ? 'dark' : 'light'
-  }
+  },
 }));
 
 export default ({
@@ -38,19 +48,16 @@ export default ({
   const classes = useStyles();
   const theme = useTheme();
 
-  const [test, setTest] = React.useState('dark')
-
   return (
     <Card
-      className={clsx(classes.root, className)}
       {...rest}
     >
-    <button onClick={() => setTest('light')}>CLick</button>
-      <div style={{ height: 'calc(100vh - 170px)' }}>
+      <div
+      className={clsx(classes.root, className)}>
+      {/* <div style={{ height: 'calc(100vh - 170px)' }}> */}
         <TradingViewWidget
           symbol="NASDAQ:AAPL"
-          // theme={theme.palette.type === 'dark' ? Themes.DARK : Themes.LIGHT}
-          theme={test === 'dark' ? Themes.DARK : Themes.LIGHT}
+          theme={theme.palette.type === 'dark' ? Themes.DARK : Themes.LIGHT}
           autosize={true}
           watchlist={['AAPL', 'MSFT', 'TWTR']}
           // hide_side_toolbar={false}
