@@ -119,6 +119,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/calendar',
+        component: lazy(() => import('src/views/calendar/CalendarView'))
+      },
+      {
+        exact: true,
         path: '/app/dashboard',
         component: lazy(() => import('src/views/dashboard/DashboardView'))
       },

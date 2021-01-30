@@ -144,7 +144,19 @@ const Results = ({
           <DataGrid
             rows={transactions}
             columns={[
-              { headerName: 'Symbol', field: 'symbol', flex: 1 },
+              {
+                headerName: 'Symbol', field: 'symbol', flex: 1, renderCell: cell => (
+                  <Button
+                    style={{ justifyContent: "flex-start", textTransform: 'none', padding: 15 }}
+                    fullWidth
+                    align
+                    component={RouterLink}
+                    to={`/app/chart/${cell.value}`}
+                  >
+                    {cell.value}
+                  </Button>
+                )
+              },
               { headerName: 'Shares', field: 'numberOfShares', flex: 1 },
               { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}` },
               { headerName: 'Fees', field: 'fees', flex: 1 },

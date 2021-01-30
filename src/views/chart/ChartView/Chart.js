@@ -27,10 +27,10 @@ import { buyColor, sellColor } from '../../../theme';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
-    top: 64,
-    left: 256,
-    bottom: 0,
-    right: 0,
+    top: 74,
+    left: 266,
+    bottom: 10,
+    right: 10,
     [theme.breakpoints.down('md')]: {
       left: 0
     },
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({
   className,
+  ticker,
   ...rest
 }) => {
   const classes = useStyles();
@@ -56,13 +57,13 @@ export default ({
       className={clsx(classes.root, className)}>
       {/* <div style={{ height: 'calc(100vh - 170px)' }}> */}
         <TradingViewWidget
-          symbol="NASDAQ:AAPL"
+          symbol={ticker.toUpperCase()}
           theme={theme.palette.type === 'dark' ? Themes.DARK : Themes.LIGHT}
           autosize={true}
-          watchlist={['AAPL', 'MSFT', 'TWTR']}
+          // watchlist={['AAPL', 'MSFT', 'TWTR']}
           // hide_side_toolbar={false}
-          withdateranges={true}
-          details={true}
+          // withdateranges={true}
+          // details={true}
         />
       </div>
     </Card>

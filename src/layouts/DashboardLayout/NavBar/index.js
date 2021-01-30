@@ -25,6 +25,7 @@ import {
   List as ListIcon,
   PieChart as PieChartIcon,
   Users as UsersIcon,
+  Calendar as CalendarIcon
 } from 'react-feather';
 import ShowChartIcon from '@material-ui/icons/Timeline';
 import Logo from 'src/components/Logo';
@@ -39,6 +40,11 @@ const sections = [
         title: 'Dashboard',
         icon: PieChartIcon,
         href: '/app/dashboard'
+      },
+      {
+        title: 'Calendar',
+        icon: CalendarIcon,
+        href: '/app/calendar'
       },
     ]
   },

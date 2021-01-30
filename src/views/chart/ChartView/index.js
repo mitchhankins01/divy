@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ChartView = () => {
+const ChartView = (props) => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
-  
+
   return (
     <Page
       className={classes.root}
@@ -35,7 +35,7 @@ const ChartView = () => {
       <Container maxWidth={false}>
         {/* <Header /> */}
         <Box>
-          <Chart symbol='sp500' />
+          <Chart ticker={props.match.params.ticker} />
         </Box>
       </Container>
     </Page>

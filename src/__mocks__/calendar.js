@@ -8,117 +8,136 @@ let events = [
   {
     id: '5e8882e440f6322fa399eeb8',
     allDay: false,
-    color: colors.green['700'],
+    color: null,
     description: 'Inform about new contract',
-    end: moment()
-      .subtract(6, 'days')
-      .hours(19)
-      .minutes(0)
-      .toDate(),
+    allDay: true,
     start: moment()
       .subtract(6, 'days')
-      .hours(17)
-      .minutes(30)
       .toDate(),
-    title: 'Call Samantha'
+    title: 'AAPL'
   },
   {
     id: '5e8882eb5f8ec686220ff131',
     allDay: false,
+    allDay: true,
     color: null,
     description: 'Discuss about new partnership',
-    end: moment()
-      .add(2, 'days')
-      .hours(15)
-      .minutes(30)
-      .toDate(),
     start: moment()
       .add(2, 'days')
-      .hours(12)
-      .minutes(0)
       .toDate(),
-    title: 'Meet with IBM'
+    title: 'IBM'
   },
   {
     id: '5e8882f1f0c9216396e05a9b',
     allDay: false,
     color: null,
+    allDay: true,
     description: 'Prepare docs',
-    end: moment()
-      .add(5, 'days')
-      .hours(12)
-      .minutes(0)
-      .toDate(),
     start: moment()
       .add(5, 'days')
-      .hours(8)
-      .minutes(0)
       .toDate(),
-    title: 'SCRUM Planning'
+    title: 'MSFT'
   },
   {
     id: '5e8882f6daf81eccfa40dee2',
     allDay: true,
     color: null,
+    allDay: true,
     description: 'Meet with team to discuss',
-    end: moment()
-      .subtract(11, 'days')
-      .startOf('day')
-      .toDate(),
     start: moment()
       .subtract(12, 'days')
       .endOf('day')
       .toDate(),
-    title: 'Begin SEM'
+    title: 'NIKE'
+  },
+  {
+    id: '5e8882f6daf81eccfa40dee2',
+    allDay: true,
+    color: null,
+    allDay: true,
+    description: 'Meet with team to discuss',
+    start: moment()
+      .subtract(12, 'days')
+      .endOf('day')
+      .toDate(),
+    title: 'UMH'
+  },
+  {
+    id: '5e8882f6daf81eccfa40dee2',
+    allDay: true,
+    color: null,
+    allDay: true,
+    description: 'Meet with team to discuss',
+    start: moment()
+      .subtract(12, 'days')
+      .endOf('day')
+      .toDate(),
+    title: 'BAC'
+  },
+  {
+    id: '5e8882f6daf81eccfa40dee2',
+    allDay: true,
+    color: null,
+    allDay: true,
+    description: 'Meet with team to discuss',
+    start: moment()
+      .subtract(12, 'days')
+      .endOf('day')
+      .toDate(),
+    title: 'XRP'
+  },
+  {
+    id: '5e8882f6daf81eccfa40dee2a',
+    allDay: true,
+    allDay: true,
+    color: null,
+    description: 'Again Meet with team to discuss',
+    start: moment()
+      .subtract(12, 'days')
+      .endOf('day')
+      .toDate(),
+    title: 'VER'
+  },
+  {
+    id: '5e8882f6daf81eccfa40dee23',
+    allDay: true,
+    color: null,
+    allDay: true,
+    description: '3 Meet with team to discuss',
+    start: moment()
+      .subtract(12, 'days')
+      .endOf('day')
+      .toDate(),
+    title: 'O'
   },
   {
     id: '5e8882fcd525e076b3c1542c',
     allDay: false,
-    color: colors.green['700'],
+    color: null,
+    allDay: true,
     description: 'Sorry, John!',
-    end: moment()
-      .add(3, 'days')
-      .hours(7)
-      .minutes(31)
-      .toDate(),
     start: moment()
       .add(3, 'days')
-      .hours(7)
-      .minutes(30)
       .toDate(),
-    title: 'Fire John'
+    title: 'NNN'
   },
   {
     id: '5e888302e62149e4b49aa609',
     allDay: false,
+    allDay: true,
     color: null,
     description: 'Discuss about the new project',
-    end: moment()
-      .subtract(6, 'days')
-      .hours(9)
-      .minutes(30)
-      .toDate(),
     start: moment()
       .subtract(6, 'days')
-      .hours(9)
-      .minutes(0)
       .toDate(),
-    title: 'Call Alex'
+    title: 'EPR'
   },
   {
     id: '5e88830672d089c53c46ece3',
-    allDay: false,
-    color: colors.green['700'],
+    allDay: true,
+    color: null,
     description: 'Get a new quote for the payment processor',
-    end: moment()
-      .hours(17)
-      .minutes(30)
-      .toDate(),
-    start: moment()
-      .hours(15)
-      .minutes(30)
-      .toDate(),
-    title: 'Visit Samantha'
+    title: 'CXW'
   }
 ];
 
