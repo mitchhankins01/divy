@@ -5,8 +5,10 @@ import '@fullcalendar/list/main.css';
 import React, {
   useState,
   useRef,
-  useEffect
+  useEffect,
+  useCallback
 } from 'react';
+import axios from 'src/utils/axios';
 import moment from 'moment';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -16,7 +18,6 @@ import listPlugin from '@fullcalendar/list';
 import timelinePlugin from '@fullcalendar/timeline';
 import {
   Container,
-  Dialog,
   Paper,
   useTheme,
   useMediaQuery,
@@ -24,18 +25,8 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Header from './Header';
-import Toolbar from './Toolbar';
-import useWindowSize from '../../../utils/useWindowSize';
-
-const selectedEventSelector = (state) => {
-  const { events, selectedEventId } = state.calendar;
-
-  if (selectedEventId) {
-    return events.find((_event) => _event.id === selectedEventId);
-  } else {
-    return null;
-  }
-};
+import useWindowSize from '../../../hooks/useWindowSize';
+import useIsMountedRef from '../../../hooks/useIsMountedRef';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   calendar: {
     marginTop: theme.spacing(3),
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
     '& .fc-unthemed .fc-head': {
       backgroundColor: theme.palette.background.dark
     },
@@ -78,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
     '& .fc-unthemed .fc-event': {
       backgroundColor: theme.palette.secondary.main,
       color: theme.palette.secondary.contrastText,
-      borderWidth: 2,
+      borderWidth: 0,
+      margin: '5px 5px',
       opacity: 0.9,
       '& .fc-time': {
         ...theme.typography.h6,
@@ -103,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.divider
     },
     '& .fc-unthemed .fc-list-empty': {
-      ...theme.typography.subtitle1
+      ...theme.typography.subtitle1,
+      background: theme.palette.background.dark
     },
     '& .fc-unthemed .fc-list-heading td': {
       backgroundColor: theme.palette.background.dark,
@@ -123,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .fc-unthemed .fc-list-item-time': {
       ...theme.typography.body2
-    }
+    },
   }
 }));
 
@@ -131,11 +124,28 @@ const CalendarView = () => {
   const theme = useTheme();
   const classes = useStyles();
   const calendarRef = useRef(null);
+  const isMountedRef = useIsMountedRef();
+  const [events, setEvents] = useState([]);
   const { height: windowHeight } = useWindowSize();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [date, setDate] = useState(moment().toDate());
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
-  const events = [];
+
+  const getEvents = useCallback(async () => {
+    try {
+      const response = await axios.get('/api/calendar/events');
+
+      if (isMountedRef.current) {
+        setEvents(response.data.events);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMountedRef]);
+
+  useEffect(() => {
+    getEvents();
+  }, [getEvents]);
 
   const handleDateToday = () => {
     const calendarEl = calendarRef.current;
@@ -171,7 +181,6 @@ const CalendarView = () => {
   };
 
   const handleDateNext = () => {
-    console.log('yas')
     const calendarEl = calendarRef.current;
 
     if (calendarEl) {
@@ -182,15 +191,8 @@ const CalendarView = () => {
     }
   };
 
-  const handleRangeSelect = (arg) => {
-    const calendarEl = calendarRef.current;
-
-    if (calendarEl) {
-      const calendarApi = calendarEl.getApi();
-
-      calendarApi.unselect();
-    }
-
+  const handleEventSelect = (arg) => {
+    alert(`${arg.event.title} ${arg.event.extendedProps.amount}`);
   };
 
   useEffect(() => {
@@ -206,33 +208,29 @@ const CalendarView = () => {
   }, [mobileDevice]);
 
   return (
-    <Page
-      className={classes.root}
-      title="Calendar"
-    >
+    <Page className={classes.root} title='Calendar'>
       <Container maxWidth={false}>
         <Header
           date={date}
+          view={view}
           onDateNext={handleDateNext}
           onDatePrev={handleDatePrev}
           onDateToday={handleDateToday}
           onViewChange={handleViewChange}
-          view={view}
         />
         <Paper className={classes.calendar}>
           <FullCalendar
-            allDayMaintainDuration
+            weekends
+            eventLimit
+            header={false}
+            events={events}
+            ref={calendarRef}
             defaultDate={date}
             defaultView={view}
-            eventLimit
-            events={events}
-            header={false}
-            height={Number(windowHeight) - 275}
-            ref={calendarRef}
             rerenderDelay={10}
-            select={handleRangeSelect}
-            selectable
-            weekends
+            allDayMaintainDuration
+            eventClick={handleEventSelect}
+            height={Number(windowHeight) - 185}
             plugins={[
               dayGridPlugin,
               timeGridPlugin,

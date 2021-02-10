@@ -7,10 +7,12 @@ import mock from 'src/utils/mock';
 let events = [
   {
     id: '5e8882e440f6322fa399eeb8',
-    allDay: false,
+    allDay: true,
     color: null,
     description: 'Inform about new contract',
-    allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     start: moment()
       .subtract(6, 'days')
       .toDate(),
@@ -18,8 +20,10 @@ let events = [
   },
   {
     id: '5e8882eb5f8ec686220ff131',
-    allDay: false,
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
     description: 'Discuss about new partnership',
     start: moment()
@@ -29,9 +33,11 @@ let events = [
   },
   {
     id: '5e8882f1f0c9216396e05a9b',
-    allDay: false,
-    color: null,
     allDay: true,
+    color: null,
+    extendedProps: {
+      amount: 500,
+    },
     description: 'Prepare docs',
     start: moment()
       .add(5, 'days')
@@ -41,8 +47,10 @@ let events = [
   {
     id: '5e8882f6daf81eccfa40dee2',
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
-    allDay: true,
     description: 'Meet with team to discuss',
     start: moment()
       .subtract(12, 'days')
@@ -53,8 +61,10 @@ let events = [
   {
     id: '5e8882f6daf81eccfa40dee2',
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
-    allDay: true,
     description: 'Meet with team to discuss',
     start: moment()
       .subtract(12, 'days')
@@ -65,8 +75,10 @@ let events = [
   {
     id: '5e8882f6daf81eccfa40dee2',
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
-    allDay: true,
     description: 'Meet with team to discuss',
     start: moment()
       .subtract(12, 'days')
@@ -76,7 +88,9 @@ let events = [
   },
   {
     id: '5e8882f6daf81eccfa40dee2',
-    allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
     allDay: true,
     description: 'Meet with team to discuss',
@@ -89,7 +103,7 @@ let events = [
   {
     id: '5e8882f6daf81eccfa40dee2a',
     allDay: true,
-    allDay: true,
+    amount: 500,
     color: null,
     description: 'Again Meet with team to discuss',
     start: moment()
@@ -101,8 +115,10 @@ let events = [
   {
     id: '5e8882f6daf81eccfa40dee23',
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
-    allDay: true,
     description: '3 Meet with team to discuss',
     start: moment()
       .subtract(12, 'days')
@@ -112,9 +128,11 @@ let events = [
   },
   {
     id: '5e8882fcd525e076b3c1542c',
-    allDay: false,
-    color: null,
     allDay: true,
+    color: null,
+    extendedProps: {
+      amount: 500,
+    },
     description: 'Sorry, John!',
     start: moment()
       .add(3, 'days')
@@ -123,8 +141,10 @@ let events = [
   },
   {
     id: '5e888302e62149e4b49aa609',
-    allDay: false,
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
     description: 'Discuss about the new project',
     start: moment()
@@ -135,6 +155,9 @@ let events = [
   {
     id: '5e88830672d089c53c46ece3',
     allDay: true,
+    extendedProps: {
+      amount: 500,
+    },
     color: null,
     description: 'Get a new quote for the payment processor',
     title: 'CXW'

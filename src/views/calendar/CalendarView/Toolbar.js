@@ -9,36 +9,23 @@ import {
   Hidden,
   IconButton,
   Tooltip,
-  Typography,
   makeStyles
 } from '@material-ui/core';
-import ViewConfigIcon from '@material-ui/icons/ViewComfyOutlined';
-import ViewWeekIcon from '@material-ui/icons/ViewWeekOutlined';
-import ViewDayIcon from '@material-ui/icons/ViewDayOutlined';
+import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined';
 import ViewAgendaIcon from '@material-ui/icons/ViewAgendaOutlined';
 
 const viewOptions = [
   {
     label: 'Month',
     value: 'dayGridMonth',
-    icon: ViewConfigIcon
+    icon: CalendarTodayOutlinedIcon
   },
   {
-    label: 'Week',
-    value: 'timeGridWeek',
-    icon: ViewWeekIcon
-  },
-  {
-    label: 'Day',
-    value: 'timeGridDay',
-    icon: ViewDayIcon
-  },
-  {
-    label: 'Agenda',
+    label: 'List',
     value: 'listWeek',
     icon: ViewAgendaIcon
   }
-];
+].reverse();
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -66,13 +53,6 @@ const Toolbar = ({
       spacing={3}
       {...rest}
     >
-      <Grid item>
-        <ButtonGroup size="small">
-          <Button onClick={onDatePrev}>Prev</Button>
-          <Button onClick={onDateToday}>Today</Button>
-          <Button onClick={onDateNext}>Next</Button>
-        </ButtonGroup>
-      </Grid>
       <Hidden smDown>
         <Grid item>
           {viewOptions.map((viewOption) => {
@@ -94,6 +74,13 @@ const Toolbar = ({
           })}
         </Grid>
       </Hidden>
+      <Grid item>
+        <ButtonGroup size="small">
+          <Button onClick={onDatePrev}>Prev</Button>
+          <Button onClick={onDateToday}>Today</Button>
+          <Button onClick={onDateNext}>Next</Button>
+        </ButtonGroup>
+      </Grid>
     </Grid>
   );
 };
