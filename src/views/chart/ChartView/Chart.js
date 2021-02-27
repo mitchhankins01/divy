@@ -27,10 +27,10 @@ import { buyColor, sellColor } from '../../../theme';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
-    top: 74,
-    left: 266,
-    bottom: 10,
-    right: 10,
+    top: 64,
+    left: 256,
+    bottom: 0,
+    right: 0,
     [theme.breakpoints.down('md')]: {
       left: 0
     },
