@@ -4,6 +4,7 @@ import React, {
   useReducer
 } from 'react';
 import jwtDecode from 'jwt-decode';
+import { Auth } from 'aws-amplify';
 import SplashScreen from 'src/components/SplashScreen';
 import axios from 'src/utils/axios';
 
@@ -27,7 +28,8 @@ const isValidToken = (accessToken) => {
 const setSession = (accessToken) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    axios.defaults.headers.common.Authorization = `aaaa`;
+    // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('accessToken');
     delete axios.defaults.headers.common.Authorization;
@@ -89,39 +91,37 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialAuthState);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', { email, password });
-    const { accessToken, user } = response.data;
-
-    setSession(accessToken);
+    const response = await Auth.signIn({ username: email, password });
+console.log(response.signInUserSession.accessToken.jwtToken);
+    setSession(response.signInUserSession.accessToken.jwtToken);
     dispatch({
       type: 'LOGIN',
       payload: {
-        user
+        user: response
       }
     });
   };
 
   const logout = () => {
+    Auth.signOut();
     setSession(null);
     dispatch({ type: 'LOGOUT' });
   };
 
   const register = async (email, name, password) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      name,
-      password
-    });
-    const { accessToken, user } = response.data;
-
-    window.localStorage.setItem('accessToken', accessToken);
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user
+    await Auth.signUp({
+      username: email,
+      password: password,
+      attributes: {
+        name: name
       }
     });
+    // dispatch({
+    //   type: 'REGISTER',
+    //   payload: {
+    //     user
+    //   }
+    // });
   };
 
   useEffect(() => {

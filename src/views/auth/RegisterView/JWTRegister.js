@@ -67,103 +67,116 @@ const JWTRegister = ({ className, ...rest }) => {
         handleSubmit,
         isSubmitting,
         touched,
-        values
+        values,
+        status
       }) => (
-        <form
-          noValidate
-          className={clsx(classes.root, className)}
-          onSubmit={handleSubmit}
-          {...rest}
-        >
-          <TextField
-            error={Boolean(touched.name && errors.name)}
-            fullWidth
-            helperText={touched.name && errors.name}
-            label="Name"
-            margin="normal"
-            name="name"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            value={values.name}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.email && errors.email)}
-            fullWidth
-            helperText={touched.email && errors.email}
-            label="Email Address"
-            margin="normal"
-            name="email"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="email"
-            value={values.email}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.password && errors.password)}
-            fullWidth
-            helperText={touched.password && errors.password}
-            label="Password"
-            margin="normal"
-            name="password"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="password"
-            value={values.password}
-            variant="outlined"
-          />
-          <Box
-            alignItems="center"
-            display="flex"
-            mt={2}
-            ml={-1}
-          >
-            <Checkbox
-              checked={values.policy}
-              name="policy"
-              onChange={handleChange}
-            />
-            <Typography
-              variant="body2"
-              color="textSecondary"
-            >
-              I have read the
-              {' '}
-              <Link
-                component="a"
-                href="#"
-                color="secondary"
+        <>
+          {status && status.success ?
+            (
+              <Typography
+                variant="h4"
+                color="textPrimary"
               >
-                Terms and Conditions
+                Please verify your email by clicking on the link that was sent to your inbox.
+              </Typography>
+            ) : (
+              <form
+                noValidate
+                className={clsx(classes.root, className)}
+                onSubmit={handleSubmit}
+                {...rest}
+              >
+                <TextField
+                  error={Boolean(touched.name && errors.name)}
+                  fullWidth
+                  helperText={touched.name && errors.name}
+                  label="Name"
+                  margin="normal"
+                  name="name"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.name}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.email && errors.email)}
+                  fullWidth
+                  helperText={touched.email && errors.email}
+                  label="Email Address"
+                  margin="normal"
+                  name="email"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="email"
+                  value={values.email}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.password && errors.password)}
+                  fullWidth
+                  helperText={touched.password && errors.password}
+                  label="Password"
+                  margin="normal"
+                  name="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="password"
+                  value={values.password}
+                  variant="outlined"
+                />
+                <Box
+                  alignItems="center"
+                  display="flex"
+                  mt={2}
+                  ml={-1}
+                >
+                  <Checkbox
+                    checked={values.policy}
+                    name="policy"
+                    onChange={handleChange}
+                  />
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                  >
+                    I have read the
+              {' '}
+                    <Link
+                      component="a"
+                      href="#"
+                      color="secondary"
+                    >
+                      Terms and Conditions
               </Link>
-            </Typography>
-          </Box>
-          {Boolean(touched.policy && errors.policy) && (
-            <FormHelperText error>
-              {errors.policy}
-            </FormHelperText>
-          )}
-          {errors.submit && (
-            <Box mt={3}>
-              <FormHelperText error>
-                {errors.submit}
-              </FormHelperText>
-            </Box>
-          )}
-          <Box mt={2}>
-            <Button
-              color="secondary"
-              disabled={isSubmitting}
-              fullWidth
-              size="large"
-              type="submit"
-              variant="contained"
-            >
-              Register
+                  </Typography>
+                </Box>
+                {Boolean(touched.policy && errors.policy) && (
+                  <FormHelperText error>
+                    {errors.policy}
+                  </FormHelperText>
+                )}
+                {errors.submit && (
+                  <Box mt={3}>
+                    <FormHelperText error>
+                      {errors.submit}
+                    </FormHelperText>
+                  </Box>
+                )}
+                <Box mt={2}>
+                  <Button
+                    color="secondary"
+                    disabled={isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                  >
+                    Register
             </Button>
-          </Box>
-        </form>
+                </Box>
+              </form>
+            )}
+        </>
       )}
     </Formik>
   );

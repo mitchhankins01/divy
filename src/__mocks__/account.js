@@ -116,13 +116,14 @@ mock.onGet('/api/account/me').reply((config) => {
       return [401, { message: 'Authorization token missing' }];
     }
   
-    const accessToken = Authorization.split(' ')[1];
-    const { userId } = jwt.verify(accessToken, JWT_SECRET);  
-    const user = users.find((_user) => _user.id === userId);
+    // const accessToken = Authorization.split(' ')[1];
+    // const { userId } = jwt.verify(accessToken, JWT_SECRET);  
+    // const user = users.find((_user) => _user.id === userId);
+    const user = users[0];
 
-    if (!user) {
-      return [401, { message: 'Invalid authorization token' }];
-    }
+    // if (!user) {
+    //   return [401, { message: 'Invalid authorization token' }];
+    // }
 
     return [200, {
       user: {

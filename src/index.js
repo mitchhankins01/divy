@@ -13,12 +13,15 @@ import 'src/assets/css/prism.css';
 import 'src/utils/chartjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 import { enableES5 } from 'immer';
 import * as serviceWorker from 'src/serviceWorker';
 import { SettingsProvider } from 'src/contexts/SettingsContext';
 import App from 'src/App';
 
 enableES5();
+Amplify.configure(awsconfig);
 
 ReactDOM.render(
   <SettingsProvider>
