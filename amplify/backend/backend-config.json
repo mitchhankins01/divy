@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "divy302d4878302d4878": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
