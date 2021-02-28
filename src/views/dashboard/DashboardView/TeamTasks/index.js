@@ -60,7 +60,7 @@ const TeamTasks = ({ className, ...rest }) => {
             {news.map((item, i) => (
               <NewsItem
                 divider={i < news.length - 1}
-                key={item.id}
+                key={i}
                 item={item}
               />
             ))}

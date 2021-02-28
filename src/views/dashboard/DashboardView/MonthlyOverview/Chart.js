@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -127,10 +126,5 @@ const Chart = ({
   );
 };
 
-Chart.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.object.isRequired,
-  labels: PropTypes.array.isRequired
-};
 
 export default Chart;
