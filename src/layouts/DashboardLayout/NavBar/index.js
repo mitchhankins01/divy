@@ -17,7 +17,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
-  BarChart as BarChartIcon,
   Lock as LockIcon,
   UserPlus as UserPlusIcon,
   User as UserIcon,

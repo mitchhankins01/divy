@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink as RouterLink, useHistory } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -78,7 +78,6 @@ const NavItem = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const history = useHistory();
   const [open, setOpen] = useState(openProp);
 
   const handleToggle = () => {
@@ -126,7 +125,6 @@ const NavItem = ({
   
   return (
     <ListItem
-      className={clsx(classes.itemLeaf, className)}
       disableGutters
       key={title}
       activeClassName={classes.active}

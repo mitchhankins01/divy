@@ -1,14 +1,12 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
   Button,
   Card,
-  Checkbox,
   Divider,
   InputAdornment,
   SvgIcon,
@@ -19,8 +17,6 @@ import {
   Chip
 } from '@material-ui/core';
 import {
-  Edit as EditIcon,
-  ArrowRight as ArrowRightIcon,
   Search as SearchIcon
 } from 'react-feather';
 import { DataGrid } from '@material-ui/data-grid';

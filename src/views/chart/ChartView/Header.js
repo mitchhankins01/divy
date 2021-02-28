@@ -7,15 +7,9 @@ import {
   Grid,
   Link,
   Typography,
-  Button,
-  Box,
-  Checkbox,
   makeStyles,
-  IconButton
 } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import SettingsIcon from '@material-ui/icons/Settings';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {},
