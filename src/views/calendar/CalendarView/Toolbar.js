@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
   Button,

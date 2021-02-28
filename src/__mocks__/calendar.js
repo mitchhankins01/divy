@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
-import { colors } from '@material-ui/core';
 import mock from 'src/utils/mock';
 
 let events = [

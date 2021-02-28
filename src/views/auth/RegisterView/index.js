@@ -4,11 +4,9 @@ import {
   Box,
   Card,
   CardContent,
-  Chip,
   Container,
   Divider,
   Link,
-  Tooltip,
   Typography,
   makeStyles
 } from '@material-ui/core';
@@ -18,12 +16,6 @@ import useAuth from 'src/hooks/useAuth';
 import Auth0Register from './Auth0Register';
 import FirebaseAuthRegister from './FirebaseAuthRegister';
 import JWTRegister from './JWTRegister';
-
-const methodIcons = {
-  'Auth0': '/static/images/auth0.svg',
-  'FirebaseAuth': '/static/images/firebase.svg',
-  'JWT': '/static/images/jwt.svg'
-};
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -8,7 +8,6 @@ import {
   Button,
   Divider,
   Toolbar,
-  Link,
   makeStyles
 } from '@material-ui/core';
 import Logo from 'src/components/Logo';

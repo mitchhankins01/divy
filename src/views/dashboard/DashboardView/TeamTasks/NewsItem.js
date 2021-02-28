@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import {
   Avatar,
   IconButton,
@@ -10,7 +9,6 @@ import {
   Tooltip,
   makeStyles
 } from '@material-ui/core';
-import { AvatarGroup } from '@material-ui/lab';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 const useStyles = makeStyles((theme) => ({

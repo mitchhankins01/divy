@@ -1,17 +1,10 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback
-} from 'react';
+import React from 'react';
 import {
   Box,
   Container,
   makeStyles
 } from '@material-ui/core';
-import axios from 'src/utils/axios';
 import Page from 'src/components/Page';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import Header from './Header';
 import Chart from './Chart';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ChartView = (props) => {
   const classes = useStyles();
-  const isMountedRef = useIsMountedRef();
 
   return (
     <Page
@@ -33,7 +25,6 @@ const ChartView = (props) => {
       title="Chart"
     >
       <Container maxWidth={false}>
-        {/* <Header /> */}
         <Box>
           <Chart ticker={props.match.params.ticker} />
         </Box>
