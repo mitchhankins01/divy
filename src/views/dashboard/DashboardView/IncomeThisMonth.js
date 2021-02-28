@@ -49,7 +49,7 @@ const IncomeThisMonth = ({ className, ...rest }) => {
           variant="overline"
           color="textSecondary"
         >
-          This Month's Dividends
+          This Month&apos;s Dividends
         </Typography>
         <Box
           display="flex"
