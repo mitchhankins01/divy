@@ -117,21 +117,6 @@ const JWTLogin = ({ className, ...rest }) => {
               Log In
             </Button>
           </Box>
-          <Box mt={2}>
-            <Alert
-              severity="info"
-            >
-              <div>
-                Use
-                {' '}
-                <b>demo@devias.io</b>
-                {' '}
-                and password
-                {' '}
-                <b>Password123</b>
-              </div>
-            </Alert>
-          </Box>
         </form>
       )}
     </Formik>

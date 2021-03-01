@@ -84,7 +84,9 @@ const AuthContext = createContext({
   method: 'JWT',
   login: () => Promise.resolve(),
   logout: () => { },
-  register: () => Promise.resolve()
+  register: () => Promise.resolve(),
+  forgotPassword: () => Promise.resolve(),
+  forgotPasswordSubmit: () => Promise.resolve(),
 });
 
 export const AuthProvider = ({ children }) => {
@@ -92,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const response = await Auth.signIn({ username: email, password });
-console.log(response.signInUserSession.accessToken.jwtToken);
+
     setSession(response.signInUserSession.accessToken.jwtToken);
     dispatch({
       type: 'LOGIN',
@@ -101,6 +103,16 @@ console.log(response.signInUserSession.accessToken.jwtToken);
       }
     });
   };
+
+  const forgotPassword = async (email) => {
+    await Auth.forgotPassword(email);
+    // console.log(email)
+  }
+
+  const forgotPasswordSubmit = async (email, code, newPassword) => {
+    await Auth.forgotPasswordSubmit(email, code, newPassword);
+    // console.log(email, code, newPassword)
+  }
 
   const logout = () => {
     Auth.signOut();
@@ -132,6 +144,7 @@ console.log(response.signInUserSession.accessToken.jwtToken);
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
+          console.log(Auth.userSession(accessToken))
           const response = await axios.get('/api/account/me');
           const { user } = response.data;
 
@@ -177,7 +190,9 @@ console.log(response.signInUserSession.accessToken.jwtToken);
         method: 'JWT',
         login,
         logout,
-        register
+        register,
+        forgotPassword,
+        forgotPasswordSubmit
       }}
     >
       {children}
