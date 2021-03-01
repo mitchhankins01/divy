@@ -73,6 +73,17 @@ const routes = [
     component: lazy(() => import('src/views/auth/RegisterView'))
   },
   {
+    exact: true,
+    guard: GuestGuard,
+    path: '/recovery',
+    component: lazy(() => import('src/views/auth/RecoveryView'))
+  },
+  {
+    exact: true,
+    path: '/recovery-unprotected',
+    component: lazy(() => import('src/views/auth/RecoveryView'))
+  },
+  {
     path: '/app',
     guard: AuthGuard,
     layout: DashboardLayout,

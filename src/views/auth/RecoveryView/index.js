@@ -13,9 +13,7 @@ import {
 import Page from 'src/components/Page';
 import Logo from 'src/components/Logo';
 import useAuth from 'src/hooks/useAuth';
-import Auth0Login from './Auth0Login';
-import FirebaseAuthLogin from './FirebaseAuthLogin';
-import JWTLogin from './JWTLogin';
+import JWTRecovery from './JWTRecovery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +82,7 @@ const LoginView = () => {
                   gutterBottom
                   variant="h2"
                 >
-                  Welcome Back
+                  Password Recovery
                 </Typography>
                 <Link
                   component={RouterLink}
@@ -92,27 +90,25 @@ const LoginView = () => {
                   variant="body2"
                   color="textSecondary"
                 >
-                  Forgot your password?
+                  Enter your email to receive a reset code
               </Link>
               </div>
             </Box>
             <Box
               flexGrow={1}
             >
-              {method === 'Auth0' && <Auth0Login />}
-              {method === 'FirebaseAuth' && <FirebaseAuthLogin />}
-              {method === 'JWT' && <JWTLogin />}
+              {method === 'JWT' && <JWTRecovery />}
             </Box>
             <Box my={3}>
               <Divider />
             </Box>
             <Link
               component={RouterLink}
-              to="/register"
+              to="/login"
               variant="body2"
               color="textSecondary"
             >
-              Create an account
+              Login to your account
             </Link>
           </CardContent>
         </Card>

@@ -206,7 +206,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
-
+  
   const content = (
     <Box
       height="100%"
@@ -234,7 +234,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               <Avatar
                 alt="User"
                 className={classes.avatar}
-                src={user.avatar}
+                // src={user.avatar}
               />
             </RouterLink>
           </Box>
@@ -249,7 +249,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               color="textPrimary"
               underline="none"
             >
-              {user.name}
+              {/* {user.name} */}
             </Link>
             <Typography
               variant="body2"
@@ -261,7 +261,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
                 component={RouterLink}
                 to="/pricing"
               >
-                {user.tier}
+                {/* {user.tier} */}
               </Link>
             </Typography>
           </Box>
