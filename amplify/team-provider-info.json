@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "divy302d4878302d4878": {}
+      },
+      "function": {
+        "transactionsLambda": {
+          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+          "s3Key": "amplify-builds/transactionsLambda-4444344b636535566455-build.zip"
+        }
       }
     }
   }
