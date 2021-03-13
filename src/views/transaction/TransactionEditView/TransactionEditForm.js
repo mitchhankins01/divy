@@ -23,6 +23,7 @@ import DateFnsUtils from '@date-io/date-fns'; import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { API } from 'aws-amplify';
 import wait from 'src/utils/wait';
 import { buyColor, sellColor } from '../../../theme';
 
@@ -75,8 +76,13 @@ const TransactionEditForm = ({
             }) => {
                 try {
                     // NOTE: Make API request
-                    await wait(500);
-                    console.log(values)
+                    await API.post('transactionsApi', '/transactions', { 
+                        body: {
+                            symbol: values.symbol, 
+                            side: values.side, 
+                            quantity: values.numberOfShares
+                        }
+                     });
                     resetForm();
                     setStatus({ success: true });
                     setSubmitting(false);

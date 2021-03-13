@@ -144,7 +144,7 @@ export const AuthProvider = ({ children }) => {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          console.log(Auth.userSession(accessToken))
+          // console.log(Auth.userSession(accessToken))
           const response = await axios.get('/api/account/me');
           const { user } = response.data;
 

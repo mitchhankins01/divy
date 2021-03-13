@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "divy302d4878302d4878_identitypool_b3ea673d",
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "divy302d4878",
     "userPoolName": "divy302d4878_userpool_302d4878",
     "autoVerifiedAttributes": [
@@ -30,7 +32,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "302d4878",
     "resourceName": "divy302d4878302d4878",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
