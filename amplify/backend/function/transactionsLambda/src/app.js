@@ -1,9 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const mysql = require('serverless-mysql');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-const mysql = require('serverless-mysql');
 
+/*
+  Middleware
+*/
 const app = express();
 if (!process.env.DEV) {
   app.use(awsServerlessExpressMiddleware.eventContext())
@@ -29,6 +32,9 @@ app.use(function (req, res, next) {
   }
 });
 
+/*
+  Utils
+*/
 async function query(sql, values = []) {
   let connection;
 
@@ -37,8 +43,8 @@ async function query(sql, values = []) {
       config: {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
-        database: process.env.DB_SCHEMA,
         password: process.env.DB_PASS,
+        database: process.env.DB_SCHEMA,
       }
     });
     return connection.query(sql, values);
@@ -53,8 +59,11 @@ async function query(sql, values = []) {
   }
 }
 
+/*
+  CRUD
+*/
 app.get('/transactions', async function (req, res) {
-  const result = await query('SELECT * FROM transactions WHERE user_id = ?', [req.userId])
+  const result = await query('SELECT * FROM transactions WHERE user_id = ?', [req.userId]);
 
   res.json({ success: true, result });
 });
@@ -72,6 +81,7 @@ app.post('/transactions', async function (req, res) {
 
 app.put('/transactions', async function (req, res) {
   const { symbol, side, quantity, price, date, id } = req.body;
+
   const result = await query(
     'UPDATE `transactions` SET `symbol` = ?, `price` = ?, `quantity` = ?, `side` = ?, `date` = ? WHERE `id` = ? AND `user_id` = ?',
     [symbol, price, quantity, side, date, id, req.userId]
