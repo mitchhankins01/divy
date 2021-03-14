@@ -4,7 +4,6 @@ import React, {
   useEffect
 } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -69,10 +68,6 @@ const TeamTasks = ({ className, ...rest }) => {
       </PerfectScrollbar>
     </Card>
   );
-};
-
-TeamTasks.propTypes = {
-  className: PropTypes.string
 };
 
 export default TeamTasks;

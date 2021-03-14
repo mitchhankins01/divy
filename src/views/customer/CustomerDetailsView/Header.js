@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Breadcrumbs,
@@ -81,11 +80,6 @@ const Header = ({ className, customer, ...rest }) => {
       </Grid>
     </Grid>
   );
-};
-
-Header.propTypes = {
-  className: PropTypes.string,
-  customer: PropTypes.object.isRequired
 };
 
 export default Header;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
@@ -180,10 +179,6 @@ const Hero = ({ className, ...rest }) => {
       </Container>
     </div>
   );
-};
-
-Hero.propTypes = {
-  className: PropTypes.string
 };
 
 export default Hero;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
@@ -61,10 +60,6 @@ const CTA = ({ className, ...rest }) => {
       </Container>
     </div>
   );
-};
-
-CTA.propTypes = {
-  className: PropTypes.string
 };
 
 export default CTA;

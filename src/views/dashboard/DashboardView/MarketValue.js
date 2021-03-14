@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -70,10 +69,6 @@ const RoiPerCustomer = ({ className, ...rest }) => {
       </Avatar>
     </Card>
   );
-};
-
-RoiPerCustomer.propTypes = {
-  className: PropTypes.string
 };
 
 export default RoiPerCustomer;

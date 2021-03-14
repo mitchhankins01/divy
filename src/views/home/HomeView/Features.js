@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
@@ -147,10 +146,6 @@ const Features = ({ className, ...rest }) => {
       </Container>
     </div>
   );
-};
-
-Features.propTypes = {
-  className: PropTypes.string
 };
 
 export default Features;

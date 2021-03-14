@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
 import {
@@ -70,10 +69,6 @@ const EarningsSegmentation = ({ className, ...rest }) => {
       </PerfectScrollbar>
     </Card>
   );
-};
-
-EarningsSegmentation.propTypes = {
-  className: PropTypes.string
 };
 
 export default EarningsSegmentation;

@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import moment from 'moment';
 import numeral from 'numeral';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -179,10 +178,6 @@ const LatestProjects = ({ className, ...rest }) => {
       </Box>
     </Card>
   );
-};
-
-LatestProjects.propTypes = {
-  className: PropTypes.string
 };
 
 export default LatestProjects;

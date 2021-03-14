@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -290,11 +289,6 @@ const CustomerEditForm = ({
       )}
     </Formik>
   );
-};
-
-CustomerEditForm.propTypes = {
-  className: PropTypes.string,
-  customer: PropTypes.object.isRequired
 };
 
 export default CustomerEditForm;

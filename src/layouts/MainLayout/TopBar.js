@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   AppBar,
   Box,
@@ -65,10 +64,6 @@ const TopBar = ({ className, ...rest }) => {
       </Toolbar>
     </AppBar>
   );
-};
-
-TopBar.propTypes = {
-  className: PropTypes.string
 };
 
 export default TopBar;

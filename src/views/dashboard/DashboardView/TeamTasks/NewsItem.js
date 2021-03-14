@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
@@ -42,11 +41,6 @@ const NewsItem = ({ className, item, ...rest }) => {
       </Tooltip>
     </ListItem>
   );
-};
-
-NewsItem.propTypes = {
-  className: PropTypes.string,
-  item: PropTypes.object.isRequired
 };
 
 export default NewsItem;

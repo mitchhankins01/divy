@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Button,
   ButtonGroup,
@@ -82,26 +81,6 @@ const Toolbar = ({
       </Grid>
     </Grid>
   );
-};
-
-Toolbar.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  date: PropTypes.instanceOf(Date).isRequired,
-  onDateNext: PropTypes.func,
-  onDatePrev: PropTypes.func,
-  onDateToday: PropTypes.func,
-  onAddClick: PropTypes.func,
-  onViewChange: PropTypes.func,
-  view: PropTypes.oneOf(['dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listWeek'])
-};
-
-Toolbar.defaultProps = {
-  onDateNext: () => {},
-  onDatePrev: () => {},
-  onDateToday: () => {},
-  onAddClick: () => {},
-  onViewChange: () => {}
 };
 
 export default Toolbar;

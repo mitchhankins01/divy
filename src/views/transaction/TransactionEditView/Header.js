@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Breadcrumbs,
@@ -51,10 +50,6 @@ const Header = ({ className, ...rest }) => {
       </Typography>
     </div>
   );
-};
-
-Header.propTypes = {
-  className: PropTypes.string
 };
 
 export default Header;

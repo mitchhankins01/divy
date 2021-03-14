@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
@@ -135,11 +134,6 @@ const Invoices = ({
       </Box>
     </Card>
   );
-};
-
-Invoices.propTypes = {
-  className: PropTypes.string,
-  customer: PropTypes.object.isRequired
 };
 
 export default Invoices;

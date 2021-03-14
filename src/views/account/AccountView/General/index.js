@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { Grid, makeStyles } from '@material-ui/core';
 import useAuth from 'src/hooks/useAuth';
 import ProfileDetails from './ProfileDetails';
@@ -42,9 +41,5 @@ const General = ({ className, ...rest }) => {
     </Grid>
   );
 }
-
-General.propTypes = {
-  className: PropTypes.string
-};
 
 export default General;

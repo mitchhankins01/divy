@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -153,10 +152,6 @@ const Security = ({ className, ...rest }) => {
       )}
     </Formik>
   );
-};
-
-Security.propTypes = {
-  className: PropTypes.string
 };
 
 export default Security;

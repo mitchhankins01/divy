@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -57,10 +56,6 @@ const Auth0Register = ({ className, ...rest }) => {
       </Box>
     </div>
   );
-};
-
-Auth0Register.propTypes = {
-  className: PropTypes.string
 };
 
 export default Auth0Register;

@@ -3,7 +3,6 @@ import React, {
   useCallback,
   useEffect
 } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import {
@@ -112,10 +111,6 @@ const Emails = ({ className, ...rest }) => {
       </CardContent>
     </Card>
   );
-};
-
-Emails.propTypes = {
-  className: PropTypes.string,
 };
 
 export default Emails;
