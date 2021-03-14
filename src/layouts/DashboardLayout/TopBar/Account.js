@@ -32,7 +32,8 @@ const Account = () => {
   const classes = useStyles();
   const history = useHistory();
   const ref = useRef(null);
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
+  // const { user, logout } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const [isOpen, setOpen] = useState(false);
 

@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { Link as RouterLink } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
     Box,
@@ -26,7 +25,6 @@ import DateFnsUtils from '@date-io/date-fns'; import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from 'react-router-dom';
 import { API } from 'aws-amplify';
-import wait from 'src/utils/wait';
 import { buyColor, sellColor } from '../../../theme';
 
 const useStyles = makeStyles(() => ({
@@ -66,7 +64,7 @@ const TransactionEditForm = ({
     console.log(new Date(transaction.date))
 
     const handleDeleteClick = async () => {
-        const res = await API.del('transactionsApi', '/transactions', { body: { id: transaction.id, } });
+        await API.del('transactionsApi', '/transactions', { body: { id: transaction.id, } });
         enqueueSnackbar('Transaction Deleted', { variant: 'success' });
         history.push('/app/transactions');
     }

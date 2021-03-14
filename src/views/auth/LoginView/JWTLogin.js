@@ -9,7 +9,6 @@ import {
   TextField,
   makeStyles
 } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import useAuth from 'src/hooks/useAuth';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 

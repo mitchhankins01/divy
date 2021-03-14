@@ -152,7 +152,6 @@ const Results = ({
                   <Button
                     style={{ justifyContent: "flex-start", textTransform: 'none', padding: 15 }}
                     fullWidth
-                    align
                     component={RouterLink}
                     to={`/app/chart/${cell.value}`}
                   >
