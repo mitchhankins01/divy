@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -211,15 +210,6 @@ const Results = ({
       </PerfectScrollbar>
     </Card>
   );
-};
-
-Results.propTypes = {
-  className: PropTypes.string,
-  transactions: PropTypes.array.isRequired
-};
-
-Results.defaultProps = {
-  transactions: []
 };
 
 export default Results;

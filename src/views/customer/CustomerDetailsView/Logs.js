@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -106,10 +105,6 @@ const Logs = ({ className, ...rest }) => {
       </PerfectScrollbar>
     </Card>
   );
-};
-
-Logs.propTypes = {
-  className: PropTypes.string
 };
 
 export default Logs;

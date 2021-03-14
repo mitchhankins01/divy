@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Grid, makeStyles } from '@material-ui/core';
 import CustomerInfo from './CustomerInfo';
@@ -63,11 +62,6 @@ const Details = ({
       </Grid>
     </Grid>
   );
-};
-
-Details.propTypes = {
-  className: PropTypes.string,
-  customer: PropTypes.object.isRequired
 };
 
 export default Details;

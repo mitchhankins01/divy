@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import numeral from 'numeral';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -451,15 +450,6 @@ const Results = ({
       />
     </Card>
   );
-};
-
-Results.propTypes = {
-  className: PropTypes.string,
-  customers: PropTypes.array.isRequired
-};
-
-Results.defaultProps = {
-  customers: []
 };
 
 export default Results;

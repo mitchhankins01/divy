@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -267,10 +266,6 @@ const TransactionEditForm = ({
             )}
         </Formik>
     );
-};
-
-TransactionEditForm.propTypes = {
-    className: PropTypes.string,
 };
 
 export default TransactionEditForm;

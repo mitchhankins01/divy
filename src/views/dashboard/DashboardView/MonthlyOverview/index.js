@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -63,10 +62,6 @@ const FinancialStats = ({ className, ...rest }) => {
       </PerfectScrollbar>
     </Card>
   );
-};
-
-FinancialStats.propTypes = {
-  className: PropTypes.string
 };
 
 export default FinancialStats;

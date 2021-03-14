@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -78,10 +77,6 @@ const IncomeThisMonth = ({ className, ...rest }) => {
       </Avatar>
     </Card>
   );
-};
-
-IncomeThisMonth.propTypes = {
-  className: PropTypes.string
 };
 
 export default IncomeThisMonth;

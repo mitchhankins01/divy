@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
@@ -139,11 +138,6 @@ const CustomerInfo = ({
       </Box>
     </Card>
   );
-};
-
-CustomerInfo.propTypes = {
-  className: PropTypes.string,
-  customer: PropTypes.object.isRequired
 };
 
 export default CustomerInfo;

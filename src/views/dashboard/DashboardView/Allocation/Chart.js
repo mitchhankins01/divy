@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Pie } from 'react-chartjs-2';
 import clsx from 'clsx';
 import { useTheme, makeStyles } from '@material-ui/core';
@@ -71,11 +70,6 @@ const Chart = ({ data: dataProp, className, ...rest }) => {
       />
     </div>
   );
-};
-
-Chart.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.object.isRequired
 };
 
 export default Chart;

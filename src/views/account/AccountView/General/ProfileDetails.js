@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
@@ -77,11 +76,6 @@ const ProfileDetails = ({ className, user, ...rest }) => {
       </CardActions>
     </Card>
   );
-};
-
-ProfileDetails.propTypes = {
-  className: PropTypes.string,
-  user: PropTypes.object.isRequired
 };
 
 export default ProfileDetails;

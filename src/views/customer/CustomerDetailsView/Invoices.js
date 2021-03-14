@@ -6,7 +6,6 @@ import React, {
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -132,10 +131,6 @@ const Invoices = ({ className, ...rest }) => {
       />
     </Card>
   );
-};
-
-Invoices.propTypes = {
-  className: PropTypes.string
 };
 
 export default Invoices;

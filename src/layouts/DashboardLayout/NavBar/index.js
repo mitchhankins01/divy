@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useLocation, matchPath } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -339,11 +338,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       </Hidden>
     </>
   );
-};
-
-NavBar.propTypes = {
-  onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
 };
 
 export default NavBar;

@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import * as Yup from 'yup';
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import {
   Box,
@@ -178,10 +177,6 @@ const FirebaseAuthLogin = ({ className, ...rest }) => {
       </Formik>
     </>
   );
-};
-
-FirebaseAuthLogin.propTypes = {
-  className: PropTypes.string,
 };
 
 export default FirebaseAuthLogin;

@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -78,10 +77,6 @@ const UnrealizedGain = ({ className, ...rest }) => {
       </Avatar>
     </Card>
   );
-};
-
-UnrealizedGain.propTypes = {
-  className: PropTypes.string
 };
 
 export default UnrealizedGain;
