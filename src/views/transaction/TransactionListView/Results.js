@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const Results = ({
   className,
   transactions,
+  getter,
   ...rest
 }) => {
   const history = useHistory();
@@ -203,7 +204,7 @@ const Results = ({
             rowsPerPageOptions={[5, 10, 20]}
             scrollbarSize={0}
             pagination={true}
-            checkboxSelection
+            // checkboxSelection
           />
         </Box>
       </PerfectScrollbar>
