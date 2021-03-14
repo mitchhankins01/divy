@@ -8,6 +8,7 @@ import {
   Container,
   makeStyles
 } from '@material-ui/core';
+import { API } from 'aws-amplify';
 import axios from 'src/utils/axios';
 import Page from 'src/components/Page';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
@@ -30,10 +31,10 @@ const TransactionsView = () => {
 
   const getTransactions = useCallback(async () => {
     try {
-      const response = await axios.get('/api/transactions');
+      const response  = await API.get('transactionsApi', '/transactions');
 
       if (isMountedRef.current) {
-        setTransactions(response.data.transactions);
+        setTransactions(response.result);
       }
     } catch (err) {
       console.error(err);

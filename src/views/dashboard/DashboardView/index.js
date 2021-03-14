@@ -14,7 +14,6 @@ import MarketValue from './MarketValue';
 import IncomeThisMonth from './IncomeThisMonth';
 import TeamTasks from './TeamTasks';
 import UnrealizedGain from './UnrealizedGain';
-import { API } from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,12 +27,6 @@ const useStyles = makeStyles((theme) => ({
 const DashboardView = () => {
   const classes = useStyles();
   // const response = await API.get('nodeapi', '/hello');
-
-  const test = async () => {
-    const result  = await API.get('transactionsApi', '/transactions');
-    console.log(result);
-  }
-  test()
 
   return (
     <Page

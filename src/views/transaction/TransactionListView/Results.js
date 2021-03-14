@@ -14,11 +14,14 @@ import {
   Tabs,
   TextField,
   makeStyles,
-  Chip
+  Chip,
+  IconButton
 } from '@material-ui/core';
 import {
-  Search as SearchIcon
+  Search as SearchIcon,
+  Edit as EditIcon
 } from 'react-feather';
+import { useHistory } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
 import { buyColor, sellColor } from '../../../theme';
 
@@ -57,6 +60,7 @@ const Results = ({
   transactions,
   ...rest
 }) => {
+  const history = useHistory();
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState('all');
   const [query, setQuery] = useState('');
@@ -86,6 +90,10 @@ const Results = ({
     event.persist();
     setQuery(event.target.value);
   };
+
+  const handleEditClick = (row) => {
+    history.push('/app/transactions/create', row)
+  }
 
   return (
     <Card
@@ -153,9 +161,6 @@ const Results = ({
                   </Button>
                 )
               },
-              { headerName: 'Shares', field: 'numberOfShares', flex: 1 },
-              { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}` },
-              { headerName: 'Fees', field: 'fees', flex: 1 },
               {
                 headerName: 'Side',
                 field: 'side',
@@ -168,7 +173,33 @@ const Results = ({
                   />
                 )
               },
-              { headerName: 'Date', field: 'date', flex: 1 },
+              { headerName: 'Quantity', field: 'quantity', flex: 1 },
+              { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}` },
+              {
+                headerName: 'Date', field: 'date', flex: 1, valueGetter: params => {
+                  try {
+                    return new Date(params.row.date).toISOString().substring(0, 10);
+                  } catch (error) {
+                    return params.row.date;
+                  }
+                }
+              },
+              {
+                headerName: 'Edit',
+                field: 'edit',
+                // flex: 0.4,
+                renderCell: params => (
+                  <IconButton onClick={handleEditClick.bind(null, params.row)}>
+                    <SvgIcon
+                      fontSize="small"
+                      color="action"
+                    >
+                      <EditIcon />
+                    </SvgIcon>
+                  </IconButton>
+
+                )
+              }
             ]}
             pageSize={10}
             rowsPerPageOptions={[5, 10, 20]}

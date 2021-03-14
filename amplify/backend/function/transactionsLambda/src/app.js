@@ -64,7 +64,7 @@ async function query(sql, values = []) {
 */
 app.get('/transactions', async function (req, res) {
   const result = await query('SELECT * FROM transactions WHERE user_id = ?', [req.userId]);
-
+  
   res.json({ success: true, result });
 });
 

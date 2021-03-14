@@ -18,7 +18,7 @@
       "function": {
         "transactionsLambda": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/transactionsLambda-4545764e39367954776f-build.zip"
+          "s3Key": "amplify-builds/transactionsLambda-6a4f5946666178784b70-build.zip"
         }
       }
     }

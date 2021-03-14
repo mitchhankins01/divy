@@ -17,12 +17,15 @@ import {
     RadioGroup,
     FormControlLabel,
     FormControl,
-    FormLabel
+    FormLabel,
+    IconButton
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns'; import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useHistory } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import wait from 'src/utils/wait';
 import { buyColor, sellColor } from '../../../theme';
@@ -38,6 +41,10 @@ const useStyles = makeStyles(() => ({
         '&.Mui-checked': {
             color: sellColor
         }
+    },
+    buttonsBar: {
+        display: 'flex',
+        justifyContent: 'space-between',
     }
 }));
 
@@ -45,26 +52,39 @@ const TransactionEditForm = ({
     className,
     ...rest
 }) => {
+    const history = useHistory();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
-    const customer = {};
-    const transaction = {};
 
+    let transaction;
+    if (history.location.state) {
+        transaction = { ...history.location.state };
+    } else {
+        transaction = {};
+    }
+    console.log(transaction.date)
+    console.log(new Date(transaction.date))
+
+    const handleDeleteClick = async () => {
+        const res = await API.del('transactionsApi', '/transactions', { body: { id: transaction.id, } });
+        enqueueSnackbar('Transaction Deleted', { variant: 'success' });
+        history.push('/app/transactions');
+    }
+    
     return (
         <Formik
             initialValues={{
                 price: transaction.price || '',
-                numberOfShares: transaction.numberOfShares || '',
-                hasDiscountedPrices: customer.hasDiscountedPrices || false,
+                quantity: transaction.quantity || '',
                 symbol: transaction.symbol || '',
                 date: transaction.date || new Date(),
-                side: transaction.side || 'buy',
+                side: transaction.side || 'BUY',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
                 price: Yup.number().required('Price per share is required'),
-                numberOfShares: Yup.number().required('Number of shares are required'),
+                quantity: Yup.number().required('Number of shares are required'),
                 symbol: Yup.string().max(255).required('Symbol is required'),
                 date: Yup.date().required('Date is required'),
             })}
@@ -75,24 +95,34 @@ const TransactionEditForm = ({
                 setSubmitting
             }) => {
                 try {
-                    // NOTE: Make API request
-                    await API.post('transactionsApi', '/transactions', { 
-                        body: {
-                            symbol: values.symbol, 
-                            side: values.side, 
-                            quantity: values.numberOfShares
-                        }
-                     });
+                    if (transaction.id) {
+                        await API.put('transactionsApi', '/transactions', {
+                            body: {
+                                id: transaction.id,
+                                price: values.price,
+                                symbol: values.symbol,
+                                side: values.side,
+                                quantity: values.quantity,
+                                date: values.date,
+                            }
+                        });
+                    } else {
+                        await API.post('transactionsApi', '/transactions', {
+                            body: {
+                                price: values.price,
+                                symbol: values.symbol,
+                                side: values.side,
+                                quantity: values.quantity,
+                                date: values.date,
+                            }
+                        });
+                    }
                     resetForm();
                     setStatus({ success: true });
                     setSubmitting(false);
-                    enqueueSnackbar('Transaction Added', {
+                    history.push('/app/transactions');
+                    enqueueSnackbar(transaction.id ? 'Transaction Updated' : 'Transaction Added', {
                         variant: 'success',
-                        action: (
-                            <Button component={RouterLink} to="/app/transactions">
-                                See All
-                            </Button>
-                        )
                     });
                 } catch (err) {
                     console.error(err);
@@ -147,15 +177,15 @@ const TransactionEditForm = ({
                                     xs={12}
                                 >
                                     <TextField
-                                        error={Boolean(touched.numberOfShares && errors.numberOfShares)}
+                                        error={Boolean(touched.quantity && errors.quantity)}
                                         fullWidth
-                                        helperText={touched.numberOfShares && errors.numberOfShares}
-                                        label="Number of Shares"
-                                        name="numberOfShares"
+                                        helperText={touched.quantity && errors.quantity}
+                                        label="Quantity"
+                                        name="quantity"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         required
-                                        value={values.numberOfShares}
+                                        value={values.quantity}
                                         variant="outlined"
                                         type='number'
                                     />
@@ -212,21 +242,24 @@ const TransactionEditForm = ({
                                     >
                                         <FormLabel component="legend">Side</FormLabel>
                                         <RadioGroup row={true} name="side" value={values.side} onChange={handleChange} onBlur={handleBlur}>
-                                            <FormControlLabel value="buy" control={<Radio className={classes.buyRadio} />} label="Buy" />
-                                            <FormControlLabel value="sell" control={<Radio className={classes.sellRadio} />} label="Sell" />
+                                            <FormControlLabel value="BUY" control={<Radio className={classes.buyRadio} />} label="Buy" />
+                                            <FormControlLabel value="SELL" control={<Radio className={classes.sellRadio} />} label="Sell" />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
                             </Grid>
-                            <Box mt={2}>
+                            <Box mt={2} className={classes.buttonsBar}>
                                 <Button
                                     variant="contained"
                                     color="secondary"
                                     type="submit"
                                     disabled={isSubmitting}
                                 >
-                                    Add Transaction
+                                    {transaction.id ? 'Update Transaction' : 'Add Transaction'}
                                 </Button>
+                                <IconButton onClick={handleDeleteClick}>
+                                    <DeleteIcon />
+                                </IconButton>
                             </Box>
                         </CardContent>
                     </Card>
