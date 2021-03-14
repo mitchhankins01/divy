@@ -63,7 +63,10 @@ async function query(sql, values = []) {
   CRUD
 */
 app.get('/transactions', async function (req, res) {
-  const result = await query('SELECT * FROM transactions WHERE user_id = ?', [req.userId]);
+  const result = await query(
+    'SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC LIMIT ?,?', 
+    [req.userId, Number(req.query.offset), Number(req.query.limit)]
+  );
   
   res.json({ success: true, result });
 });
@@ -96,7 +99,7 @@ app.delete('/transactions', async function (req, res) {
   res.json({ success: true, result });
 });
 
-app.listen(3000, function () {
+app.listen(3001, function () {
   console.log("App started");
 });
 

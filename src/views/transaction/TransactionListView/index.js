@@ -28,9 +28,14 @@ const TransactionsView = () => {
   const isMountedRef = useIsMountedRef();
   const [transactions, setTransactions] = useState([]);
 
-  const getTransactions = useCallback(async () => {
+  const getTransactions = useCallback(async (limit, offset) => {
     try {
-      const response  = await API.get('transactionsApi', '/transactions');
+      const response = await API.get('transactionsApi', '/transactions', {
+        // queryStringParameters: {
+        //   limit,
+        //   offset
+        // }
+      });
 
       if (isMountedRef.current) {
         setTransactions(response.result);
@@ -43,7 +48,7 @@ const TransactionsView = () => {
   useEffect(() => {
     getTransactions();
   }, [getTransactions]);
-  
+
   return (
     <Page
       className={classes.root}
@@ -52,7 +57,7 @@ const TransactionsView = () => {
       <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
-          <Results transactions={transactions} />
+          <Results transactions={transactions} getter={getTransactions} />
         </Box>
       </Container>
     </Page>
