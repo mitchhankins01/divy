@@ -73,7 +73,7 @@ const TransactionsView = () => {
       )
     },
     { headerName: 'Quantity', field: 'quantity', flex: 1, hide: mobileDevice && true },
-    { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && true},
+    { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && true },
     {
       headerName: 'Date',
       field: 'date',
@@ -113,7 +113,13 @@ const TransactionsView = () => {
       <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
-          <Results columns={columns} apiName='transactionsApi' apiPath='/transactions' defaultSort='date_desc' />
+          <Results
+            columns={columns}
+            apiName='transactionsApi'
+            apiPath='/transactions'
+            defaultSort='date_desc'
+            searchText='Symbol'
+          />
         </Box>
       </Container>
     </Page>

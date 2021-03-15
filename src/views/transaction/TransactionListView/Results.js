@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import {
   Search as SearchIcon,
+  XCircle as ClearIcon
 } from 'react-feather';
 import {
   Box,
@@ -13,6 +14,7 @@ import {
   SvgIcon,
   TextField,
   makeStyles,
+  IconButton,
 } from '@material-ui/core';
 import clsx from 'clsx';
 import { API } from 'aws-amplify';
@@ -35,6 +37,7 @@ const Table = ({
   apiName,
   apiPath,
   defaultSort,
+  searchText,
   ...rest
 }) => {
   const classes = useStyles();
@@ -84,6 +87,11 @@ const Table = ({
     setSearch(event.target.value);
   };
 
+  const handleClearSearch = (event) => {
+    event.persist();
+    setSearch('');
+  };
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -107,10 +115,23 @@ const Table = ({
                   <SearchIcon />
                 </SvgIcon>
               </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClearSearch} >
+                  <SvgIcon
+                    fontSize="small"
+                    color="action"
+                  >
+                    <ClearIcon />
+                  </SvgIcon>
+                </IconButton>
+
+              </InputAdornment>
             )
           }}
           onChange={handleSearchChange}
-          placeholder="Search Transactions"
+          placeholder={searchText}
           value={search}
           variant="outlined"
         />
