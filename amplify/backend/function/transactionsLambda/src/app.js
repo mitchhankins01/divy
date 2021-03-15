@@ -63,12 +63,29 @@ async function query(sql, values = []) {
   CRUD
 */
 app.get('/transactions', async function (req, res) {
-  const result = await query(
-    'SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC LIMIT ?,?', 
-    [req.userId, Number(req.query.offset), Number(req.query.limit)]
-  );
-  
-  res.json({ success: true, result });
+  const sort = req.query.sort.split('_')[0] || 'date';
+  const direction = req.query.sort.split('_')[1] || 'desc';
+
+  let result;
+  if (req.query.search) {
+    result = await query(
+      `SELECT *, (SELECT COUNT(*) FROM transactions WHERE user_id = ? AND symbol LIKE '%${req.query.search}%') AS count FROM transactions WHERE user_id = ? AND symbol LIKE '%${req.query.search}%' ORDER BY ${sort} ${direction} LIMIT ?,?`,
+      [req.userId, req.userId, Number(req.query.offset), Number(req.query.limit)]
+    );
+  } else {
+    result = await query(
+      `SELECT *, (SELECT COUNT(*) FROM transactions WHERE user_id = ?) AS count FROM transactions WHERE user_id = ? ORDER BY ${sort} ${direction} LIMIT ?,?`,
+      [req.userId, req.userId, Number(req.query.offset), Number(req.query.limit)]
+    );
+  }
+
+  // const search = req.query.search ? " AND symbol LIKE '%${req.query.search}%'" : '';
+  // const result = await query(
+  //   `SELECT *, (SELECT COUNT(*) FROM transactions WHERE user_id = ? ${search}) AS count FROM transactions WHERE user_id = ? ${search} ORDER BY ${sort} ${direction} LIMIT ?,?`,
+  //   [req.userId, req.userId, Number(req.query.offset), Number(req.query.limit)]
+  // );
+
+  res.json({ success: true, count: result[0] && result[0].count || 0, result });
 });
 
 app.post('/transactions', async function (req, res) {
@@ -76,7 +93,7 @@ app.post('/transactions', async function (req, res) {
 
   const result = await query(
     'INSERT INTO transactions (user_id, symbol, price, quantity, side, date) VALUES(?,?,?,?,?,?)',
-    [req.userId, symbol, price, quantity, side, date]
+    [req.userId, String(symbol).toUpperCase(), price, quantity, side, date]
   );
 
   res.json({ success: true, result });
@@ -87,7 +104,7 @@ app.put('/transactions', async function (req, res) {
 
   const result = await query(
     'UPDATE `transactions` SET `symbol` = ?, `price` = ?, `quantity` = ?, `side` = ?, `date` = ? WHERE `id` = ? AND `user_id` = ?',
-    [symbol, price, quantity, side, date, id, req.userId]
+    [String(symbol).toUpperCase(), price, quantity, side, date, id, req.userId]
   );
 
   res.json({ success: true, result });

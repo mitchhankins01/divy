@@ -60,15 +60,13 @@ const TransactionEditForm = ({
     } else {
         transaction = {};
     }
-    console.log(transaction.date)
-    console.log(new Date(transaction.date))
 
     const handleDeleteClick = async () => {
         await API.del('transactionsApi', '/transactions', { body: { id: transaction.id, } });
         enqueueSnackbar('Transaction Deleted', { variant: 'success' });
         history.push('/app/transactions');
     }
-    
+
     return (
         <Formik
             initialValues={{
@@ -254,9 +252,12 @@ const TransactionEditForm = ({
                                 >
                                     {transaction.id ? 'Update Transaction' : 'Add Transaction'}
                                 </Button>
-                                <IconButton onClick={handleDeleteClick}>
-                                    <DeleteIcon />
-                                </IconButton>
+                                {transaction.id && (
+                                    <IconButton onClick={handleDeleteClick}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                )}
+
                             </Box>
                         </CardContent>
                     </Card>

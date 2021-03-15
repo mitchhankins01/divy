@@ -1,121 +1,94 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  InputAdornment,
-  SvgIcon,
-  Tab,
-  Tabs,
-  TextField,
-  makeStyles,
-  Chip,
-  IconButton
-} from '@material-ui/core';
+import React, {
+  useState,
+  useEffect,
+  useCallback
+} from 'react';
 import {
   Search as SearchIcon,
-  Edit as EditIcon
 } from 'react-feather';
-import { useHistory } from 'react-router-dom';
+import {
+  Box,
+  Card,
+  InputAdornment,
+  SvgIcon,
+  TextField,
+  makeStyles,
+} from '@material-ui/core';
+import clsx from 'clsx';
+import { API } from 'aws-amplify';
 import { DataGrid } from '@material-ui/data-grid';
-import { buyColor, sellColor } from '../../../theme';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-const tabs = [
-  {
-    value: 'all',
-    label: 'All'
-  },
-  {
-    value: 'buy',
-    label: 'Buy'
-  },
-  {
-    value: 'sell',
-    label: 'Sell'
-  }
-];
+import useIsMountedRef from 'src/hooks/useIsMountedRef';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   queryField: {
     width: 500
-  },
-  buyChip: {
-    background: buyColor,
-    color: 'white'
-  },
-  sellChip: {
-    background: sellColor,
-    color: 'white'
   }
 }));
 
-const Results = ({
+
+const Table = ({
   className,
-  transactions,
-  getter,
+  columns,
+  apiName,
+  apiPath,
+  defaultSort,
   ...rest
 }) => {
-  const history = useHistory();
   const classes = useStyles();
-  const [currentTab, setCurrentTab] = useState('all');
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({
-    hasAcceptedMarketing: null,
-    isProspect: null,
-    isReturning: null
-  });
+  const isMountedRef = useIsMountedRef();
 
-  const handleTabsChange = (event, value) => {
-    const updatedFilters = {
-      ...filters,
-      hasAcceptedMarketing: null,
-      isProspect: null,
-      isReturning: null
-    };
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
+  const [pageSize, setPageSize] = useState(10);
+  const [rowCount, setRowCount] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [sort, setSort] = useState(defaultSort);
 
-    if (value !== 'all') {
-      updatedFilters[value] = true;
+  const getData = useCallback(async (limit, offset, sort, search) => {
+    try {
+      setLoading(true);
+      const response = await API.get(apiName, apiPath, {
+        queryStringParameters: {
+          sort,
+          limit,
+          offset,
+          search
+        }
+      });
+
+      if (isMountedRef.current) {
+        setLoading(false);
+        setRowCount(response.count || rowCount);
+        setData(response.result);
+      }
+    } catch (err) {
+      setLoading(false);
+      console.error(err);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMountedRef]);
 
-    setFilters(updatedFilters);
-    setCurrentTab(value);
-  };
+  useEffect(() => {
+    const limit = pageSize;
+    const offset = (pageIndex - 1) * pageSize;
 
-  const handleQueryChange = (event) => {
+    getData(limit, offset, sort, search);
+  }, [getData, pageIndex, pageSize, sort, search]);
+
+  const handleSearchChange = (event) => {
     event.persist();
-    setQuery(event.target.value);
+    setSearch(event.target.value);
   };
-
-  const handleEditClick = (row) => {
-    history.push('/app/transactions/create', row)
-  }
 
   return (
     <Card
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <Tabs
-        onChange={handleTabsChange}
-        scrollButtons="auto"
-        textColor="secondary"
-        value={currentTab}
-        variant="scrollable"
-      >
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.value}
-            value={tab.value}
-            label={tab.label}
-          />
-        ))}
-      </Tabs>
-      <Divider />
       <Box
         p={2}
         minHeight={56}
@@ -136,9 +109,9 @@ const Results = ({
               </InputAdornment>
             )
           }}
-          onChange={handleQueryChange}
+          onChange={handleSearchChange}
           placeholder="Search Transactions"
-          value={query}
+          value={search}
           variant="outlined"
         />
         <Box flexGrow={1} />
@@ -146,65 +119,27 @@ const Results = ({
       <PerfectScrollbar>
         <Box minWidth={700} style={{ minHeight: '70vh' }}>
           <DataGrid
-            rows={transactions}
-            columns={[
-              {
-                headerName: 'Symbol', field: 'symbol', flex: 1, renderCell: cell => (
-                  <Button
-                    style={{ justifyContent: "flex-start", textTransform: 'none', padding: 15 }}
-                    fullWidth
-                    component={RouterLink}
-                    to={`/app/chart/${cell.value}`}
-                  >
-                    {cell.value}
-                  </Button>
-                )
-              },
-              {
-                headerName: 'Side',
-                field: 'side',
-                flex: 1,
-                renderCell: params => (
-                  <Chip
-                    size='small'
-                    label={params.row.side === 'BUY' ? 'Buy' : 'Sell'}
-                    className={params.row.side === 'BUY' ? classes.buyChip : classes.sellChip}
-                  />
-                )
-              },
-              { headerName: 'Quantity', field: 'quantity', flex: 1 },
-              { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}` },
-              {
-                headerName: 'Date', field: 'date', flex: 1, valueGetter: params => {
-                  try {
-                    return new Date(params.row.date).toISOString().substring(0, 10);
-                  } catch (error) {
-                    return params.row.date;
-                  }
-                }
-              },
-              {
-                headerName: 'Edit',
-                field: 'edit',
-                // flex: 0.4,
-                renderCell: params => (
-                  <IconButton onClick={handleEditClick.bind(null, params.row)}>
-                    <SvgIcon
-                      fontSize="small"
-                      color="action"
-                    >
-                      <EditIcon />
-                    </SvgIcon>
-                  </IconButton>
-
-                )
-              }
-            ]}
-            pageSize={10}
-            rowsPerPageOptions={[5, 10, 20]}
-            scrollbarSize={0}
+            rows={data}
+            page={pageIndex}
             pagination={true}
-            // checkboxSelection
+            scrollbarSize={0}
+            pageSize={pageSize}
+            rowCount={rowCount}
+            paginationMode='server'
+            columns={columns}
+            loading={loading}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            onPageChange={args => setPageIndex(args.page)}
+            onPageSizeChange={({ pageSize }) => setPageSize(pageSize)}
+            sortModel={[{ field: sort.split('_')[0], sort: sort.split('_')[1] }]}
+            onSortModelChange={args => {
+              setPageIndex(1);
+              if (args.sortModel[0] && args.sortModel[0].field && args.sortModel[0].sort) {
+                setSort(`${[args.sortModel[0].field]}_${args.sortModel[0].sort}`)
+              } else {
+                setSort(defaultSort);
+              }
+            }}
           />
         </Box>
       </PerfectScrollbar>
@@ -212,4 +147,4 @@ const Results = ({
   );
 };
 
-export default Results;
+export default Table;
