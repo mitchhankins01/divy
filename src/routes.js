@@ -120,6 +120,16 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/holdings',
+        component: lazy(() => import('src/views/holdings/HoldingsListView'))
+      },
+      {
+        exact: true,
+        path: '/app/holdings/create',
+        component: lazy(() => import('src/views/holdings/HoldingsEditView'))
+      },
+      {
+        exact: true,
         path: '/app/transactions',
         component: lazy(() => import('src/views/transaction/TransactionListView'))
       },
