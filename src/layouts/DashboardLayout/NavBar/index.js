@@ -47,8 +47,13 @@ const sections = [
     ]
   },
   {
-    subheader: 'Transactions',
+    subheader: 'Holdings',
     items: [
+      {
+        title: 'Holdings',
+        href: '/app/holdings',
+        icon: ListIcon
+      },
       {
         title: 'Transactions',
         href: '/app/transactions',

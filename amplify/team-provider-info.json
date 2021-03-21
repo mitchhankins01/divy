@@ -18,7 +18,11 @@
       "function": {
         "transactionsLambda": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/transactionsLambda-67352b48484e6b523932-build.zip"
+          "s3Key": "amplify-builds/transactionsLambda-7a627571585161446473-build.zip"
+        },
+        "holdingsLambda": {
+          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+          "s3Key": "amplify-builds/holdingsLambda-7259786d4c4577787255-build.zip"
         }
       }
     }
