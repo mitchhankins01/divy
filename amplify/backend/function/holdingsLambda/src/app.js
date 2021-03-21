@@ -3,7 +3,7 @@ const express = require('express');
 const mysql = require('serverless-mysql');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-
+const axios = require('axios');
 /*
   Middleware
 */
@@ -79,12 +79,6 @@ app.get('/holdings', async function (req, res) {
     );
   }
 
-  // const search = req.query.search ? " AND symbol LIKE '%${req.query.search}%'" : '';
-  // const result = await query(
-  //   `SELECT *, (SELECT COUNT(*) FROM transactions WHERE user_id = ? ${search}) AS count FROM transactions WHERE user_id = ? ${search} ORDER BY ${sort} ${direction} LIMIT ?,?`,
-  //   [req.userId, req.userId, Number(req.query.offset), Number(req.query.limit)]
-  // );
-
   res.json({ success: true, count: result[0] && result[0].count || 0, result });
 });
 
@@ -114,6 +108,38 @@ app.delete('/holdings', async function (req, res) {
   const result = await query('DELETE FROM holdings WHERE id = ? AND user_id = ?', [req.body.id, req.userId])
 
   res.json({ success: true, result });
+});
+
+app.get('/holdings/dividends', async function (req, res) {
+  const list = [];
+  const holdings = await query(`SELECT symbol, quantity FROM holdings WHERE user_id = ?`, [req.userId]);
+
+  for (const { symbol, quantity } of holdings) {
+    try {
+      const { data } = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/dividends/next?token=${process.env.IEX_TOKEN}`);
+
+      if (data.length) {
+        list.push({
+          ...data[0],
+          quantity,
+          allDay: true,
+          title: symbol,
+          start: data[0].paymentDate,
+          extendedProps: {
+            amount: Number(quantity) * Number(data[0].amount)
+          },
+        });
+      }
+    } catch (error) {
+      if (error.response.data === 'Unknown symbol') {
+        list.push({ title: 'warning', description: `Symbol ${symbol} not found.` });
+      } else {
+        res.json({ success: false });
+      }
+    }
+  }
+
+  res.json({ success: true, data: list });
 });
 
 app.listen(3001, function () {

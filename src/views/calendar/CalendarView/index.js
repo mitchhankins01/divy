@@ -23,6 +23,7 @@ import {
   useMediaQuery,
   makeStyles
 } from '@material-ui/core';
+import { API } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
@@ -132,10 +133,13 @@ const CalendarView = () => {
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
 
   const getEvents = useCallback(async () => {
+    console.log('response')
     try {
-      const response = await axios.get('/api/calendar/events');
+      const response = await API.get('holdingsApi', '/holdings');
 
+      console.log(response)
       if (isMountedRef.current) {
+        console.log(response)
         setEvents(response.data.events);
       }
     } catch (err) {
