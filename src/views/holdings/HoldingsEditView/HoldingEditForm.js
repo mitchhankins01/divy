@@ -11,34 +11,13 @@ import {
     Grid,
     TextField,
     makeStyles,
-    Radio,
-    RadioGroup,
-    FormControlLabel,
-    FormControl,
-    FormLabel,
     IconButton
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns'; import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from 'react-router-dom';
 import { API } from 'aws-amplify';
-import { buyColor, sellColor } from '../../../theme';
 
 const useStyles = makeStyles(() => ({
-    root: {},
-    buyRadio: {
-        '&.Mui-checked': {
-            color: buyColor
-        }
-    },
-    sellRadio: {
-        '&.Mui-checked': {
-            color: sellColor
-        }
-    },
     buttonsBar: {
         display: 'flex',
         justifyContent: 'space-between',
