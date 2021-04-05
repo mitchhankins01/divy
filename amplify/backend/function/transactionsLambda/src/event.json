@@ -1,7 +1,0 @@
-{
-  "httpMethod": "GET",
-  "path": "/transactions",
-  "queryStringParameters": {
-    "limit": "10"
-  }
-}
