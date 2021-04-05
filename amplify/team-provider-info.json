@@ -16,14 +16,6 @@
         "divy302d4878302d4878": {}
       },
       "function": {
-        "transactionsLambda": {
-          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/transactionsLambda-7a627571585161446473-build.zip"
-        },
-        "holdingsLambda": {
-          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/holdingsLambda-6457364e372f34793744-build.zip"
-        },
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
           "s3Key": "amplify-builds/dividendsFunction-4b3346743264435a7a39-build.zip"
