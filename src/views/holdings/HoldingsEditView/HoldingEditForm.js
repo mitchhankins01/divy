@@ -15,7 +15,9 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from 'react-router-dom';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
+
+import { createHolding, updateHolding, deleteHolding } from '../../../graphql/mutations';
 
 const useStyles = makeStyles(() => ({
     buttonsBar: {
@@ -32,7 +34,6 @@ export default ({
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
-
     let holding;
     if (history.location.state) {
         holding = { ...history.location.state };
@@ -41,11 +42,13 @@ export default ({
     }
 
     const handleDeleteClick = async () => {
-        await API.del('holdingsApi', '/holdings', { body: { id: holding.id, } });
+        // await API.del('holdingsApi', '/holdings', { body: { id: holding.id, } });
+
+        await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.id } }));
         enqueueSnackbar('Holding Deleted', { variant: 'success' });
         history.push('/app/holdings');
     }
-console.log(holding)
+
     return (
         <Formik
             initialValues={{
@@ -59,7 +62,7 @@ console.log(holding)
                 price: Yup.number().required('Price per share is required'),
                 quantity: Yup.number().required('Number of shares are required'),
                 symbol: Yup.string().max(255).required('Symbol is required'),
-                date: Yup.string()
+                comments: Yup.string()
             })}
             onSubmit={async (values, {
                 resetForm,
@@ -69,24 +72,25 @@ console.log(holding)
             }) => {
                 try {
                     if (holding.id) {
-                        await API.put('holdingsApi', '/holdings', {
-                            body: {
+                        await API.graphql(graphqlOperation(updateHolding, {
+                            input:
+                            {
                                 id: holding.id,
                                 price: values.price,
-                                symbol: values.symbol,
                                 comments: values.comments,
-                                quantity: values.quantity
+                                quantity: values.quantity,
+                                symbol: String(values.symbol).toUpperCase(),
                             }
-                        });
+                        }));
                     } else {
-                        await API.post('holdingsApi', '/holdings', {
-                            body: {
+                        await API.graphql(graphqlOperation(createHolding, {
+                            input: {
                                 price: values.price,
-                                symbol: values.symbol,
                                 comments: values.comments,
-                                quantity: values.quantity
+                                quantity: values.quantity,
+                                symbol: String(values.symbol).toUpperCase(),
                             }
-                        });
+                        }));
                     }
                     resetForm();
                     setStatus({ success: true });
@@ -133,6 +137,7 @@ console.log(holding)
                                         error={Boolean(touched.symbol && errors.symbol)}
                                         fullWidth
                                         helperText={touched.symbol && errors.symbol}
+                                        autoComplete='off'
                                         label="Symbol"
                                         name="symbol"
                                         onBlur={handleBlur}
@@ -193,12 +198,13 @@ console.log(holding)
                                         fullWidth
                                         multiline
                                         helperText={touched.comments && errors.comments}
-                                        label="Comments"
-                                        name="comments"
+                                        label='Comments'
+                                        name='comments'
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.comments}
-                                        variant="outlined"
+                                        variant='outlined'
+                                        autoCapitalize='on'
                                     />
                                 </Grid>
                                 <Grid item md={6} xs={12} />

@@ -8,8 +8,6 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import axios from 'src/utils/axios';
-import moment from 'moment';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -23,11 +21,12 @@ import {
   useMediaQuery,
   makeStyles
 } from '@material-ui/core';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import { listDividends } from '../../../graphql/queries';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,19 +127,18 @@ const CalendarView = () => {
   const isMountedRef = useIsMountedRef();
   const [events, setEvents] = useState([]);
   const { height: windowHeight } = useWindowSize();
-  const [date, setDate] = useState(moment().toDate());
+  const [date, setDate] = useState(new Date());
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
 
   const getEvents = useCallback(async () => {
-    console.log('response')
     try {
-      const response = await API.get('holdingsApi', '/holdings');
+      const { data } = await API.graphql(graphqlOperation(listDividends));
 
-      console.log(response)
       if (isMountedRef.current) {
-        console.log(response)
-        setEvents(response.data.events);
+        const parsed = JSON.parse(data.listDividends);
+        console.log(parsed);
+        // setEvents(parsed);
       }
     } catch (err) {
       console.error(err);

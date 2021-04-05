@@ -13,7 +13,7 @@ import {
   useMediaQuery
 } from '@material-ui/core';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
-
+import { format } from 'date-fns';
 import Header from './Header';
 import Results from './Results';
 import Page from 'src/components/Page';
@@ -52,6 +52,8 @@ export default () => {
     },
     { headerName: 'Quantity', field: 'quantity', flex: 1, hide: mobileDevice && true },
     { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && true },
+    { headerName: 'Created', field: 'createdAt', valueGetter: params => format(new Date(params.row.createdAt), 'MM/dd/yyyy'), flex: 1, hide: mobileDevice && true },
+    { headerName: 'Updated', field: 'updatedAt', valueGetter: params => format(new Date(params.row.updatedAt), 'MM/dd/yyyy'), flex: 1, hide: mobileDevice && true },
     {
       headerName: 'Edit',
       field: 'edit',
@@ -80,10 +82,6 @@ export default () => {
         <Box mt={3}>
           <Results
             columns={columns}
-            apiName='holdingsApi'
-            apiPath='/holdings'
-            defaultSort='symbol_asc'
-            searchText='Symbol'
           />
         </Box>
       </Container>

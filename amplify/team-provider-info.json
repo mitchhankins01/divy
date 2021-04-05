@@ -22,7 +22,11 @@
         },
         "holdingsLambda": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/holdingsLambda-59542f57525046395269-build.zip"
+          "s3Key": "amplify-builds/holdingsLambda-6457364e372f34793744-build.zip"
+        },
+        "dividendsFunction": {
+          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+          "s3Key": "amplify-builds/dividendsFunction-4b3346743264435a7a39-build.zip"
         }
       }
     }
