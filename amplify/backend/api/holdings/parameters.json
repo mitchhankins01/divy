@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "holdings",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authdivy302d4878302d4878",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

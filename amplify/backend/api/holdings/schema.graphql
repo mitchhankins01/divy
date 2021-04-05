@@ -1,0 +1,19 @@
+type Query {
+  listDividends: String! @function(name: "dividendsFunction-${env}")
+}
+
+type Holding @model
+  @key(name: "holdingsByOwner", fields: ["owner"], queryField: "holdingsByOwner")
+  @auth(
+    rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+  ) {
+    id: ID!
+    symbol: String!
+    price: Float!
+    quantity: Int!
+    comments: String!
+    owner: String!
+}

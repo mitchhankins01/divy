@@ -22,6 +22,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import { listHoldings } from '../../../graphql/queries';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
 const Table = ({
   className,
   columns,
-  apiName,
-  apiPath,
-  defaultSort,
-  searchText,
   ...rest
 }) => {
   const classes = useStyles();
@@ -45,28 +42,19 @@ const Table = ({
 
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
-  const [pageSize, setPageSize] = useState(10);
-  const [rowCount, setRowCount] = useState(10);
+  // const [rowCount, setRowCount] = useState(10);
   const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(1);
-  const [sort, setSort] = useState(defaultSort);
 
-  const getData = useCallback(async (limit, offset, sort, search) => {
+  const getData = useCallback(async (search) => {
     try {
       setLoading(true);
-      const response = await API.get(apiName, apiPath, {
-        queryStringParameters: {
-          sort,
-          limit,
-          offset,
-          search
-        }
+      const response = await API.graphql({
+        query: listHoldings, variables: { filter: { symbol: { contains: search.toUpperCase() } } }
       });
 
       if (isMountedRef.current) {
         setLoading(false);
-        setRowCount(response.count || rowCount);
-        setData(response.result);
+        setData(response.data?.listHoldings?.items || [])
       }
     } catch (err) {
       setLoading(false);
@@ -76,15 +64,12 @@ const Table = ({
   }, [isMountedRef]);
 
   useEffect(() => {
-    const limit = pageSize;
-    const offset = (pageIndex - 1) * pageSize;
-
-    getData(limit, offset, sort, search);
-  }, [getData, pageIndex, pageSize, sort, search]);
+    getData(search);
+  }, [getData, search]);
 
   const handleSearchChange = (event) => {
     event.persist();
-    setSearch(event.target.value);
+    setSearch(String(event.target.value).toUpperCase());
   };
 
   const handleClearSearch = (event) => {
@@ -118,7 +103,7 @@ const Table = ({
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={handleClearSearch} >
+                <IconButton onClick={handleClearSearch} disabled={!search.length} >
                   <SvgIcon
                     fontSize="small"
                     color="action"
@@ -126,12 +111,11 @@ const Table = ({
                     <ClearIcon />
                   </SvgIcon>
                 </IconButton>
-
               </InputAdornment>
             )
           }}
           onChange={handleSearchChange}
-          placeholder={searchText}
+          placeholder='Search Holdings'
           value={search}
           variant="outlined"
         />
@@ -141,26 +125,11 @@ const Table = ({
         <Box minWidth={700} style={{ minHeight: '70vh' }}>
           <DataGrid
             rows={data}
-            page={pageIndex}
             pagination={true}
             scrollbarSize={0}
-            pageSize={pageSize}
-            rowCount={rowCount}
-            paginationMode='server'
             columns={columns}
             loading={loading}
             rowsPerPageOptions={[5, 10, 20, 50]}
-            onPageChange={args => setPageIndex(args.page)}
-            onPageSizeChange={({ pageSize }) => setPageSize(pageSize)}
-            sortModel={[{ field: sort.split('_')[0], sort: sort.split('_')[1] }]}
-            onSortModelChange={args => {
-              setPageIndex(1);
-              if (args.sortModel[0] && args.sortModel[0].field && args.sortModel[0].sort) {
-                setSort(`${[args.sortModel[0].field]}_${args.sortModel[0].sort}`)
-              } else {
-                setSort(defaultSort);
-              }
-            }}
           />
         </Box>
       </PerfectScrollbar>

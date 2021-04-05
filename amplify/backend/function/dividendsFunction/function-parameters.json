@@ -1,0 +1,12 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "api": {
+      "holdings": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  }
+}
