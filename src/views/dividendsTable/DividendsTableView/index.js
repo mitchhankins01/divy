@@ -25,7 +25,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
 import { listDividends } from '../../../graphql/queries';
@@ -55,25 +55,35 @@ export default () => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
   const [events, setEvents] = useState([]);
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   const getEvents = useCallback(async () => {
     try {
+      setLoading(true);
       const { data } = await API.graphql(graphqlOperation(listDividends));
 
       if (isMountedRef.current) {
         const parsed = JSON.parse(data.listDividends);
-        console.log(parsed);
         setEvents(parsed);
+        Cache.setItem('listDividends', parsed);
       }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.error(err);
     }
   }, [isMountedRef]);
 
   useEffect(() => {
-    getEvents();
+    const cached = Cache.getItem('listDividends');
+
+    if (cached) {
+      setEvents(cached);
+    } else {
+      getEvents();
+    }
   }, [getEvents]);
 
   const handleSearchChange = (event) => {
@@ -172,8 +182,14 @@ export default () => {
                   pagination={true}
                   scrollbarSize={0}
                   columns={columns}
-                  // loading={loading}
+                  loading={loading}
                   rowsPerPageOptions={[5, 10, 20, 50]}
+                  sortModel={[
+                    {
+                      field: 'symbol',
+                      sort: 'asc',
+                    },
+                  ]}
                 />
               </Box>
             </PerfectScrollbar>

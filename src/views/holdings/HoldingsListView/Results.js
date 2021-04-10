@@ -130,6 +130,12 @@ const Table = ({
             columns={columns}
             loading={loading}
             rowsPerPageOptions={[5, 10, 20, 50]}
+            sortModel={[
+              {
+                field: 'symbol',
+                sort: 'asc',
+              },
+            ]}
           />
         </Box>
       </PerfectScrollbar>
