@@ -60,11 +60,6 @@ const sections = [
         icon: ListIcon
       },
       {
-        title: 'Transactions',
-        href: '/app/transactions',
-        icon: ListIcon
-      },
-      {
         title: 'Chart',
         href: '/app/chart/aapl',
         icon: ShowChartIcon

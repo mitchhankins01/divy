@@ -17,7 +17,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { API } from 'aws-amplify';
+import { API, Cache, graphqlOperation } from 'aws-amplify';
 import { DataGrid } from '@material-ui/data-grid';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
@@ -45,15 +45,17 @@ const Table = ({
   // const [rowCount, setRowCount] = useState(10);
   const [loading, setLoading] = useState(false);
 
-  const getData = useCallback(async (search) => {
+  const getData = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await API.graphql({
-        query: listHoldings, variables: { filter: { symbol: { contains: search.toUpperCase() } } }
-      });
+      // const response = await API.graphql({
+      //   query: listHoldings, variables: { filter: { symbol: { contains: search.toUpperCase() } } }
+      // });
+      const response = await API.graphql(graphqlOperation(listHoldings))
 
       if (isMountedRef.current) {
         setLoading(false);
+        Cache.setItem('listHoldings', response.data?.listHoldings?.items)
         setData(response.data?.listHoldings?.items || [])
       }
     } catch (err) {
@@ -64,8 +66,14 @@ const Table = ({
   }, [isMountedRef]);
 
   useEffect(() => {
-    getData(search);
-  }, [getData, search]);
+    const cached = Cache.getItem('listHoldings');
+
+    if (cached) {
+      setData(cached);
+    } else {
+      getData();
+    }
+  }, [getData]);
 
   const handleSearchChange = (event) => {
     event.persist();
