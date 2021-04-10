@@ -70,6 +70,7 @@ exports.handler = async (event) => {
                     quantity,
                     allDay: true,
                     title: symbol,
+                    id: symbol,
                     start: data[0].paymentDate,
                     extendedProps: {
                         amount: Number(quantity) * Number(data[0].amount)
@@ -78,9 +79,10 @@ exports.handler = async (event) => {
             }
         } catch (error) {
             if (error.response.data === 'Unknown symbol') {
-                list.push({ title: 'warning', description: `Symbol ${symbol} not found.` });
+                list.push({ title: 'warning', description: `Symbol ${symbol} not found.`, id: `${symbol}-${new Date()}` });
             } else {
-                res.json({ success: false });
+                console.log(error);
+                return JSON.stringify([]);
             }
         }
     }

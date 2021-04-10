@@ -140,6 +140,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/dividendstable',
+        component: lazy(() => import('src/views/dividendsTable/DividendsTableView'))
+      },
+      {
+        exact: true,
         path: '/app/calendar',
         component: lazy(() => import('src/views/calendar/CalendarView'))
       },

@@ -138,7 +138,7 @@ const CalendarView = () => {
       if (isMountedRef.current) {
         const parsed = JSON.parse(data.listDividends);
         console.log(parsed);
-        // setEvents(parsed);
+        setEvents(parsed);
       }
     } catch (err) {
       console.error(err);
