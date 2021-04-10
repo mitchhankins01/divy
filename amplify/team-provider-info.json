@@ -1,26 +1,32 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-divy-dev-183939-authRole",
-      "UnauthRoleArn": "arn:aws:iam::361446625769:role/amplify-divy-dev-183939-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::361446625769:role/amplify-divy-dev-183939-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-divy-dev-183939-deployment",
-      "UnauthRoleName": "amplify-divy-dev-183939-unauthRole",
-      "StackName": "amplify-divy-dev-183939",
-      "StackId": "arn:aws:cloudformation:us-east-1:361446625769:stack/amplify-divy-dev-183939/368918d0-796e-11eb-9bbe-0ecdc090d557",
-      "AmplifyAppId": "d5tbxum21y7tb"
-    },
-    "categories": {
-      "auth": {
-        "divy302d4878302d4878": {}
-      },
-      "function": {
-        "dividendsFunction": {
-          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-6c714b734c69555a7135-build.zip"
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-divy-dev-183939-authRole",
+            "UnauthRoleArn": "arn:aws:iam::361446625769:role/amplify-divy-dev-183939-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::361446625769:role/amplify-divy-dev-183939-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-divy-dev-183939-deployment",
+            "UnauthRoleName": "amplify-divy-dev-183939-unauthRole",
+            "StackName": "amplify-divy-dev-183939",
+            "StackId": "arn:aws:cloudformation:us-east-1:361446625769:stack/amplify-divy-dev-183939/368918d0-796e-11eb-9bbe-0ecdc090d557",
+            "AmplifyAppId": "d5tbxum21y7tb"
+        },
+        "categories": {
+            "auth": {
+                "divy302d4878302d4878": {}
+            },
+            "function": {
+                "dividendsFunction": {
+                    "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+                    "s3Key": "amplify-builds/dividendsFunction-6c714b734c69555a7135-build.zip"
+                }
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d5tbxum21y7tb",
+                    "type": "cicd"
+                }
+            }
         }
-      }
     }
-  }
 }

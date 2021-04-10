@@ -50,6 +50,12 @@
       }
     }
   },
-  "hosting": {},
+  "hosting": {
+    "amplifyhosting": {
+      "service": "amplifyhosting",
+      "type": "cicd",
+      "lastPushTimeStamp": "2021-04-10T18:18:35.424Z"
+    }
+  },
   "storage": {}
 }
