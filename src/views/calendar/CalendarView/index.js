@@ -244,7 +244,7 @@ const CalendarView = () => {
         <Paper className={classes.calendar}>
           {loading ? (
             <>
-              <Typography className={classes.loadingText}>Hold on, calculating dividends 🚀</Typography>
+              <Typography className={classes.loadingText}>Hold on, calculating dividends <span aria-label='rocket emoji' role='img'>🚀</span> </Typography>
               <LoadingScreen className={classes.loadingScreen} />
             </>
           ) : (
