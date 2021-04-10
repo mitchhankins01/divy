@@ -4,7 +4,7 @@ import React, {
   useReducer
 } from 'react';
 import jwtDecode from 'jwt-decode';
-import { Auth } from 'aws-amplify';
+import { Auth, Cache } from 'aws-amplify';
 import SplashScreen from 'src/components/SplashScreen';
 import axios from 'src/utils/axios';
 
@@ -93,6 +93,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialAuthState);
 
   const login = async (email, password) => {
+    Cache.clear();
     const response = await Auth.signIn({ username: email, password });
 
     setSession(response.signInUserSession.accessToken.jwtToken);
@@ -116,6 +117,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     Auth.signOut();
+    Cache.clear();
     setSession(null);
     dispatch({ type: 'LOGOUT' });
   };

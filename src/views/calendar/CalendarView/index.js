@@ -19,14 +19,16 @@ import {
   Paper,
   useTheme,
   useMediaQuery,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import { listDividends } from '../../../graphql/queries';
+import LoadingScreen from 'src/components/LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3)
+  },
+  loadingText: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    paddingTop: 20,
+  },
+  loadingScreen: {
   },
   calendar: {
     marginTop: theme.spacing(3),
@@ -126,6 +137,7 @@ const CalendarView = () => {
   const calendarRef = useRef(null);
   const isMountedRef = useIsMountedRef();
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { height: windowHeight } = useWindowSize();
   const [date, setDate] = useState(new Date());
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
@@ -133,20 +145,29 @@ const CalendarView = () => {
 
   const getEvents = useCallback(async () => {
     try {
+      setLoading(true);
       const { data } = await API.graphql(graphqlOperation(listDividends));
 
       if (isMountedRef.current) {
         const parsed = JSON.parse(data.listDividends);
-        console.log(parsed);
         setEvents(parsed);
+        Cache.setItem('listDividends', parsed);
       }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.error(err);
     }
   }, [isMountedRef]);
 
   useEffect(() => {
-    getEvents();
+    const cached = Cache.getItem('listDividends');
+
+    if (cached) {
+      setEvents(cached);
+    } else {
+      getEvents();
+    }
   }, [getEvents]);
 
   const handleDateToday = () => {
@@ -221,26 +242,33 @@ const CalendarView = () => {
           onViewChange={handleViewChange}
         />
         <Paper className={classes.calendar}>
-          <FullCalendar
-            weekends
-            eventLimit
-            header={false}
-            events={events}
-            ref={calendarRef}
-            defaultDate={date}
-            defaultView={view}
-            rerenderDelay={10}
-            allDayMaintainDuration
-            eventClick={handleEventSelect}
-            height={Number(windowHeight) - 185}
-            plugins={[
-              dayGridPlugin,
-              timeGridPlugin,
-              interactionPlugin,
-              listPlugin,
-              timelinePlugin
-            ]}
-          />
+          {loading ? (
+            <>
+              <Typography className={classes.loadingText}>Hold on, calculating dividends 🚀</Typography>
+              <LoadingScreen className={classes.loadingScreen} />
+            </>
+          ) : (
+            <FullCalendar
+              weekends
+              eventLimit
+              header={false}
+              events={events}
+              ref={calendarRef}
+              defaultDate={date}
+              defaultView={view}
+              rerenderDelay={10}
+              allDayMaintainDuration
+              eventClick={handleEventSelect}
+              height={Number(windowHeight) - 185}
+              plugins={[
+                dayGridPlugin,
+                timeGridPlugin,
+                interactionPlugin,
+                listPlugin,
+                timelinePlugin
+              ]}
+            />
+          )}
         </Paper>
       </Container>
     </Page>
