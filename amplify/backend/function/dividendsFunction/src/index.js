@@ -24,6 +24,15 @@ const graphqlClient = new AWSAppSyncClient({
     },
 });
 
+const formatNumber = number => {
+    if (isNaN(Number(number))) {
+      return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+  
+    return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+  
+
 exports.handler = async (event) => {
     const query = gql`query HoldingsByOwner(
         $owner: String
@@ -65,16 +74,16 @@ exports.handler = async (event) => {
             const { data } = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/dividends/next?token=pk_2d68b4fe291941b99ab69c2f105fa629`);
 
             if (data.length) {
+                const amount = formatNumber(Number(quantity) * Number(data[0].amount));
+
                 list.push({
                     ...data[0],
                     quantity,
                     allDay: true,
-                    title: symbol,
+                    title: `${symbol} $${amount}`,
                     id: symbol,
                     start: data[0].paymentDate,
-                    extendedProps: {
-                        amount: Number(quantity) * Number(data[0].amount)
-                    },
+                    extendedProps: { amount },
                 });
             }
         } catch (error) {

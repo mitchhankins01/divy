@@ -20,7 +20,6 @@ import {
   useTheme,
   useMediaQuery,
   makeStyles,
-  Typography
 } from '@material-ui/core';
 import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
@@ -78,10 +77,14 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.dark
     },
     '& .fc-unthemed .fc-event': {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.secondary.contrastText,
-      borderWidth: 0,
-      margin: '5px 5px',
+      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.secondary.main,
+      // color: theme.palette.secondary.contrastText,
+      // borderWidth: 0,
+      border: `1px solid ${theme.palette.secondary.main}`,
+      color: theme.palette.secondary.main,
+      padding: '0 5px',
+      margin: 5,
       opacity: 0.9,
       '& .fc-time': {
         ...theme.typography.h6,
@@ -242,33 +245,27 @@ const CalendarView = () => {
           onViewChange={handleViewChange}
         />
         <Paper className={classes.calendar}>
-          {loading ? (
-            <>
-              <Typography className={classes.loadingText}>Hold on, calculating dividends <span aria-label='rocket emoji' role='img'>🚀</span> </Typography>
-              <LoadingScreen className={classes.loadingScreen} />
-            </>
-          ) : (
-            <FullCalendar
-              weekends
-              eventLimit
-              header={false}
-              events={events}
-              ref={calendarRef}
-              defaultDate={date}
-              defaultView={view}
-              rerenderDelay={10}
-              allDayMaintainDuration
-              eventClick={handleEventSelect}
-              height={Number(windowHeight) - 185}
-              plugins={[
-                dayGridPlugin,
-                timeGridPlugin,
-                interactionPlugin,
-                listPlugin,
-                timelinePlugin
-              ]}
-            />
-          )}
+          {loading && <LoadingScreen />}
+          <FullCalendar
+            weekends
+            eventLimit
+            header={false}
+            events={events}
+            ref={calendarRef}
+            defaultDate={date}
+            defaultView={view}
+            rerenderDelay={10}
+            allDayMaintainDuration
+            eventClick={handleEventSelect}
+            height={Number(windowHeight) - 185}
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              interactionPlugin,
+              listPlugin,
+              timelinePlugin
+            ]}
+          />
         </Paper>
       </Container>
     </Page>
