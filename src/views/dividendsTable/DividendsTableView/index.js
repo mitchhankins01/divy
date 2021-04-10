@@ -186,7 +186,7 @@ export default () => {
                   rowsPerPageOptions={[5, 10, 20, 50]}
                   sortModel={[
                     {
-                      field: 'symbol',
+                      field: 'paymentDate',
                       sort: 'asc',
                     },
                   ]}

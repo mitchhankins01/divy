@@ -20,7 +20,7 @@ import clsx from 'clsx';
 import { API, Cache, graphqlOperation } from 'aws-amplify';
 import { DataGrid } from '@material-ui/data-grid';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-
+import { useDebounce } from 'use-debounce';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { listHoldings } from '../../../graphql/queries';
 
@@ -44,6 +44,7 @@ const Table = ({
   const [search, setSearch] = useState('');
   // const [rowCount, setRowCount] = useState(10);
   const [loading, setLoading] = useState(false);
+  const [debouncedSearch] = useDebounce(search, 1000);
 
   const getData = useCallback(async () => {
     try {
@@ -74,6 +75,15 @@ const Table = ({
       getData();
     }
   }, [getData]);
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      const filtered = Cache.getItem('listHoldings').filter(each => each.symbol.includes(debouncedSearch))
+      setData(filtered);
+    } else {
+      getData()
+    }
+  }, [debouncedSearch, getData]);
 
   const handleSearchChange = (event) => {
     event.persist();
