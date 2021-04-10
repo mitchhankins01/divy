@@ -44,6 +44,11 @@ const sections = [
         icon: CalendarIcon,
         href: '/app/calendar'
       },
+      {
+        title: 'Table',
+        icon: ListIcon,
+        href: '/app/dividendstable'
+      },
     ]
   },
   {
