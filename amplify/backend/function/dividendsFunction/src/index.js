@@ -26,12 +26,74 @@ const graphqlClient = new AWSAppSyncClient({
 
 const formatNumber = number => {
     if (isNaN(Number(number))) {
-      return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
+        return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
     }
-  
+
     return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
-  }
-  
+}
+
+const runIex = async (data) => {
+    const list = [];
+
+    for (const { symbol, quantity } of data.holdingsByOwner.items) {
+        try {
+            const { data } = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol.replace('/', '.')}/dividends/next?token=pk_19b81527fa064e4a8c9f709b3174317d`);
+
+            console.log(data)
+            if (data.length) {
+                const amount = formatNumber(Number(quantity) * Number(data[0].amount));
+
+                list.push({
+                    ...data[0],
+                    quantity,
+                    allDay: true,
+                    title: `${symbol} $${amount}`,
+                    id: symbol,
+                    start: data[0].paymentDate,
+                    extendedProps: { amount },
+                });
+            }
+        } catch (error) {
+            if (error.response.data === 'Unknown symbol') {
+                list.push({ title: 'warning', description: `Symbol ${symbol} not found.`, id: `${symbol}-${new Date()}` });
+            } else {
+                console.log(error);
+                return JSON.stringify([]);
+            }
+        }
+    }
+
+    return JSON.stringify(list);
+}
+
+const runBen = async (data) => {
+    const list = [];
+    const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
+    const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}&parameters[date_from]=2021-07-01`);
+    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}&parameters[date_from]=2021-07-01&parameters[date_to]=2021-07-31`);
+    console.log(benzingaData)
+
+
+    for (const { dividend, ex_dividend_date, payable_date, ticker } of benzingaData['dividends']) {
+        const match = data.holdingsByOwner.items.find(item => item.symbol === ticker);
+        const amount = formatNumber(Number(match.quantity) * Number(dividend));
+
+        list.push({
+            // ...data[0],
+            quantity: match.quantity,
+            allDay: true,
+            title: `${ticker} $${amount}`,
+            id: `${ticker} $${payable_date}`,
+            symbol: ticker,
+            start: payable_date,
+            paymentDate: payable_date,
+            extendedProps: { amount },
+        });
+    }
+
+    return JSON.stringify(list);
+}
+
 
 exports.handler = async (event) => {
     const query = gql`query HoldingsByOwner(
@@ -68,35 +130,8 @@ exports.handler = async (event) => {
         variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'] }
     });
 
-    const list = [];
-    for (const { symbol, quantity } of data.holdingsByOwner.items) {
-        try {
-            const { data } = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/dividends/next?token=pk_2d68b4fe291941b99ab69c2f105fa629`);
-
-            if (data.length) {
-                const amount = formatNumber(Number(quantity) * Number(data[0].amount));
-
-                list.push({
-                    ...data[0],
-                    quantity,
-                    allDay: true,
-                    title: `${symbol} $${amount}`,
-                    id: symbol,
-                    start: data[0].paymentDate,
-                    extendedProps: { amount },
-                });
-            }
-        } catch (error) {
-            if (error.response.data === 'Unknown symbol') {
-                list.push({ title: 'warning', description: `Symbol ${symbol} not found.`, id: `${symbol}-${new Date()}` });
-            } else {
-                console.log(error);
-                return JSON.stringify([]);
-            }
-        }
-    }
-
-    return JSON.stringify(list);
+    return runIex(data);
+    // return runBen(data);
 };
 
 // const documentClient = new AWS.DynamoDB.DocumentClient();

@@ -6,6 +6,11 @@ export const listDividends = /* GraphQL */ `
     listDividends
   }
 `;
+export const listStatistics = /* GraphQL */ `
+  query ListStatistics {
+    listStatistics
+  }
+`;
 export const getHolding = /* GraphQL */ `
   query GetHolding($id: ID!) {
     getHolding(id: $id) {
