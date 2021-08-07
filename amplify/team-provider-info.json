@@ -24,12 +24,6 @@
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
           "s3Key": "amplify-builds/statisticsFunction-6a4631494b4b58703578-build.zip"
         }
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d5tbxum21y7tb",
-          "type": "cicd"
-        }
       }
     }
   }
