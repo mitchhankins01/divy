@@ -123,9 +123,9 @@ export default () => {
     },
     // { headerName: 'Amount', field: 'amount', flex: 1, valueGetter: params => `$${params.row.extendedProps.amount}`, hide: mobileDevice && true },
     { headerName: 'Pay Date', field: 'paymentDate', flex: 1, valueGetter: params => params.row.paymentDate, hide: mobileDevice && true },
-    { headerName: 'Ex Date', field: 'exDate', flex: 1, valueGetter: params => params.row.exDate, hide: mobileDevice && true },
+    { headerName: 'Ex Date', field: 'exDate', flex: 1, valueGetter: params => params.row.ex_dividend_date, hide: mobileDevice && true },
     { headerName: 'Declared Date', field: 'declared', flex: 1, valueGetter: params => params.row.declaredDate, hide: mobileDevice && true },
-    { headerName: 'Record Date', field: 'recordDate', flex: 1, valueGetter: params => params.row.recordDate, hide: mobileDevice && true },
+    { headerName: 'Record Date', field: 'recordDate', flex: 1, valueGetter: params => params.row.record_date, hide: mobileDevice && true },
   ];
 
   return (
