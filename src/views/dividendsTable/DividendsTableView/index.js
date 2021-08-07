@@ -77,7 +77,8 @@ export default () => {
   }, [isMountedRef]);
 
   useEffect(() => {
-    const cached = Cache.getItem('listDividends');
+    // const cached = Cache.getItem('listDividends');
+    const cached = false;
 
     if (cached) {
       setEvents(cached);
@@ -107,6 +108,7 @@ export default () => {
 // symbol: "MNR"
 
   const columns = [
+    { headerName: 'Amount', field: 'amount', flex: 1, align: 'right', valueGetter: params => `$${formatNumber(params.row.extendedProps.amount)}`, hide: mobileDevice && true },
     {
       headerName: 'Symbol', field: 'symbol', flex: 1, renderCell: cell => (
         <Button
@@ -119,7 +121,6 @@ export default () => {
         </Button>
       )
     },
-    { headerName: 'Amount', field: 'amount', flex: 1, valueGetter: params => `$${formatNumber(params.row.extendedProps.amount)}`, hide: mobileDevice && true },
     // { headerName: 'Amount', field: 'amount', flex: 1, valueGetter: params => `$${params.row.extendedProps.amount}`, hide: mobileDevice && true },
     { headerName: 'Pay Date', field: 'paymentDate', flex: 1, valueGetter: params => params.row.paymentDate, hide: mobileDevice && true },
     { headerName: 'Ex Date', field: 'exDate', flex: 1, valueGetter: params => params.row.exDate, hide: mobileDevice && true },

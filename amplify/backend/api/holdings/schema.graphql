@@ -1,5 +1,6 @@
 type Query {
   listDividends: String! @function(name: "dividendsFunction-${env}")
+  listStatistics: String! @function(name: "statisticsFunction-${env}")
 }
 
 type Holding @model
