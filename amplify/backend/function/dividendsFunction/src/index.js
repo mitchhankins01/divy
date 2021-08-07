@@ -69,17 +69,18 @@ const runIex = async (data) => {
 const runBen = async (data) => {
     const list = [];
     const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
-    const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}&parameters[date_from]=2021-07-01`);
-    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}&parameters[date_from]=2021-07-01&parameters[date_to]=2021-07-31`);
+    //upper case
+    const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}`);
+    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}&parameters[date_from]=2021-07-01`);
     console.log(benzingaData)
 
 
-    for (const { dividend, ex_dividend_date, payable_date, ticker } of benzingaData['dividends']) {
+    for (const { dividend, payable_date, ticker, ...rest } of benzingaData['dividends']) {
         const match = data.holdingsByOwner.items.find(item => item.symbol === ticker);
         const amount = formatNumber(Number(match.quantity) * Number(dividend));
 
         list.push({
-            // ...data[0],
+            ...rest,
             quantity: match.quantity,
             allDay: true,
             title: `${ticker} $${amount}`,
@@ -130,8 +131,8 @@ exports.handler = async (event) => {
         variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'] }
     });
 
-    return runIex(data);
-    // return runBen(data);
+    // return runIex(data);
+    return runBen(data);
 };
 
 // const documentClient = new AWS.DynamoDB.DocumentClient();
