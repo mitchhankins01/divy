@@ -29,13 +29,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const UnrealizedGain = ({ className, ...rest }) => {
+export default ({ className, marketValue, costBasis, ...rest }) => {
   const classes = useStyles();
-  const data = {
-    value: '-4,328.38',
-    currency: '$',
-    difference: -4
-  };
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  const gain = marketValue - costBasis;
+  const difference = Math.round((gain / costBasis) * 100);
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -59,15 +61,14 @@ const UnrealizedGain = ({ className, ...rest }) => {
             variant="h3"
             color="textPrimary"
           >
-            {data.currency}
-            {data.value}
+            {formatter.format(gain)}
           </Typography>
           <Label
             className={classes.label}
-            color={data.difference > 0 ? 'success' : 'error'}
+            color={gain > 0 ? 'success' : 'error'}
           >
-            {data.difference > 0 ? '+' : ''}
-            {data.difference}
+            {difference > 0 ? '+' : ''}
+            {difference}
             %
           </Label>
         </Box>
@@ -78,5 +79,3 @@ const UnrealizedGain = ({ className, ...rest }) => {
     </Card>
   );
 };
-
-export default UnrealizedGain;

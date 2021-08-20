@@ -28,13 +28,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalDividends = ({ className, ...rest }) => {
+export default ({ className, costBasis, ...rest }) => {
   const classes = useStyles();
-  const data = {
-    value: '7,894.28',
-    difference: -10,
-    currency: '$',
-  };
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
 
   return (
     <Card
@@ -48,7 +47,7 @@ const TotalDividends = ({ className, ...rest }) => {
           variant="overline"
           color="textSecondary"
         >
-          Total Dividends Received
+          Cost Basis
         </Typography>
         <Box
           display="flex"
@@ -59,17 +58,8 @@ const TotalDividends = ({ className, ...rest }) => {
             variant="h3"
             color="textPrimary"
           >
-            {data.currency}
-            {data.value}
+            {formatter.format(costBasis)}
           </Typography>
-          {/* <Label
-            className={classes.label}
-            color={data.difference > 0 ? 'success' : 'error'}
-          >
-            {data.difference > 0 ? '+' : ''}
-            {data.difference}
-            %
-          </Label> */}
         </Box>
       </Box>
       <Avatar className={classes.avatar}>
@@ -79,4 +69,3 @@ const TotalDividends = ({ className, ...rest }) => {
   );
 };
 
-export default TotalDividends;

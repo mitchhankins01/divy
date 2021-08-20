@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const RoiPerCustomer = ({ className, ...rest }) => {
+export default ({ className, marketValue, ...rest }) => {
   const classes = useStyles();
-  const data = {
-    value: '153,453.32',
-    currency: '$'
-  };
-
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -56,8 +56,7 @@ const RoiPerCustomer = ({ className, ...rest }) => {
             color="inherit"
             variant="h3"
           >
-            {data.currency}
-            {data.value}
+            {formatter.format(marketValue)}
           </Typography>
         </Box>
       </Box>
@@ -70,5 +69,3 @@ const RoiPerCustomer = ({ className, ...rest }) => {
     </Card>
   );
 };
-
-export default RoiPerCustomer;

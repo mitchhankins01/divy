@@ -1,2 +1,6 @@
 prevent duplicate holdings
 testing
+tickers . / replacement
+autocomplete tickers
+change price to buyprice db
+UI add holding doesn't let price be int only float (so no 1754.00)
