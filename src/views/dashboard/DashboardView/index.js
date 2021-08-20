@@ -1,20 +1,26 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback
+} from 'react';
 import {
   Container,
   Grid,
   makeStyles
 } from '@material-ui/core';
+import { API, graphqlOperation } from 'aws-amplify';
 import Page from 'src/components/Page';
+import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Header from './Header';
 import LatestProjects from './LatestProjects';
-import TotalDividends from './TotalDividends';
+import CostBasis from './CostBasis';
 import MonthlyOverview from './MonthlyOverview';
 import Allocation from './Allocation';
 import MarketValue from './MarketValue';
 import IncomeThisMonth from './IncomeThisMonth';
 import TeamTasks from './TeamTasks';
 import UnrealizedGain from './UnrealizedGain';
-
+import { listStatistics } from '../../../graphql/queries';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,9 +31,47 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 const DashboardView = () => {
   const classes = useStyles();
-  // const response = await API.get('nodeapi', '/hello');
+  const isMountedRef = useIsMountedRef();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [costBasis, setCostBasis] = useState(0);
+  const [marketValue, setMarketValue] = useState(0);
+
+  const getEvents = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await API.graphql(graphqlOperation(listStatistics));
+
+      if (isMountedRef.current) {
+        const parsed = JSON.parse(data.listStatistics);
+        console.log('parsed', parsed)
+        setData(parsed);
+
+        // calculate market value and cost basis
+        let _costBasis = 0;
+        let _marketValue = 0;
+        parsed.forEach(holding => {
+          _costBasis += holding.quantity * holding.buyPrice;
+          _marketValue += holding.quantity * holding.marketPrice;
+        });
+        setCostBasis(_costBasis);
+        setMarketValue(_marketValue);
+      }
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.error(err);
+    }
+  }, [isMountedRef]);
+
+  useEffect(() => {
+    getEvents();
+  }, [getEvents]);
+
 
   return (
     <Page
@@ -54,7 +98,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <TotalDividends />
+            <CostBasis costBasis={costBasis} />
           </Grid>
           <Grid
             item
@@ -62,7 +106,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <UnrealizedGain />
+            <UnrealizedGain marketValue={marketValue} costBasis={costBasis} />
           </Grid>
           <Grid
             item
@@ -70,7 +114,7 @@ const DashboardView = () => {
             sm={6}
             xs={12}
           >
-            <MarketValue />
+            <MarketValue marketValue={marketValue} />
           </Grid>
           <Grid
             item
