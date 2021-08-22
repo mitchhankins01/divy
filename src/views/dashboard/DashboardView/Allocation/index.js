@@ -70,10 +70,7 @@ export default ({ className, data, marketValue, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <CardHeader
-        // action={<GenericMoreButton />}
-        title='Portfolio Allocation'
-      />
+      <CardHeader title='Portfolio Allocation' />
       <Divider />
       <PerfectScrollbar>
         <Box p={3} className={classes.chart}>
@@ -90,11 +87,6 @@ export default ({ className, data, marketValue, ...rest }) => {
                   backgroundColor: palette(['tol-dv'], percentagesOfPortfolio.length).map(function (hex) {
                     return '#' + hex;
                   }),
-                //   backgroundColor: randomColor({
-                //     count: percentagesOfPortfolio.length,
-                //     // hue: 'green'
-                //     luminosity: 'light',
-                //  })
                 }
               ],
             }}

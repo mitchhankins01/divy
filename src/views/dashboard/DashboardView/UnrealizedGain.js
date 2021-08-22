@@ -8,8 +8,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-// import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import Label from 'src/components/Label';
+import formatter from '../../../utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, marketValue, costBasis, ...rest }) => {
   const classes = useStyles();
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
   const gain = marketValue - costBasis;
   const difference = Math.round((gain / costBasis) * 100);
 
