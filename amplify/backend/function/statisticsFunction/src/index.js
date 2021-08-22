@@ -94,7 +94,7 @@ exports.handler = async (event) => {
             const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
 
             list.push({
-                // ...rest,
+                rest,
                 symbol,
                 buyPrice: match.price,
                 marketPrice: regularMarketPrice,

@@ -84,34 +84,34 @@ const DashboardView = () => {
           container
           spacing={3}
         >
-          <Grid
+          {/* <Grid
             item
             lg={3}
             sm={6}
             xs={12}
           >
             <IncomeThisMonth />
-          </Grid>
+          </Grid> */}
           <Grid
             item
-            lg={3}
-            sm={6}
+            lg={4}
+            sm={4}
             xs={12}
           >
             <CostBasis costBasis={costBasis} />
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
+            lg={4}
+            sm={4}
             xs={12}
           >
             <UnrealizedGain marketValue={marketValue} costBasis={costBasis} />
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
+            lg={4}
+            sm={4}
             xs={12}
           >
             <MarketValue marketValue={marketValue} />
