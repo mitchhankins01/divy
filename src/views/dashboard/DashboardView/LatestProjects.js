@@ -40,7 +40,9 @@ const technologyMap = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    height: 654
+  },
   technology: {
     height: 30,
     '& + &': {
@@ -76,8 +78,8 @@ const LatestProjects = ({ className, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        action={<GenericMoreButton />}
-        title="Latest Projects"
+        // action={<GenericMoreButton />}
+        title='Top Gainers'
       />
       <Divider />
       <PerfectScrollbar>

@@ -118,17 +118,17 @@ const DashboardView = () => {
           </Grid>
           <Grid
             item
-            lg={9}
+            lg={4}
             xs={12}
           >
-            <MonthlyOverview />
+            <LatestProjects />
           </Grid>
           <Grid
             item
-            lg={3}
+            lg={8}
             xs={12}
           >
-            <Allocation />
+            <Allocation data={data} marketValue={marketValue} />
           </Grid>
           <Grid
             item
@@ -144,7 +144,7 @@ const DashboardView = () => {
             xl={8}
             xs={12}
           >
-            <LatestProjects />
+            <MonthlyOverview />
           </Grid>
         </Grid>
       </Container>

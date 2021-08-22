@@ -1,7 +1,6 @@
 import React, {
   useState,
   useEffect,
-  useCallback
 } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
@@ -10,44 +9,61 @@ import {
   Card,
   CardHeader,
   Divider,
-  makeStyles
+  makeStyles,
+  useTheme
 } from '@material-ui/core';
-import GenericMoreButton from 'src/components/GenericMoreButton';
-import axios from 'src/utils/axios';
+import { Pie } from 'react-chartjs-2';
+import "chartjs-plugin-piechart-outlabels";
+import palette from 'google-palette';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import Chart from './Chart';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   chart: {
-    height: 385
+    height: 600,
   },
 }));
 
-const EarningsSegmentation = ({ className, ...rest }) => {
+export default ({ className, data, marketValue, ...rest }) => {
+  const theme = useTheme();
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
-  const [earnings, setEarnings] = useState(null);
-
-  const getEarnings = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/reports/earnings');
-
-      if (isMountedRef.current) {
-        setEarnings(response.data.earnings);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMountedRef]);
+  const [labels, setLabels] = useState([]);
+  const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
 
   useEffect(() => {
-    getEarnings();
-  }, [getEarnings]);
+    const _labels = [];
+    const _percentagesOfPortfolio = [];
 
-  if (!earnings) {
-    return null;
-  }
+    if (isMountedRef.current && marketValue > 0) {
+      data.forEach((holding, i) => {
+        const holdingMarketValue = Number(holding.quantity) * Number(holding.marketPrice);
+        const percentageOfPortfolio = Number((Number(holdingMarketValue) / Number(marketValue)) * 100).toFixed(1);
+        _labels.push(holding.symbol);
+        _percentagesOfPortfolio.push(percentageOfPortfolio);
+      });
+
+      setLabels(_labels);
+      setPercentagesOfPortfolio(_percentagesOfPortfolio);
+    }
+  }, [isMountedRef, data, marketValue]);
+
+  const options = {
+    responsive: true,
+    cutoutPercentage: 10,
+    zoomOutPercentage: 80,
+    maintainAspectRatio: false,
+    layout: { padding: 150, },
+    legend: {  display: false, position: 'left' },
+    plugins: {
+      outlabels: {
+        color: "black",
+        text: ({ dataset, dataIndex, labels }) => {
+          return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
+        },
+      }
+    }
+  };
 
   return (
     <Card
@@ -55,20 +71,38 @@ const EarningsSegmentation = ({ className, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        action={<GenericMoreButton />}
-        title='Allocation'
+        // action={<GenericMoreButton />}
+        title='Portfolio Allocation'
       />
       <Divider />
       <PerfectScrollbar>
-        <Box
-          p={3}
-          // minHeight={320}
-        >
-          <Chart data={earnings} className={classes.chart} />
+        <Box p={3} className={classes.chart}>
+          <Pie
+            options={options}
+            data={{
+              labels: labels,
+              datasets: [
+                {
+                  data: percentagesOfPortfolio,
+                  borderWidth: 2,
+                  borderColor: theme.palette.background.default,
+                  hoverBorderColor: theme.palette.background.default,
+                  backgroundColor: palette(['tol-dv'], percentagesOfPortfolio.length).map(function (hex) {
+                    return '#' + hex;
+                  }),
+                //   backgroundColor: randomColor({
+                //     count: percentagesOfPortfolio.length,
+                //     // hue: 'green'
+                //     luminosity: 'light',
+                //  })
+                }
+              ],
+            }}
+          />
         </Box>
       </PerfectScrollbar>
     </Card>
   );
 };
 
-export default EarningsSegmentation;
+
