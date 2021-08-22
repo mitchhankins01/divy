@@ -8,6 +8,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import HistoryIcon from '@material-ui/icons/History';
+import formatter from '../../../utils/numberFormatter';
 // import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, costBasis, ...rest }) => {
   const classes = useStyles();
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   return (
     <Card

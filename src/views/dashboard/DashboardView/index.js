@@ -12,7 +12,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import Page from 'src/components/Page';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Header from './Header';
-import LatestProjects from './LatestProjects';
+import MarketValueGrid from './MarketValueGrid';
 import CostBasis from './CostBasis';
 import MonthlyOverview from './MonthlyOverview';
 import Allocation from './Allocation';
@@ -118,17 +118,17 @@ const DashboardView = () => {
           </Grid>
           <Grid
             item
-            lg={4}
-            xs={12}
-          >
-            <LatestProjects />
-          </Grid>
-          <Grid
-            item
             lg={8}
             xs={12}
           >
             <Allocation data={data} marketValue={marketValue} />
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            xs={12}
+          >
+            <MarketValueGrid data={data} marketValue={marketValue}  />
           </Grid>
           <Grid
             item

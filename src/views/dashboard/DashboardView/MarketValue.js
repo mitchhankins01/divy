@@ -8,6 +8,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import formatter from '../../../utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, marketValue, ...rest }) => {
   const classes = useStyles();
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
   
   return (
     <Card

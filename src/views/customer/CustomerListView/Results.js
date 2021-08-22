@@ -31,7 +31,6 @@ import {
   ArrowRight as ArrowRightIcon,
   Search as SearchIcon
 } from 'react-feather';
-import getInitials from 'src/utils/getInitials';
 
 const tabs = [
   {
@@ -385,7 +384,7 @@ const Results = ({
                           className={classes.avatar}
                           src={customer.avatar}
                         >
-                          {getInitials(customer.name)}
+                          {/* {getInitials(customer.name)} */}
                         </Avatar>
                         <div>
                           <Link

@@ -20,7 +20,7 @@ const Header = ({ className, ...rest }) => {
   return (
     <Grid
       container
-      spacing={3}
+      spacing={0}
       justify="space-between"
       className={clsx(classes.root, className)}
       {...rest}
@@ -44,13 +44,7 @@ const Header = ({ className, ...rest }) => {
           >
             Dashboard
           </Typography>
-        </Breadcrumbs>
-        <Typography
-          variant="h3"
-          color="textPrimary"
-        >
-          Your Dashboard
-        </Typography>
+        </Breadcrumbs>x
       </Grid>
     </Grid>
   );

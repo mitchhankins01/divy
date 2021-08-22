@@ -93,12 +93,19 @@ exports.handler = async (event) => {
         for (const { symbol, regularMarketPrice, ...rest } of yahooData.quoteResponse.result) {
             const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
 
+            const costBasis = match.price * match.quantity;
+            const marketValue = regularMarketPrice * match.quantity;
+            const gain = marketValue - costBasis;
+
             list.push({
                 rest,
+                gain,
                 symbol,
+                costBasis,
+                marketValue,
                 buyPrice: match.price,
-                marketPrice: regularMarketPrice,
                 quantity: match.quantity,
+                marketPrice: regularMarketPrice,
                 id: `${symbol}.${regularMarketPrice}`,
             });
         }
