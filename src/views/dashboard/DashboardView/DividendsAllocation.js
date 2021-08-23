@@ -27,8 +27,8 @@ export default ({ className, data, totalDividends, ...rest }) => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
+  const [chartType, setChartType] = useState('horizontalBar');
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
-  const [dividendsChartType, setDividendsChartType] = useState('horizontalBar');
 
   useEffect(() => {
     const _labels = [];
@@ -56,10 +56,7 @@ export default ({ className, data, totalDividends, ...rest }) => {
       <CardHeader
         title='Dividends Allocation'
         action={
-          <Select
-            value={dividendsChartType}
-            onChange={e => setDividendsChartType(e.target.value)}
-          >
+          <Select value={chartType} onChange={e => setChartType(e.target.value)}>
             <MenuItem value={'pie'}>Pie Chart</MenuItem>
             <MenuItem value={'doughnut'}>Doughnut Chart</MenuItem>
             <MenuItem value={'bar'}>Vertical Bar Chart</MenuItem>
@@ -72,7 +69,7 @@ export default ({ className, data, totalDividends, ...rest }) => {
         <Box p={3} className={classes.chart}>
           <Charts
             labels={labels}
-            type={dividendsChartType}
+            type={chartType}
             data={percentagesOfDividends}
           />
         </Box>

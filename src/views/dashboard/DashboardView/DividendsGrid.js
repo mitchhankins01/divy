@@ -42,7 +42,7 @@ export default ({ className, data, totalDividends, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title='Dividends' />
+      <CardHeader title='Dividend Income' />
       <Divider />
       <Box style={{ height: 600 }}>
         <DataGrid

@@ -10,12 +10,11 @@ import {
   CardHeader,
   Divider,
   makeStyles,
-  useTheme
+  Select,
+  MenuItem,
 } from '@material-ui/core';
-import { Pie } from 'react-chartjs-2';
-import "chartjs-plugin-piechart-outlabels";
-import palette from 'google-palette';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import Charts from './Charts';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -25,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({ className, data, marketValue, ...rest }) => {
-  const theme = useTheme();
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
+  const [chartType, setChartType] = useState('pie');
   const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
 
   useEffect(() => {
@@ -48,48 +47,29 @@ export default ({ className, data, marketValue, ...rest }) => {
     }
   }, [isMountedRef, data, marketValue]);
 
-  const options = {
-    responsive: true,
-    cutoutPercentage: 10,
-    zoomOutPercentage: 80,
-    maintainAspectRatio: false,
-    layout: { padding: 150, },
-    legend: {  display: false, position: 'left' },
-    plugins: {
-      outlabels: {
-        color: "black",
-        text: ({ dataset, dataIndex, labels }) => {
-          return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
-        },
-      }
-    }
-  };
-
   return (
     <Card
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <CardHeader title='Portfolio Allocation' />
+      <CardHeader
+        title='Portfolio Allocation'
+        action={
+          <Select value={chartType} onChange={e => setChartType(e.target.value)}>
+            <MenuItem value={'pie'}>Pie Chart</MenuItem>
+            <MenuItem value={'doughnut'}>Doughnut Chart</MenuItem>
+            <MenuItem value={'bar'}>Vertical Bar Chart</MenuItem>
+            <MenuItem value={'horizontalBar'}>Horizontal Bar Chart</MenuItem>
+          </Select>
+        }
+      />
       <Divider />
       <PerfectScrollbar>
         <Box p={3} className={classes.chart}>
-          <Pie
-            options={options}
-            data={{
-              labels: labels,
-              datasets: [
-                {
-                  data: percentagesOfPortfolio,
-                  borderWidth: 2,
-                  borderColor: theme.palette.background.default,
-                  hoverBorderColor: theme.palette.background.default,
-                  backgroundColor: palette(['tol-dv'], percentagesOfPortfolio.length).map(function (hex) {
-                    return '#' + hex;
-                  }),
-                }
-              ],
-            }}
+        <Charts
+            labels={labels}
+            type={chartType}
+            data={percentagesOfPortfolio}
           />
         </Box>
       </PerfectScrollbar>
