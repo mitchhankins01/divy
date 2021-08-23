@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useEffect,
-  useState
 } from 'react';
 // import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
@@ -38,24 +37,7 @@ export default ({ className, data, marketValue, ...rest }) => {
   const theme = useTheme();
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
-  const [projects, setProjects] = useState([]);
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const getProjects = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/reports/latest-projects');
-
-      if (isMountedRef.current) {
-        setProjects(response.data.projects);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    getProjects();
-  }, [getProjects]);
 
   const columns = [
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
