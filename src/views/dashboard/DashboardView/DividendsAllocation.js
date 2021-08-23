@@ -10,12 +10,9 @@ import {
   CardHeader,
   Divider,
   makeStyles,
-  useTheme
 } from '@material-ui/core';
-import { Pie, Bar, HorizontalBar } from 'react-chartjs-2';
-import "chartjs-plugin-piechart-outlabels";
-import palette from 'google-palette';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import Charts from './Charts';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -24,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ className, data, marketValue, totalDividends, ...rest }) => {
-  const theme = useTheme();
+export default ({ className, data, totalDividends, ...rest }) => {
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
@@ -49,13 +45,6 @@ export default ({ className, data, marketValue, totalDividends, ...rest }) => {
     }
   }, [isMountedRef, data, totalDividends]);
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: { display: false, position: 'left' },
-    scales: { xAxes: [{ ticks: { callback: value => `${value}%` } }] },
-  };
-
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -65,22 +54,10 @@ export default ({ className, data, marketValue, totalDividends, ...rest }) => {
       <Divider />
       <PerfectScrollbar>
         <Box p={3} className={classes.chart}>
-          <HorizontalBar
-            options={options}
-            data={{
-              labels: labels,
-              datasets: [
-                {
-                  data: percentagesOfDividends,
-                  borderWidth: 2,
-                  borderColor: theme.palette.background.default,
-                  hoverBorderColor: theme.palette.background.default,
-                  backgroundColor: palette(['tol-dv'], percentagesOfDividends.length).map(function (hex) {
-                    return '#' + hex;
-                  }),
-                }
-              ],
-            }}
+          <Charts
+            type='bar'
+            labels={labels}
+            data={percentagesOfDividends}
           />
         </Box>
       </PerfectScrollbar>

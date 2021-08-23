@@ -111,7 +111,7 @@ const DashboardView = () => {
           >
             <MarketValue marketValue={marketValue} />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={8}
             xs={12}
@@ -124,7 +124,7 @@ const DashboardView = () => {
             xs={12}
           >
             <MarketValueGrid data={data} marketValue={marketValue}  />
-          </Grid>
+          </Grid> */}
           <Grid
             item
             lg={4}
@@ -137,7 +137,7 @@ const DashboardView = () => {
             lg={8}
             xs={12}
           >
-            <DividendsAllocation data={data} marketValue={marketValue} totalDividends={totalDividends} />
+            <DividendsAllocation data={data} totalDividends={totalDividends} />
           </Grid>
         </Grid>
       </Container>
