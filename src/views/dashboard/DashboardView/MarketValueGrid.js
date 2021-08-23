@@ -1,10 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-} from 'react';
-// import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
 import clsx from 'clsx';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { DataGrid } from '@material-ui/data-grid';
 import {
   Box,
@@ -12,12 +7,7 @@ import {
   CardHeader,
   Divider,
   makeStyles,
-  useMediaQuery,
-  useTheme
 } from '@material-ui/core';
-import axios from 'src/utils/axios';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import Label from 'src/components/Label';
 import formatter from '../../../utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,11 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({ className, data, marketValue, ...rest }) => {
-  const theme = useTheme();
   const classes = useStyles();
-  const isMountedRef = useIsMountedRef();
-  const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
   const columns = [
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
     // { headerName: 'Cost Basis', field: 'costBasis', flex: 1, renderCell: cell => formatter.format(cell.value), hide: isMobileDevice },
