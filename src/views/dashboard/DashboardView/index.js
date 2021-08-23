@@ -15,10 +15,9 @@ import Header from './Header';
 import MarketValueGrid from './MarketValueGrid';
 import CostBasis from './CostBasis';
 import MonthlyOverview from './MonthlyOverview';
-import Allocation from './Allocation';
+import PortfolioAllocation from './PortfolioAllocation';
 import MarketValue from './MarketValue';
-import IncomeThisMonth from './IncomeThisMonth';
-import TeamTasks from './TeamTasks';
+import DividendsGrid from './DividendsGrid';
 import UnrealizedGain from './UnrealizedGain';
 import { listStatistics } from '../../../graphql/queries';
 
@@ -40,6 +39,7 @@ const DashboardView = () => {
 
   const [costBasis, setCostBasis] = useState(0);
   const [marketValue, setMarketValue] = useState(0);
+  const [totalDividends, setTotalDividends] = useState(0);
 
   const getEvents = useCallback(async () => {
     try {
@@ -54,12 +54,15 @@ const DashboardView = () => {
         // calculate market value and cost basis
         let _costBasis = 0;
         let _marketValue = 0;
+        let _totalDividends = 0;
         parsed.forEach(holding => {
-          _costBasis += holding.quantity * holding.buyPrice;
-          _marketValue += holding.quantity * holding.marketPrice;
+          _costBasis += holding.costBasis;
+          _marketValue += holding.marketValue;
+          _totalDividends += holding.totalDividends;
         });
         setCostBasis(_costBasis);
         setMarketValue(_marketValue);
+        setTotalDividends(_totalDividends);
       }
       setLoading(false);
     } catch (err) {
@@ -84,14 +87,6 @@ const DashboardView = () => {
           container
           spacing={3}
         >
-          {/* <Grid
-            item
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <IncomeThisMonth />
-          </Grid> */}
           <Grid
             item
             lg={4}
@@ -116,12 +111,12 @@ const DashboardView = () => {
           >
             <MarketValue marketValue={marketValue} />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={8}
             xs={12}
           >
-            <Allocation data={data} marketValue={marketValue} />
+            <PortfolioAllocation data={data} marketValue={marketValue} />
           </Grid>
           <Grid
             item
@@ -129,22 +124,20 @@ const DashboardView = () => {
             xs={12}
           >
             <MarketValueGrid data={data} marketValue={marketValue}  />
+          </Grid> */}
+          <Grid
+            item
+            lg={4}
+            xs={12}
+          >
+            <DividendsGrid data={data} totalDividends={totalDividends}  />
           </Grid>
           <Grid
             item
-            lg={5}
-            xl={4}
+            lg={8}
             xs={12}
           >
-            <TeamTasks />
-          </Grid>
-          <Grid
-            item
-            lg={7}
-            xl={8}
-            xs={12}
-          >
-            <MonthlyOverview />
+            <PortfolioAllocation data={data} marketValue={marketValue} />
           </Grid>
         </Grid>
       </Container>
