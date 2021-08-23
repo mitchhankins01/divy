@@ -14,7 +14,7 @@ import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Header from './Header';
 import MarketValueGrid from './MarketValueGrid';
 import CostBasis from './CostBasis';
-import MonthlyOverview from './MonthlyOverview';
+import DividendsAllocation from './DividendsAllocation';
 import PortfolioAllocation from './PortfolioAllocation';
 import MarketValue from './MarketValue';
 import DividendsGrid from './DividendsGrid';
@@ -111,7 +111,7 @@ const DashboardView = () => {
           >
             <MarketValue marketValue={marketValue} />
           </Grid>
-          {/* <Grid
+          <Grid
             item
             lg={8}
             xs={12}
@@ -124,20 +124,20 @@ const DashboardView = () => {
             xs={12}
           >
             <MarketValueGrid data={data} marketValue={marketValue}  />
-          </Grid> */}
+          </Grid>
           <Grid
             item
             lg={4}
             xs={12}
           >
-            <DividendsGrid data={data} totalDividends={totalDividends}  />
+            <DividendsGrid data={data} totalDividends={totalDividends} />
           </Grid>
           <Grid
             item
             lg={8}
             xs={12}
           >
-            <PortfolioAllocation data={data} marketValue={marketValue} />
+            <DividendsAllocation data={data} marketValue={marketValue} totalDividends={totalDividends} />
           </Grid>
         </Grid>
       </Container>
