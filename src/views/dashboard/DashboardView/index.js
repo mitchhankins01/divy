@@ -16,6 +16,7 @@ import MarketValueGrid from './MarketValueGrid';
 import CostBasis from './CostBasis';
 import DividendsAllocation from './DividendsAllocation';
 import PortfolioAllocation from './PortfolioAllocation';
+import TotalDividends from './TotalDividends';
 import MarketValue from './MarketValue';
 import DividendsGrid from './DividendsGrid';
 import UnrealizedGain from './UnrealizedGain';
@@ -89,25 +90,33 @@ const DashboardView = () => {
         >
           <Grid
             item
-            lg={4}
-            sm={4}
-            xs={12}
+            lg={3}
+            md={6}
+            sm={12}
+          >
+            <TotalDividends totalDividends={totalDividends} />
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            md={6}
+            sm={12}
           >
             <CostBasis costBasis={costBasis} />
           </Grid>
           <Grid
             item
-            lg={4}
-            sm={4}
-            xs={12}
+            lg={3}
+            md={6}
+            sm={12}
           >
             <UnrealizedGain marketValue={marketValue} costBasis={costBasis} />
           </Grid>
           <Grid
             item
-            lg={4}
-            sm={4}
-            xs={12}
+            lg={3}
+            md={6}
+            sm={12}
           >
             <MarketValue marketValue={marketValue} />
           </Grid>
@@ -123,7 +132,7 @@ const DashboardView = () => {
             lg={4}
             xs={12}
           >
-            <MarketValueGrid data={data} marketValue={marketValue}  />
+            <MarketValueGrid data={data} marketValue={marketValue} />
           </Grid>
           <Grid
             item

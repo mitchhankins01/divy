@@ -7,7 +7,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import formatter from '../../../utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +61,7 @@ export default ({ className, marketValue, ...rest }) => {
         className={classes.avatar}
         color="inherit"
       >
-        <AttachMoneyIcon />
+        <StorefrontIcon />
       </Avatar>
     </Card>
   );
