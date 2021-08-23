@@ -6,67 +6,49 @@ import { Pie, Bar, HorizontalBar } from 'react-chartjs-2';
 
 export default ({ type, labels, data = [] }) => {
     const theme = useTheme();
-
-    const generateColors = palette(['tol-dv'], data.length).map(function (hex) {
-        return '#' + hex;
-    });
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: { display: false },
+    };
+    const datasets = {
+        data,
+        borderWidth: 2,
+        borderColor: theme.palette.background.default,
+        hoverBorderColor: theme.palette.background.default,
+        backgroundColor: palette(['tol-dv'], data.length).map(hex => `#${hex}`),
+    };
+    const niceData = { labels, datasets: [datasets] };
 
     if (type === 'horizontalBar') {
         return (
             <HorizontalBar
+                data={niceData}
                 options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { display: false, position: 'left' },
+                    ...options,
                     scales: { xAxes: [{ ticks: { callback: value => `${value}%` } }] },
-                }}
-                data={{
-                    labels,
-                    datasets: [
-                        {
-                            data,
-                            borderWidth: 2,
-                            borderColor: theme.palette.background.default,
-                            hoverBorderColor: theme.palette.background.default,
-                            backgroundColor: generateColors
-                        }
-                    ],
                 }}
             />
         );
     } else if (type === 'bar') {
         return (
             <Bar
+                data={niceData}
                 options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { display: false, position: 'left' },
+                    ...options,
                     scales: { yAxes: [{ ticks: { callback: value => `${value}%` } }] },
-                }}
-                data={{
-                    labels,
-                    datasets: [
-                        {
-                            data,
-                            borderWidth: 2,
-                            borderColor: theme.palette.background.default,
-                            hoverBorderColor: theme.palette.background.default,
-                            backgroundColor: generateColors
-                        }
-                    ],
                 }}
             />
         );
     } else if (type === 'pie') {
         return (
             <Pie
+                data={niceData}
                 options={{
-                    responsive: true,
+                    ...options,
                     cutoutPercentage: 10,
                     zoomOutPercentage: 80,
-                    maintainAspectRatio: false,
-                    layout: { padding: 150, },
-                    legend: { display: false, position: 'left' },
+                    layout: { padding: 150 },
                     plugins: {
                         outlabels: {
                             color: 'black',
@@ -75,18 +57,6 @@ export default ({ type, labels, data = [] }) => {
                             },
                         }
                     }
-                }}
-                data={{
-                    labels,
-                    datasets: [
-                        {
-                            data,
-                            borderWidth: 2,
-                            borderColor: theme.palette.background.default,
-                            hoverBorderColor: theme.palette.background.default,
-                            backgroundColor: generateColors
-                        }
-                    ],
                 }}
             />
         );
