@@ -8,6 +8,8 @@ import {
   Box,
   Card,
   CardHeader,
+  Select,
+  MenuItem,
   Divider,
   makeStyles,
 } from '@material-ui/core';
@@ -26,6 +28,7 @@ export default ({ className, data, totalDividends, ...rest }) => {
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
+  const [dividendsChartType, setDividendsChartType] = useState('horizontalBar');
 
   useEffect(() => {
     const _labels = [];
@@ -50,13 +53,26 @@ export default ({ className, data, totalDividends, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <CardHeader title='Dividends Allocation' />
+      <CardHeader
+        title='Dividends Allocation'
+        action={
+          <Select
+            value={dividendsChartType}
+            onChange={e => setDividendsChartType(e.target.value)}
+          >
+            <MenuItem value={'pie'}>Pie Chart</MenuItem>
+            <MenuItem value={'doughnut'}>Doughnut Chart</MenuItem>
+            <MenuItem value={'bar'}>Vertical Bar Chart</MenuItem>
+            <MenuItem value={'horizontalBar'}>Horizontal Bar Chart</MenuItem>
+          </Select>
+        }
+      />
       <Divider />
       <PerfectScrollbar>
         <Box p={3} className={classes.chart}>
           <Charts
-            type='bar'
             labels={labels}
+            type={dividendsChartType}
             data={percentagesOfDividends}
           />
         </Box>

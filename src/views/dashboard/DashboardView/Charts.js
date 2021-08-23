@@ -2,7 +2,7 @@ import React from 'react';
 import palette from 'google-palette';
 import 'chartjs-plugin-piechart-outlabels';
 import { useTheme } from '@material-ui/core';
-import { Pie, Bar, HorizontalBar } from 'react-chartjs-2';
+import { Pie, Bar, HorizontalBar, Doughnut } from 'react-chartjs-2';
 
 export default ({ type, labels, data = [] }) => {
     const theme = useTheme();
@@ -40,7 +40,26 @@ export default ({ type, labels, data = [] }) => {
                 }}
             />
         );
-    } else if (type === 'pie') {
+    } else if (type === 'doughnut') {
+        return (
+            <Doughnut
+                data={niceData}
+                options={{
+                    ...options,
+                    zoomOutPercentage: 80,
+                    layout: { padding: 150 },
+                    plugins: {
+                        outlabels: {
+                            color: 'black',
+                            text: ({ dataset, dataIndex, labels }) => {
+                                return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
+                            },
+                        }
+                    }
+                }}
+            />
+        );
+    } else {
         return (
             <Pie
                 data={niceData}
