@@ -90,7 +90,7 @@ exports.handler = async (event) => {
         yahooData = JSON.parse(unparsedData)
         // const { data: yahooData } = await axios.request(options);
 
-        for (const { symbol, regularMarketPrice, ...rest } of yahooData.quoteResponse.result) {
+        for (const { symbol, regularMarketPrice, dividendRate = 0, dividendYield = 0, ...rest } of yahooData.quoteResponse.result) {
             const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
 
             const costBasis = match.price * match.quantity;
@@ -103,9 +103,12 @@ exports.handler = async (event) => {
                 symbol,
                 costBasis,
                 marketValue,
+                dividendRate,
+                dividendYield,
                 buyPrice: match.price,
                 quantity: match.quantity,
                 marketPrice: regularMarketPrice,
+                totalDividends: dividendRate * match.quantity,
                 id: `${symbol}.${regularMarketPrice}`,
             });
         }
