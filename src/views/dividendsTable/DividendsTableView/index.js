@@ -11,19 +11,10 @@ import {
   makeStyles,
   Box,
   Card,
-  InputAdornment,
-  SvgIcon,
-  TextField,
-  IconButton,
 } from '@material-ui/core';
-import {
-  Search as SearchIcon,
-  XCircle as ClearIcon
-} from 'react-feather';
-// import { format as formatDate, parse } from 'date-fns';
+import { useDebounce } from 'use-debounce';
 import { DataGrid } from '@material-ui/data-grid';
 import { Link as RouterLink } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
@@ -33,13 +24,13 @@ import { listDividends } from '../../../graphql/queries';
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
+    // minHeight: '100%',
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
+    // paddingBottom: theme.spacing(3)
   },
-  queryField: {
-    width: 500
-  }
+  // queryField: {
+  //   width: 500
+  // }
 }));
 
 const formatNumber = number => {
@@ -57,6 +48,7 @@ export default () => {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   const getEvents = useCallback(async () => {
@@ -97,16 +89,6 @@ export default () => {
     setSearch('');
   };
 
-// amount: 0.18
-// declaredDate: "2021-04-01"
-// exDate: "2021-05-14"
-// extendedProps: {amount: 1.7999999999999998}
-// frequency: "quarterly"
-// paymentDate: "2021-06-15"
-// quantity: 10
-// recordDate: "2021-05-17"
-// symbol: "MNR"
-
   const columns = [
     { headerName: 'Amount', field: 'amount', flex: 1, align: 'right', valueGetter: params => `$${formatNumber(params.row.extendedProps.amount)}`, hide: mobileDevice && true },
     {
@@ -129,71 +111,23 @@ export default () => {
   ];
 
   return (
-    <Page
-      className={classes.root}
-      title='Dividends List'
-    >
-      <Container maxWidth={false}>
-        <Header />
+    <Page className={classes.root} title='Dividends List'>
+      <Container >
+        <Header handleClearSearch={handleClearSearch} handleSearchChange={handleSearchChange} search={search} />
         <Box mt={3}>
           <Card>
-            <Box
-              p={2}
-              minHeight={56}
-              display="flex"
-              alignItems="center"
-            >
-              <TextField
-                className={classes.queryField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClearSearch} disabled={!search.length} >
-                        <SvgIcon
-                          fontSize="small"
-                          color="action"
-                        >
-                          <ClearIcon />
-                        </SvgIcon>
-                      </IconButton>
-                    </InputAdornment>
-                  )
+            <Box style={{ minnHeight: '70vh', height: 'calc(100vh - 200px' }}>
+              <DataGrid
+                rows={events}
+                columns={columns}
+                autoPageSize={true}
+                loading={loading}
+                sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
+                filterModel={{
+                  items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }],
                 }}
-                onChange={handleSearchChange}
-                placeholder='Search Holdings'
-                value={search}
-                variant="outlined"
               />
-              <Box flexGrow={1} />
             </Box>
-            <PerfectScrollbar>
-              <Box minWidth={700} style={{ minHeight: '70vh' }}>
-                <DataGrid
-                  rows={events}
-                  pagination={true}
-                  scrollbarSize={0}
-                  columns={columns}
-                  loading={loading}
-                  rowsPerPageOptions={[5, 10, 20, 50]}
-                  sortModel={[
-                    {
-                      field: 'paymentDate',
-                      sort: 'asc',
-                    },
-                  ]}
-                />
-              </Box>
-            </PerfectScrollbar>
           </Card>
         </Box>
       </Container>

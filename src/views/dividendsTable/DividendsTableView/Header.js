@@ -6,12 +6,27 @@ import {
   Grid,
   Link,
   Typography,
+  TextField,
+  InputAdornment,
+  IconButton,
+  SvgIcon,
   makeStyles
 } from '@material-ui/core';
+import {
+  Search as SearchIcon,
+  XCircle as ClearIcon
+} from 'react-feather';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
+  queryField: {
+    width: 300,
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(2),
+      width: '100%'
+    },
+  },
   action: {
     marginBottom: theme.spacing(1),
     '& + &': {
@@ -20,15 +35,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Header = ({
+export default ({
   className,
-  onAddClick,
-  date,
-  onDateNext,
-  onDatePrev,
-  onDateToday,
-  onViewChange,
-  view,
+  handleClearSearch,
+  handleSearchChange,
+  search,
   ...rest
 }) => {
   const classes = useStyles();
@@ -38,7 +49,7 @@ const Header = ({
       className={clsx(classes.root, className)}
       container
       justify="space-between"
-      spacing={3}
+      spacing={0}
       {...rest}
     >
       <Grid item>
@@ -49,27 +60,57 @@ const Header = ({
           <Link
             variant="body1"
             color="inherit"
-            to="/app"
+            to="/app/dividendslist"
             component={RouterLink}
           >
-            Main
+            Dividends
           </Link>
           <Typography
             variant="body1"
             color="textPrimary"
           >
-            Dividends Table
+            List
           </Typography>
         </Breadcrumbs>
         <Typography
           variant="h3"
           color="textPrimary"
         >
-          Dividends Table
+          Dividends List
         </Typography>
       </Grid>
+      <TextField
+        className={classes.queryField}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SvgIcon
+                fontSize="small"
+                color="action"
+              >
+                <SearchIcon />
+              </SvgIcon>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClearSearch} disabled={!search.length} >
+                <SvgIcon
+                  fontSize="small"
+                  color="action"
+                >
+                  <ClearIcon />
+                </SvgIcon>
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
+        onChange={handleSearchChange}
+        autoComplete='off'
+        placeholder='Symbol'
+        value={search}
+        variant='outlined'
+      />
     </Grid>
   );
 }
-
-export default Header;
