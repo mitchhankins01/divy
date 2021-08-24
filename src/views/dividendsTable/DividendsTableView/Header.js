@@ -21,10 +21,10 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 const useStyles = makeStyles((theme) => ({
   root: {},
   queryField: {
-    width: 300,
+    width: 250,
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(2),
-      width: '100%'
+      width: 170,
     },
   },
   action: {
@@ -79,38 +79,42 @@ export default ({
           Dividends List
         </Typography>
       </Grid>
-      <TextField
-        className={classes.queryField}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SvgIcon
-                fontSize="small"
-                color="action"
-              >
-                <SearchIcon />
-              </SvgIcon>
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleClearSearch} disabled={!search.length} >
+      <Grid item>
+        <TextField
+          className={classes.queryField}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
                 <SvgIcon
                   fontSize="small"
                   color="action"
                 >
-                  <ClearIcon />
+                  <SearchIcon />
                 </SvgIcon>
-              </IconButton>
-            </InputAdornment>
-          )
-        }}
-        onChange={handleSearchChange}
-        autoComplete='off'
-        placeholder='Symbol'
-        value={search}
-        variant='outlined'
-      />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClearSearch} disabled={!search.length} >
+                  <SvgIcon
+                    fontSize="small"
+                    color="action"
+                  >
+                    <ClearIcon />
+                  </SvgIcon>
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          onChange={handleSearchChange}
+          autoComplete='off'
+          autoCorrect='off'
+          placeholder='Symbol'
+          value={search}
+          variant='outlined'
+        />
+      </Grid>
+
     </Grid>
   );
 }

@@ -64,6 +64,7 @@ export default ({ className, data, marketValue, ...rest }) => {
           columns={columns}
           autoPageSize={true}
           // loading={loading}
+          disableSelectionOnClick={true}
           sortModel={[
             {
               field: 'marketValue',
