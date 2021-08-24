@@ -92,7 +92,7 @@ const DashboardView = () => {
             item
             lg={3}
             md={6}
-            sm={12}
+            xs={12}
           >
             <TotalDividends totalDividends={totalDividends} />
           </Grid>
@@ -100,7 +100,7 @@ const DashboardView = () => {
             item
             lg={3}
             md={6}
-            sm={12}
+            xs={12}
           >
             <CostBasis costBasis={costBasis} />
           </Grid>
@@ -108,7 +108,7 @@ const DashboardView = () => {
             item
             lg={3}
             md={6}
-            sm={12}
+            xs={12}
           >
             <UnrealizedGain marketValue={marketValue} costBasis={costBasis} />
           </Grid>
@@ -116,7 +116,7 @@ const DashboardView = () => {
             item
             lg={3}
             md={6}
-            sm={12}
+            xs={12}
           >
             <MarketValue marketValue={marketValue} />
           </Grid>

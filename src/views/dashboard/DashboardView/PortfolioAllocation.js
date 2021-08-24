@@ -12,6 +12,8 @@ import {
   makeStyles,
   Select,
   MenuItem,
+  useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Charts from './Charts';
@@ -24,11 +26,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({ className, data, marketValue, ...rest }) => {
+  const theme = useTheme();
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
-  const [chartType, setChartType] = useState('pie');
+  const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
+  const [chartType, setChartType] = useState('pie');
 
   useEffect(() => {
     const _labels = [];
@@ -46,6 +50,12 @@ export default ({ className, data, marketValue, ...rest }) => {
       setPercentagesOfPortfolio(_percentagesOfPortfolio);
     }
   }, [isMountedRef, data, marketValue]);
+
+  useEffect(() => {
+    if (isMobileDevice) {
+      setChartType('horizontalBar')
+    }
+  }, [isMobileDevice]);
 
   return (
     <Card

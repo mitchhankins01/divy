@@ -8,7 +8,8 @@ import { SnackbarProvider } from 'notistack';
 import {
   jssPreset,
   StylesProvider,
-  ThemeProvider
+  ThemeProvider,
+  CssBaseline
 } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import GlobalStyles from 'src/components/GlobalStyles';
@@ -35,6 +36,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <StylesProvider jss={jss}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Router history={history}>
