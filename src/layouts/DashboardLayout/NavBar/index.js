@@ -39,20 +39,25 @@ const sections = [
         icon: PieChartIcon,
         href: '/app/dashboard'
       },
+    ]
+  },
+  {
+    subheader: 'Dividends',
+    items: [
+      {
+        title: 'List',
+        icon: ListIcon,
+        href: '/app/dividendslist'
+      },
       {
         title: 'Calendar',
         icon: CalendarIcon,
-        href: '/app/calendar'
-      },
-      {
-        title: 'Table',
-        icon: ListIcon,
-        href: '/app/dividendstable'
+        href: '/app/dividendscalendar'
       },
     ]
   },
   {
-    subheader: 'Holdings',
+    subheader: 'Portfolio',
     items: [
       {
         title: 'Holdings',
@@ -64,45 +69,6 @@ const sections = [
         href: '/app/chart/aapl',
         icon: ShowChartIcon
       },
-    ]
-  },
-  {
-    subheader: 'Management',
-    items: [
-      {
-        title: 'Customers',
-        icon: UsersIcon,
-        href: '/app/management/customers',
-        items: [
-          {
-            title: 'List Customers',
-            href: '/app/management/customers'
-          },
-          {
-            title: 'View Customer',
-            href: '/app/management/customers/1'
-          },
-          {
-            title: 'Edit Customer',
-            href: '/app/management/customers/1/edit'
-          }
-        ]
-      },
-    ]
-  },
-  {
-    subheader: 'Auth',
-    items: [
-      {
-        title: 'Login',
-        href: '/login-unprotected',
-        icon: LockIcon
-      },
-      {
-        title: 'Register',
-        href: '/register-unprotected',
-        icon: UserPlusIcon
-      }
     ]
   },
   {

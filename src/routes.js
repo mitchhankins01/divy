@@ -105,16 +105,6 @@ const routes = [
       },
       {
         exact: true,
-        path: '/app/management/customers',
-        component: lazy(() => import('src/views/customer/CustomerListView'))
-      },
-      {
-        exact: true,
-        path: '/app/management/customers/:customerId',
-        component: lazy(() => import('src/views/customer/CustomerDetailsView'))
-      },
-      {
-        exact: true,
         path: '/app/chart/:ticker',
         component: lazy(() => import('src/views/chart/ChartView'))
       },
@@ -130,12 +120,12 @@ const routes = [
       },
       {
         exact: true,
-        path: '/app/dividendstable',
+        path: '/app/dividendslist',
         component: lazy(() => import('src/views/dividendsTable/DividendsTableView'))
       },
       {
         exact: true,
-        path: '/app/calendar',
+        path: '/app/dividendscalendar',
         component: lazy(() => import('src/views/calendar/CalendarView'))
       },
       {

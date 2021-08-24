@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   label: {
     marginLeft: theme.spacing(1)
   },
-  test: {
+  dataGrid: {
     border: 0,
     padding: '0 3px'
   }
@@ -29,9 +29,9 @@ export default ({ className, data, marketValue, ...rest }) => {
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
     // { headerName: 'Cost Basis', field: 'costBasis', flex: 1, renderCell: cell => formatter.format(cell.value), hide: isMobileDevice },
     {
-      headerName: 'Market Value', 
-      field: 'marketValue', 
-      flex: 1, 
+      headerName: 'Market Value',
+      field: 'marketValue',
+      flex: 1,
       renderCell: ({ value }) => {
         const percentageOfPortfolio = Number(value / marketValue).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1 });
         return `${formatter.format(value)} (${percentageOfPortfolio})`
@@ -59,7 +59,7 @@ export default ({ className, data, marketValue, ...rest }) => {
       <Divider />
       <Box style={{ height: 600 }}>
         <DataGrid
-        className={classes.test}
+          className={classes.dataGrid}
           rows={data}
           columns={columns}
           autoPageSize={true}
