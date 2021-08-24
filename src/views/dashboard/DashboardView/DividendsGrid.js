@@ -49,6 +49,7 @@ export default ({ className, data, totalDividends, ...rest }) => {
           className={classes.dataGrid}
           rows={data}
           columns={columns}
+          disableSelectionOnClick={true}
           autoPageSize={true}
           // loading={loading}
           sortModel={[
