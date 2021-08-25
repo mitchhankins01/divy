@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import {
   Button,
-  Container,
   useTheme,
   useMediaQuery,
   makeStyles,
@@ -24,14 +23,10 @@ import formatter from '../../../utils/numberFormatter';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    backgroundColor: theme.palette.background.dark,
-  },
-  container: {
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    padding: theme.spacing(3),
+    backgroundColor: theme.palette.background.dark,
   },
   header: {
     flex: 1
@@ -90,12 +85,12 @@ export default () => {
   };
 
   const columns = [
-    { 
-      flex: 0.7, 
-      align: 'right', 
-      field: 'amount', 
-      headerName: 'Amount', 
-      valueGetter: params => formatter.format(params.row.extendedProps.amount), 
+    {
+      flex: 0.7,
+      align: 'right',
+      field: 'amount',
+      headerName: 'Amount',
+      valueGetter: params => formatter.format(params.row.extendedProps.amount),
     },
     {
       flex: 0.7,
@@ -120,25 +115,23 @@ export default () => {
 
   return (
     <Page className={classes.root} title='Dividends List'>
-      <Container className={classes.container}>
-        <Header
-          search={search}
-          className={classes.header}
-          handleClearSearch={handleClearSearch}
-          handleSearchChange={handleSearchChange}
+      <Header
+        search={search}
+        className={classes.header}
+        handleClearSearch={handleClearSearch}
+        handleSearchChange={handleSearchChange}
+      />
+      <Card className={classes.card}>
+        <DataGrid
+          rows={events}
+          columns={columns}
+          autoPageSize={true}
+          loading={loading}
+          disableSelectionOnClick={true}
+          sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
+          filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
         />
-        <Card className={classes.card}>
-          <DataGrid
-            rows={events}
-            columns={columns}
-            autoPageSize={true}
-            loading={loading}
-            disableSelectionOnClick={true}
-            sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
-            filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
-          />
-        </Card>
-      </Container>
+      </Card>
     </Page>
   );
 };

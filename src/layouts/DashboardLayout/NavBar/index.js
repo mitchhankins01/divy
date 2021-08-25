@@ -47,12 +47,12 @@ const sections = [
       {
         title: 'List',
         icon: ListIcon,
-        href: '/app/dividendslist'
+        href: '/app/dividends/list'
       },
       {
         title: 'Calendar',
         icon: CalendarIcon,
-        href: '/app/dividendscalendar'
+        href: '/app/dividends/calendar'
       },
     ]
   },
