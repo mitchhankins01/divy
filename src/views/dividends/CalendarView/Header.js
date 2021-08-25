@@ -13,13 +13,9 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Toolbar from './Toolbar';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
-  action: {
-    marginBottom: theme.spacing(1),
-    '& + &': {
-      marginLeft: theme.spacing(1)
-    }
-  }
+  root: {
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const Header = ({
@@ -40,7 +36,6 @@ const Header = ({
       className={clsx(classes.root, className)}
       container
       justify="space-between"
-      spacing={3}
       {...rest}
     >
       <Grid item>
@@ -51,10 +46,10 @@ const Header = ({
           <Link
             variant="body1"
             color="inherit"
-            to="/app"
+            to="/app/dividends/list"
             component={RouterLink}
           >
-            Main
+            Dividends
           </Link>
           <Typography
             variant="body1"

@@ -15,11 +15,16 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timelinePlugin from '@fullcalendar/timeline';
 import {
-  Container,
   Paper,
   useTheme,
   useMediaQuery,
   makeStyles,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button
 } from '@material-ui/core';
 import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
@@ -28,25 +33,23 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import { listDividends } from '../../../graphql/queries';
 import LoadingScreen from 'src/components/LoadingScreen';
+import formatter from '../../../utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
-  },
-  loadingText: {
+    height: '100%',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    paddingTop: 20,
+    overflow: 'hidden',
+    flexDirection: 'column',
+    padding: theme.spacing(3),
+    backgroundColor: theme.palette.background.dark,
   },
-  loadingScreen: {
+  header: {
+    flex: 1
   },
   calendar: {
-    marginTop: theme.spacing(3),
+    flex: 10,
+    // marginTop: theme.spacing(3),
     // padding: theme.spacing(2),
     '& .fc-unthemed .fc-head': {
       backgroundColor: theme.palette.background.dark
@@ -76,23 +79,48 @@ const useStyles = makeStyles((theme) => ({
     '& .fc-unthemed .fc-highlight': {
       backgroundColor: theme.palette.background.dark
     },
+    '& .fc-unthemed a.fc-more': {
+      ...theme.typography.body2,
+      margin: 5,
+      padding: '0 5px',
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText,
+      // width: '100%',
+      display: 'block',
+      borderRadius: 3,
+      textDecoration: 'none'
+    },
+    '& .fc-unthemed .fc-event-dot': {
+      backgroundColor: theme.palette.secondary.main
+    },
+    '& .fc-unthemed .fc-popover': {
+      border: `1px solid ${theme.palette.background.dark}`,
+    },
+    '& .fc-unthemed .fc-popover .fc-header': {
+      ...theme.typography.body2,
+      background: theme.palette.background.dark
+    },
     '& .fc-unthemed .fc-event': {
-      backgroundColor: theme.palette.background.default,
-      // backgroundColor: theme.palette.secondary.main,
-      // color: theme.palette.secondary.contrastText,
+      // backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText,
       // borderWidth: 0,
-      border: `1px solid ${theme.palette.secondary.main}`,
-      color: theme.palette.secondary.main,
+      // border: `1px solid ${theme.palette.secondary.main}`,
+      border: 'none',
+      // color: theme.palette.secondary.main,
       padding: '0 5px',
       margin: 5,
-      opacity: 0.9,
+      // opacity: 0.9,
       '& .fc-time': {
         ...theme.typography.h6,
         color: 'inherit'
       },
       '& .fc-title': {
-        ...theme.typography.body1,
+        ...theme.typography.body2,
         color: 'inherit'
+      },
+      '&:hover': {
+        cursor: 'pointer',
       }
     },
     '& .fc-unthemed .fc-day-top': {
@@ -140,9 +168,20 @@ const CalendarView = () => {
   const calendarRef = useRef(null);
   const isMountedRef = useIsMountedRef();
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { height: windowHeight } = useWindowSize();
   const [date, setDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const emptyDialog = {
+    symbol: undefined,
+    amount: undefined,
+    name: undefined,
+    dividend_yield: undefined,
+    ex_dividend_date: undefined,
+    frequency: undefined,
+    paymentDate: undefined,
+    record_date: undefined,
+  };
+  const [dialog, setDialog] = useState(emptyDialog);
+  const { height: windowHeight } = useWindowSize();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
 
@@ -172,6 +211,28 @@ const CalendarView = () => {
       getEvents();
     }
   }, [getEvents]);
+
+  const toggleDialog = (event = undefined) => {
+    if (!event) {
+      setDialog(emptyDialog);
+    } else {
+      setDialog({
+        symbol: event.symbol,
+        name: event.name,
+        amount: event.amount,
+        frequency: event.frequency,
+        paymentDate: event.paymentDate,
+        record_date: event.record_date,
+        dividend_yield: event.dividend_yield,
+        ex_dividend_date: event.ex_dividend_date,
+      });
+    }
+  }
+
+  const handleEventSelect = (arg) => {
+    toggleDialog(arg.event.extendedProps);
+    // alert(`${arg.event.title} ${arg.event.extendedProps.amount}`);
+  };
 
   const handleDateToday = () => {
     const calendarEl = calendarRef.current;
@@ -217,10 +278,6 @@ const CalendarView = () => {
     }
   };
 
-  const handleEventSelect = (arg) => {
-    alert(`${arg.event.title} ${arg.event.extendedProps.amount}`);
-  };
-
   useEffect(() => {
     const calendarEl = calendarRef.current;
 
@@ -234,11 +291,12 @@ const CalendarView = () => {
   }, [mobileDevice]);
 
   return (
-    <Page className={classes.root} title='Calendar'>
-      <Container maxWidth={false}>
+    <>
+      <Page className={classes.root} title='Calendar'>
         <Header
           date={date}
           view={view}
+          className={classes.header}
           onDateNext={handleDateNext}
           onDatePrev={handleDatePrev}
           onDateToday={handleDateToday}
@@ -267,8 +325,44 @@ const CalendarView = () => {
             ]}
           />
         </Paper>
-      </Container>
-    </Page>
+      </Page>
+      <Dialog fullWidth={true} onClose={() => toggleDialog(undefined)} open={Boolean(dialog.symbol)}>
+        <DialogTitle>Dividend Details</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          </DialogContentText>
+          <DialogContentText>
+            Symbol: {dialog.symbol}
+          </DialogContentText>
+          <DialogContentText>
+            Name: {dialog.name}
+          </DialogContentText>
+          <DialogContentText>
+            Frequency: {dialog.frequency}
+          </DialogContentText>
+          <DialogContentText>
+            Amount: {formatter.format(dialog.amount)}
+          </DialogContentText>
+          <DialogContentText>
+            Dividend Yield: {Number(dialog.dividend_yield).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 2 })}
+          </DialogContentText>
+          <DialogContentText>
+            Payment Date: {dialog.paymentDate}
+          </DialogContentText>
+          <DialogContentText>
+            Record Date: {dialog.record_date}
+          </DialogContentText>
+          <DialogContentText>
+            Ex Dividend Date: {dialog.ex_dividend_date}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => toggleDialog(undefined)} color='primary' autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
