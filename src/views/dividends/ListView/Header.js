@@ -27,12 +27,6 @@ const useStyles = makeStyles((theme) => ({
       width: 170,
     },
   },
-  action: {
-    marginBottom: theme.spacing(1),
-    '& + &': {
-      marginLeft: theme.spacing(1)
-    }
-  }
 }));
 
 export default ({
@@ -49,7 +43,6 @@ export default ({
       className={clsx(classes.root, className)}
       container
       justify="space-between"
-      spacing={0}
       {...rest}
     >
       <Grid item>
