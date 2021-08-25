@@ -120,13 +120,13 @@ const routes = [
       },
       {
         exact: true,
-        path: '/app/dividendslist',
-        component: lazy(() => import('src/views/dividendsTable/DividendsTableView'))
+        path: '/app/dividends/list',
+        component: lazy(() => import('src/views/dividends/ListView'))
       },
       {
         exact: true,
-        path: '/app/dividendscalendar',
-        component: lazy(() => import('src/views/calendar/CalendarView'))
+        path: '/app/dividends/calendar',
+        component: lazy(() => import('src/views/dividends/CalendarView'))
       },
       {
         exact: true,
