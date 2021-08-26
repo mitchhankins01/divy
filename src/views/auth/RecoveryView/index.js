@@ -64,7 +64,7 @@ const LoginView = () => {
           display="flex"
           justifyContent="center"
         >
-          <RouterLink to="/">
+          <RouterLink style={{ textDecoration: 'none' }} to="/">
             <Logo rem={2} />
           </RouterLink>
         </Box>

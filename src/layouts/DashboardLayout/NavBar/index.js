@@ -190,7 +190,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             display="flex"
             justifyContent="center"
           >
-            <RouterLink to="/">
+            <RouterLink to="/" style={{ textDecoration: 'none' }}>
               <Logo />
             </RouterLink>
           </Box>

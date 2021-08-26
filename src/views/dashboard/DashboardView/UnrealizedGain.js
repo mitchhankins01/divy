@@ -19,13 +19,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between'
   },
   label: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(0.5)
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
     height: 48,
     width: 48
+  },
+  span: {
+    backgroundColor: theme.palette.success.main,
   }
 }));
 
@@ -46,7 +49,15 @@ export default ({ className, marketValue, costBasis, ...rest }) => {
           variant="overline"
           color="textSecondary"
         >
-          Unrealized Gain
+          Unrealized
+          <Label
+            className={classes.label}
+            color={gain > 0 ? 'success' : 'error'}
+          >
+            {difference > 0 ? '+' : ''}
+            {difference}
+            %
+          </Label>
         </Typography>
         <Box
           display="flex"
@@ -59,14 +70,6 @@ export default ({ className, marketValue, costBasis, ...rest }) => {
           >
             {formatter.format(gain)}
           </Typography>
-          <Label
-            className={classes.label}
-            color={gain > 0 ? 'success' : 'error'}
-          >
-            {difference > 0 ? '+' : ''}
-            {difference}
-            %
-          </Label>
         </Box>
       </Box>
       <Avatar className={classes.avatar}>

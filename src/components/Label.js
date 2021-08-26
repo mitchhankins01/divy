@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     letterSpacing: 0.5,
     minWidth: 20,
-    padding: theme.spacing(0.5, 1),
+    padding: theme.spacing(0.5),
     textTransform: 'uppercase'
   },
   primary: {

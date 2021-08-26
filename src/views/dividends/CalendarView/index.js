@@ -231,7 +231,6 @@ const CalendarView = () => {
 
   const handleEventSelect = (arg) => {
     toggleDialog(arg.event.extendedProps);
-    // alert(`${arg.event.title} ${arg.event.extendedProps.amount}`);
   };
 
   const handleDateToday = () => {
