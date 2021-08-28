@@ -65,7 +65,7 @@ const LoginView = () => {
           justifyContent="center"
         >
           <RouterLink style={{ textDecoration: 'none' }} to="/">
-            <Logo rem={2} />
+            <Logo rem={2} forceDark={true}/>
           </RouterLink>
         </Box>
         <Card>
@@ -108,7 +108,7 @@ const LoginView = () => {
               variant="body2"
               color="textSecondary"
             >
-              Login to your account
+              Login to your account.
             </Link>
           </CardContent>
         </Card>

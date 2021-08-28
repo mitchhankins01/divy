@@ -20,13 +20,13 @@ import Settings from './Settings';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.type === 'dark' && 'white',
     zIndex: theme.zIndex.drawer + 100,
     ...theme.name === THEMES.LIGHT ? {
       boxShadow: 'none',
       backgroundColor: theme.palette.primary.main
     } : {},
-    ...theme.name === THEMES.ONE_DARK ? {
+    ...theme.name === THEMES.DOLLAR_DARK ? {
       backgroundColor: theme.palette.background.default
     } : {}
   },
