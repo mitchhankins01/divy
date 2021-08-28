@@ -17,11 +17,11 @@ const HomeView = () => {
   return (
     <Page
       className={classes.root}
-      title="Home"
+      title='Home'
     >
       <Hero />
       <Features />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <CTA />
       <FAQS />
     </Page>

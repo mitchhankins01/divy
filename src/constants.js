@@ -1,4 +1,4 @@
 export const THEMES = {
-  FREEDOM_LIGHT: 'FREEDOM_LIGHT',
-  DOLLAR_DARK: 'DOLLAR_DARK',
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
 };

@@ -5,7 +5,7 @@ import {
   responsiveFontSizes
 } from '@material-ui/core';
 import { THEMES } from 'src/constants';
-import { softShadows, strongShadows } from './shadows';
+import { strongShadows } from './shadows';
 import typography from './typography';
 
 export const buyColor = '#27ae60';
@@ -36,7 +36,7 @@ const baseOptions = {
 
 const themesOptions = [
   {
-    name: THEMES.FREEDOM_LIGHT,
+    name: THEMES.LIGHT,
     palette: {
       primary: {
         main: colors.indigo[500]
@@ -47,7 +47,7 @@ const themesOptions = [
     },
   },
   {
-    name: THEMES.DOLLAR_DARK,
+    name: THEMES.DARK,
     palette: {
       type: 'dark',
       action: {

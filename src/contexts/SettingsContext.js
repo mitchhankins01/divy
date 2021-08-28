@@ -8,7 +8,7 @@ import { THEMES } from 'src/constants';
 
 const defaultSettings = {
   responsiveFontSizes: true,
-  theme: THEMES.DOLLAR_DARK
+  theme: THEMES.DARK
 };
 
 export const restoreSettings = () => {
