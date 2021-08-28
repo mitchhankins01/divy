@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import {
   Avatar,
-  Button,
   Box,
   Container,
   Grid,
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Features = ({ className, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -37,14 +36,14 @@ const Features = ({ className, ...rest }) => {
           color="secondary"
           align="center"
         >
-          Explore Devias Kit Pro
+          Explore Divy
         </Typography>
         <Typography
           variant="h1"
           align="center"
           color="textPrimary"
         >
-          Not just a pretty face
+          Dividend Tracking at Your Fingertips
         </Typography>
         <Box mt={8}>
           <Grid
@@ -66,14 +65,13 @@ const Features = ({ className, ...rest }) => {
                     gutterBottom
                     color="textPrimary"
                   >
-                    Complete User Flows
+                    Calendar
                   </Typography>
                   <Typography
                     variant="body1"
                     color="textPrimary"
                   >
-                    Not just a set of tools, the package includes the most common use cases of
-                    user flows like User Management, Second Level Layout.
+                    See when and how much you'll get paid.
                   </Typography>
                 </Box>
               </Box>
@@ -93,14 +91,13 @@ const Features = ({ className, ...rest }) => {
                     gutterBottom
                     color="textPrimary"
                   >
-                    Support for Plugins
+                    Visuals
                   </Typography>
                   <Typography
                     variant="body1"
                     color="textPrimary"
                   >
-                    The kit provides support for multiple third-party plugins right out of the box
-                    like Chart.js, Dropzone.js, Kanban Plugin and many more.
+                    View key statistics in beautiful graphics.
                   </Typography>
                 </Box>
               </Box>
@@ -120,24 +117,15 @@ const Features = ({ className, ...rest }) => {
                     gutterBottom
                     color="textPrimary"
                   >
-                    Designers, we got you
+                    More
                   </Typography>
                   <Typography
                     variant="body1"
                     color="textPrimary"
                     gutterBottom
                   >
-                    We&apos;ve included the source Sketch &amp; Figma files to Plus &amp;
-                    Extended licenses so you can get creative! Build layouts with confidence.
+                    Charts, metrics, and so much more.
                   </Typography>
-                  <Button
-                    variant="outlined"
-                    component="a"
-                    href="https://sketch.cloud/s/q4a8e"
-                    target="_blank"
-                  >
-                    Preview Design
-                  </Button>
                 </Box>
               </Box>
             </Grid>
@@ -147,5 +135,3 @@ const Features = ({ className, ...rest }) => {
     </div>
   );
 };
-
-export default Features;

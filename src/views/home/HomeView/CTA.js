@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CTA = ({ className, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -33,14 +33,14 @@ const CTA = ({ className, ...rest }) => {
           align="center"
           color="textPrimary"
         >
-          Ready to start building?
+          Ready to get started?
         </Typography>
         <Typography
           variant="h1"
           align="center"
           color="secondary"
         >
-          Download Devias Material Kit today.
+          Sign up for a free account today.
         </Typography>
         <Box
           mt={6}
@@ -51,10 +51,10 @@ const CTA = ({ className, ...rest }) => {
           <Button
             color="secondary"
             component="a"
-            href="https://material-ui.com/store/items/devias-kit-pro"
+            href="/register"
             variant="contained"
           >
-            Get the kit
+            Sign Up
           </Button>
         </Box>
       </Container>
@@ -62,4 +62,3 @@ const CTA = ({ className, ...rest }) => {
   );
 };
 
-export default CTA;

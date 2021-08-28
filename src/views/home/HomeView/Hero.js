@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     transformStyle: 'preserve-3d',
     perspective: 1500,
     '& > img': {
-      maxWidth: '90%',
+      maxWidth: '100%',
       height: 'auto',
       transform: 'rotateY(-35deg) rotateX(15deg)',
       backfaceVisibility: 'hidden',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Hero = ({ className, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -61,7 +61,7 @@ const Hero = ({ className, ...rest }) => {
           <Grid
             item
             xs={12}
-            md={5}
+            md={4}
           >
             <Box
               display="flex"
@@ -79,86 +79,23 @@ const Hero = ({ className, ...rest }) => {
                 variant="h1"
                 color="textPrimary"
               >
-                Devias React Material Kit - PRO
+                Divy - Dividend Tracker
               </Typography>
               <Box mt={3}>
                 <Typography
                   variant="body1"
                   color="textSecondary"
                 >
-                  A professional kit that comes with ready-to-use Material-UI© components
-                  developed with one common goal in mind, help you build faster &amp; beautiful
-                  applications. Each component is fully customizable,
-                  responsive and easy to integrate.
+                  The ultimate divided tracking tool for dividend investors, created by dividend investors.
+                  It's easy, simple, and beautifully designed just for you.
                 </Typography>
-              </Box>
-              <Box mt={3}>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid item>
-                    <Typography
-                      variant="h1"
-                      color="secondary"
-                    >
-                      30+
-                    </Typography>
-                    <Typography
-                      variant="overline"
-                      color="textSecondary"
-                    >
-                      Demo Pages
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="h1"
-                      color="secondary"
-                    >
-                      UX
-                    </Typography>
-                    <Typography
-                      variant="overline"
-                      color="textSecondary"
-                    >
-                      Complete Flows
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="h1"
-                      color="secondary"
-                    >
-                      300+
-                    </Typography>
-                    <Typography
-                      variant="overline"
-                      color="textSecondary"
-                    >
-                      Components
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box mt={3}>
-                <img
-                  alt="Javascript"
-                  className={classes.technologyIcon}
-                  src="/static/images/javascript.svg"
-                />
-                <img
-                  alt="Typescript"
-                  className={classes.technologyIcon}
-                  src="/static/images/typescript.svg"
-                />
               </Box>
             </Box>
           </Grid>
           <Grid
             item
             xs={12}
-            md={7}
+            md={8}
           >
             <Box position="relative">
               <div className={classes.shape}>
@@ -180,5 +117,3 @@ const Hero = ({ className, ...rest }) => {
     </div>
   );
 };
-
-export default Hero;

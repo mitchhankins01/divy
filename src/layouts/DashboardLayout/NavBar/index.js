@@ -16,15 +16,13 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
-  Lock as LockIcon,
-  UserPlus as UserPlusIcon,
   User as UserIcon,
   DollarSign as DollarSignIcon,
   List as ListIcon,
-  PieChart as PieChartIcon,
-  Users as UsersIcon,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
 } from 'react-feather';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PersonIcon from '@material-ui/icons/Person';
 import ShowChartIcon from '@material-ui/icons/Timeline';
 import Logo from 'src/components/Logo';
 // import useAuth from 'src/hooks/useAuth';
@@ -36,7 +34,7 @@ const sections = [
     items: [
       {
         title: 'Dashboard',
-        icon: PieChartIcon,
+        icon: DashboardIcon,
         href: '/app/dashboard'
       },
     ]
@@ -200,13 +198,16 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             display="flex"
             justifyContent="center"
           >
-            <RouterLink to="/app/account">
+            {/* <RouterLink to="/app/account"> */}
               <Avatar
                 alt="User"
                 className={classes.avatar}
                 // src={user.avatar}
-              />
-            </RouterLink>
+              >
+                {/* KK */}
+                <PersonIcon fontSize='large' />
+              </Avatar>
+            {/* </RouterLink> */}
           </Box>
           <Box
             mt={2}
@@ -219,20 +220,14 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               color="textPrimary"
               underline="none"
             >
-              {'user.name'}
+              {/* {'user.name'} */}
+              Kurt Weiss
             </Link>
             <Typography
               variant="body2"
               color="textSecondary"
             >
-              Your tier:
-              {' '}
-              <Link
-                component={RouterLink}
-                to="/pricing"
-              >
-                {'user.tier'}
-              </Link>
+              Premier User
             </Typography>
           </Box>
         </Box>

@@ -15,14 +15,14 @@ const useStyles = makeStyles(({ name, palette }) => ({
     justifyContent: 'space-around',
     fontSize: ({ rem }) => `${rem}rem`,
     color: ({ forceDark }) => 
-      name === THEMES.DOLLAR_DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
+      name === THEMES.DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
 
   },
   span: {
     textDecoration: 'none',
     fontSize: ({ rem }) => `${rem * 2.3}rem`,
     color: ({ forceDark }) => 
-      name === THEMES.DOLLAR_DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
+      name === THEMES.DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
   },
 }));
 
