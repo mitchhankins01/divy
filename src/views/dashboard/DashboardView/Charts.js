@@ -1,22 +1,23 @@
 import React from 'react';
-import palette from 'google-palette';
+import gPalette from 'google-palette';
 import 'chartjs-plugin-piechart-outlabels';
 import { useTheme } from '@material-ui/core';
 import { Pie, Bar, HorizontalBar, Doughnut } from 'react-chartjs-2';
 
 export default ({ type, labels, data = [] }) => {
-    const theme = useTheme();
+    const { palette } = useTheme();
     const options = {
         responsive: true,
         maintainAspectRatio: false,
         legend: { display: false },
     };
+    
     const datasets = {
         data,
         borderWidth: 2,
-        borderColor: theme.palette.background.default,
-        hoverBorderColor: theme.palette.background.default,
-        backgroundColor: palette(['tol-dv'], data.length).map(hex => `#${hex}`),
+        borderColor: palette.background.default,
+        hoverBorderColor: palette.background.default,
+        backgroundColor: gPalette(palette.type === 'light' ? 'tol-rainbow' : 'tol-dv', data.length).map(hex => `#${hex}`),
     };
     const niceData = { labels, datasets: [datasets] };
 
@@ -50,7 +51,7 @@ export default ({ type, labels, data = [] }) => {
                     layout: { padding: 150 },
                     plugins: {
                         outlabels: {
-                            color: 'black',
+                            color: palette.type === 'light' ? 'white' : 'black',
                             text: ({ dataset, dataIndex, labels }) => {
                                 return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
                             },
@@ -70,7 +71,7 @@ export default ({ type, labels, data = [] }) => {
                     layout: { padding: 150 },
                     plugins: {
                         outlabels: {
-                            color: 'black',
+                            color: palette.type === 'light' ? 'white' : 'black',
                             text: ({ dataset, dataIndex, labels }) => {
                                 return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
                             },

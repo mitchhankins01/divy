@@ -76,7 +76,7 @@ const RegisterView = () => {
           justifyContent="center"
         >
           <RouterLink style={{ textDecoration: 'none' }} to="/">
-            <Logo rem={2}/>
+            <Logo rem={2} forceDark={true}/>
           </RouterLink>
         </Box>
         <Card>

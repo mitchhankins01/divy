@@ -67,7 +67,7 @@ const LoginView = () => {
           justifyContent="center"
         >
           <RouterLink style={{ textDecoration: 'none' }} to="/">
-            <Logo rem={2} />
+            <Logo rem={2} forceDark={true} />
           </RouterLink>
         </Box>
         <Card>
@@ -86,14 +86,6 @@ const LoginView = () => {
                 >
                   Welcome Back
                 </Typography>
-                <Link
-                  component={RouterLink}
-                  to="/recovery"
-                  variant="body2"
-                  color="textSecondary"
-                >
-                  Forgot your password?
-              </Link>
               </div>
             </Box>
             <Box
@@ -106,14 +98,29 @@ const LoginView = () => {
             <Box my={3}>
               <Divider />
             </Box>
-            <Link
-              component={RouterLink}
-              to="/register"
-              variant="body2"
-              color="textSecondary"
+            <Box
+              alignItems="center"
+              display="flex"
+              justifyContent="space-between"
+              mb={3}
             >
-              Create an account
-            </Link>
+              <Link
+                component={RouterLink}
+                to="/recovery"
+                variant="body2"
+                color="textSecondary"
+              >
+                Forgot your password?
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/register"
+                variant="body2"
+                color="textSecondary"
+              >
+                Create an account.
+              </Link>
+            </Box>
           </CardContent>
         </Card>
       </Container>

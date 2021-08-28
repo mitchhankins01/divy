@@ -11,13 +11,23 @@ import {
 } from '@material-ui/core';
 import Logo from 'src/components/Logo';
 import Dashboard from '@material-ui/icons/Dashboard';
+import { THEMES } from 'src/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.default
+    color: theme.palette.type === 'dark' && 'white',
+    backgroundColor: theme.palette.primary.main,
+    zIndex: theme.zIndex.drawer + 100,
+    ...theme.name === THEMES.LIGHT ? {
+      boxShadow: 'none',
+      backgroundColor: theme.palette.primary.main
+    } : {},
+    ...theme.name === THEMES.DOLLAR_DARK ? {
+      backgroundColor: theme.palette.background.default
+    } : {}
   },
   toolbar: {
-    height: 64
+    minHeight: 64
   },
   logo: {
     marginRight: theme.spacing(2)
