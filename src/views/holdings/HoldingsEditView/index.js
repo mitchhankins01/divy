@@ -91,7 +91,7 @@ export default () => {
                       input:
                       {
                         id: holding.id,
-                        price: values.price,
+                        price: parseFloat(values.price),
                         comments: values.comments,
                         quantity: values.quantity,
                         symbol: String(values.symbol).toUpperCase(),
@@ -101,7 +101,7 @@ export default () => {
                     const { attributes } = await Auth.currentAuthenticatedUser();
                     await API.graphql(graphqlOperation(createHolding, {
                       input: {
-                        price: values.price,
+                        price: parseFloat(values.price),
                         comments: values.comments,
                         quantity: values.quantity,
                         owner: attributes.sub,
@@ -201,7 +201,6 @@ export default () => {
                           startIcon={<DeleteIcon />}
                           onClick={handleDeleteClick}
                           variant="outlined"
-                          color="error"
                           disabled={isSubmitting}
                           style={{ marginRight: 'auto' }}
                         >

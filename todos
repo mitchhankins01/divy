@@ -10,5 +10,6 @@ datagrid annoying scrollbars
 optimistic loading
 search box crash weird chars like ]
 dateformat date-fns dividends list
+error handling saving / update invalid server error holding
 
 redo allocation with new attributes coming from api (costbasis etc)
