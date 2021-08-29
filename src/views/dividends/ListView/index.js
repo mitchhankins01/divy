@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: theme.spacing(3),
     backgroundColor: theme.palette.background.dark,
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1),
+    }
   },
   header: {
     flex: 1
