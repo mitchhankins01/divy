@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     backgroundColor: theme.palette.background.dark,
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(1),
+      padding: theme.spacing(2),
     }
   },
   header: {
