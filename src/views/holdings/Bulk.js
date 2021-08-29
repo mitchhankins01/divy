@@ -78,7 +78,7 @@ export default () => {
                 } else {
                     console.log('now,', item.data[1])
                     result.push({
-                        symbol: item.data[1],
+                        symbol: String(item.data[1]).toUpperCase().replace(/[\W_]+/g, '-'),
                         quantity: Number(item.data[3].replace(',', '')),
                         price: Math.abs(item.data[22]),
                     });

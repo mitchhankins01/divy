@@ -7,6 +7,7 @@ import {
   Button,
   CardContent,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -94,7 +95,7 @@ export default () => {
                         price: parseFloat(values.price),
                         comments: values.comments,
                         quantity: values.quantity,
-                        symbol: String(values.symbol).toUpperCase(),
+                        symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
                       }
                     }));
                   } else {
@@ -105,7 +106,7 @@ export default () => {
                         comments: values.comments,
                         quantity: values.quantity,
                         owner: attributes.sub,
-                        symbol: String(values.symbol).toUpperCase(),
+                        symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
                       }
                     }));
                   }
@@ -119,7 +120,7 @@ export default () => {
                 } catch (err) {
                   console.error(err);
                   setStatus({ success: false });
-                  setErrors({ submit: err.message });
+                  setErrors({ submit: err.message || 'Something went wrong, please try again.' });
                   setSubmitting(false);
                 }
               }}
@@ -195,6 +196,9 @@ export default () => {
                       autoCapitalize='on'
                       className={classes.textField}
                     />
+                    <Typography color='error'>
+                      {errors.submit}
+                    </Typography>
                     <Box mt={2} className={classes.buttonsBar}>
                       {holding.id && (
                         <Button

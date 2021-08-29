@@ -86,7 +86,7 @@ export default () => {
 
   const handleSearchChange = (event) => {
     event.persist();
-    setSearch(String(event.target.value).toUpperCase());
+    setSearch(String(event.target.value).toUpperCase().replace(/[\W_]+/g, ''));
   };
 
   const handleClearSearch = (event) => {
