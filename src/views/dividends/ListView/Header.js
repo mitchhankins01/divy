@@ -10,7 +10,9 @@ import {
   InputAdornment,
   IconButton,
   SvgIcon,
-  makeStyles
+  makeStyles,
+  FormControlLabel,
+  Switch
 } from '@material-ui/core';
 import {
   Search as SearchIcon,
@@ -20,6 +22,13 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
+  switch: {
+    height: 56,
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    },
+  },
   queryField: {
     width: 250,
     marginBottom: theme.spacing(2),
@@ -34,6 +43,8 @@ export default ({
   className,
   handleClearSearch,
   handleSearchChange,
+  hidePastDividends,
+  handleSwitchChange,
   ...rest
 }) => {
   const classes = useStyles();
@@ -73,6 +84,18 @@ export default ({
         </Typography>
       </Grid>
       <Grid item>
+        <FormControlLabel
+          labelPlacement='start'
+          label='Show Past Dividends'
+          className={classes.switch}
+          control={
+            <Switch
+              color='primary'
+              checked={!hidePastDividends}
+              onChange={handleSwitchChange}
+            />
+          }
+        />
         <TextField
           className={classes.queryField}
           InputProps={{

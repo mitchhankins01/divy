@@ -8,7 +8,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import moment from 'moment';
+import { format } from 'date-fns';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Toolbar from './Toolbar';
 
@@ -62,7 +62,7 @@ const Header = ({
           variant="h3"
           color="textPrimary"
         >
-          {moment(date).format('MMMM YYYY')}
+          {format(date, 'MMMM yyyy')}
         </Typography>
       </Grid>
       <Grid item>

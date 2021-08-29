@@ -1,15 +1,6 @@
 prevent duplicate holdings
-testing
-tickers . / replacement
 autocomplete tickers
-change price to buyprice db
-UI add holding doesn't let price be int only float (so no 1754.00)
-title is add holding when editing holding
-remove moment dependancy
-datagrid annoying scrollbars
 optimistic loading
-search box crash weird chars like ]
-dateformat date-fns dividends list
-error handling saving / update invalid server error holding
-
+caching
+hero full height
 redo allocation with new attributes coming from api (costbasis etc)

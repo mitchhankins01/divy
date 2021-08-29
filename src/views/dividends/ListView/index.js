@@ -10,6 +10,7 @@ import {
   makeStyles,
   Card,
 } from '@material-ui/core';
+import { format, parseISO } from 'date-fns';
 import { useDebounce } from 'use-debounce';
 import { DataGrid } from '@material-ui/data-grid';
 import { Link as RouterLink } from 'react-router-dom';
@@ -46,13 +47,32 @@ export default () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const [hidePastDividends, setHidePastDividends] = useState(true);
+  const [eventsAfterToday, setEventsAfterToday] = useState([]);
+
+  const handleSwitchChange = (event) => {
+    setHidePastDividends(!event.target.checked);
+  };
+
   const getEvents = useCallback(async () => {
     try {
       setLoading(true);
       const { data } = await API.graphql(graphqlOperation(listDividends));
 
       if (isMountedRef.current) {
+        const yesterday = new Date().setDate(new Date().getDate() - 1);
+
+        const afterToday = [];
         const parsed = JSON.parse(data.listDividends);
+
+        parsed.forEach(item => {
+          if (new Date(item.paymentDate) > yesterday) {
+            afterToday.push(item);
+          }
+
+        });
+        setEventsAfterToday(afterToday);
+        // console.log(parsed)
         setEvents(parsed);
         Cache.setItem('listDividends', parsed);
       }
@@ -74,9 +94,17 @@ export default () => {
     }
   }, [getEvents]);
 
+  useEffect(() => {
+    if (hidePastDividends) {
+
+    } else {
+
+    }
+  }, [hidePastDividends]);
+
   const handleSearchChange = (event) => {
     event.persist();
-    setSearch(String(event.target.value).toUpperCase());
+    setSearch(String(event.target.value).toUpperCase().replace(/[\W_]+/g, ''));
   };
 
   const handleClearSearch = (event) => {
@@ -107,10 +135,26 @@ export default () => {
         </Button>
       )
     },
-    { headerName: 'Pay Date', field: 'paymentDate', flex: 1, valueGetter: params => params.row.paymentDate },
-    { headerName: 'Ex Date', field: 'exDate', flex: 1, valueGetter: params => params.row.ex_dividend_date, hide: mobileDevice && true },
-    { headerName: 'Declared Date', field: 'declared', flex: 1, valueGetter: params => params.row.declaredDate, hide: mobileDevice && true },
-    { headerName: 'Record Date', field: 'recordDate', flex: 1, valueGetter: params => params.row.record_date, hide: mobileDevice && true },
+    {
+      flex: 1,
+      field: 'paymentDate',
+      headerName: 'Pay Date',
+      renderCell: cell => format(parseISO(cell.value), 'dd MMM yyyy')
+    },
+    {
+      flex: 1,
+      headerName: 'Ex Date',
+      field: 'ex_dividend_date',
+      hide: mobileDevice && true,
+      renderCell: cell => format(parseISO(cell.value), 'dd MMM yyyy')
+    },
+    {
+      flex: 1,
+      headerName: 'Record Date',
+      field: 'record_date',
+      hide: mobileDevice && true,
+      renderCell: cell => format(parseISO(cell.value), 'dd MMM yyyy')
+    },
   ];
 
   return (
@@ -118,16 +162,18 @@ export default () => {
       <Header
         search={search}
         className={classes.header}
+        hidePastDividends={hidePastDividends}
         handleClearSearch={handleClearSearch}
+        handleSwitchChange={handleSwitchChange}
         handleSearchChange={handleSearchChange}
       />
       <Card className={classes.card}>
         <DataGrid
-          rows={events}
           columns={columns}
           autoPageSize={true}
           loading={loading}
           disableSelectionOnClick={true}
+          rows={hidePastDividends ? eventsAfterToday : events}
           sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
           filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
         />
