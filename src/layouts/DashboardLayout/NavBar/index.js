@@ -20,6 +20,7 @@ import {
   DollarSign as DollarSignIcon,
   List as ListIcon,
   Calendar as CalendarIcon,
+  Upload
 } from 'react-feather';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
@@ -65,7 +66,7 @@ const sections = [
       {
         title: 'Bulk',
         href: '/app/holdings/bulk',
-        icon: ListIcon
+        icon: Upload
       },
       {
         title: 'Chart',
