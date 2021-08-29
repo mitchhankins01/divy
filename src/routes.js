@@ -120,6 +120,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/holdings/bulk',
+        component: lazy(() => import('src/views/holdings/Bulk'))
+      },
+      {
+        exact: true,
         path: '/app/dividends/list',
         component: lazy(() => import('src/views/dividends/ListView'))
       },
