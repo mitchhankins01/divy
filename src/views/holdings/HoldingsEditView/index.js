@@ -1,39 +1,230 @@
 import React from 'react';
-  import {
-    Box,
-    Container,
-    makeStyles
-  } from '@material-ui/core';
-  import Page from 'src/components/Page';
-  import HoldingEditForm from './HoldingEditForm';
-  import Header from './Header';
-  
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      backgroundColor: theme.palette.background.dark,
-      minHeight: '100%',
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3)
-    }
-  }));
-  
+import {
+  Box,
+  Card,
+  Grid,
+  makeStyles,
+  Button,
+  CardContent,
+  TextField,
+} from '@material-ui/core';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+import { useSnackbar } from 'notistack';
+import Page from 'src/components/Page';
+import { Delete as DeleteIcon, Save as SaveIcon } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
+import { API, graphqlOperation, Auth, Cache } from 'aws-amplify';
+import Header from './Header';
+import { createHolding, updateHolding, deleteHolding } from '../../../graphql/mutations';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(3),
+    backgroundColor: theme.palette.background.dark,
+  },
+  buttonsBar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  textField: {
+    marginBottom: theme.spacing(2)
+  }
+}));
+
 export default () => {
-    const classes = useStyles();
-  
-    return (
-      <Page
-        className={classes.root}
-        title="New Holding"
-      >
-        <Container maxWidth={false}>
-          <Header />
-        </Container>
-        <Box mt={3}>
-          <Container maxWidth="lg">
-            <HoldingEditForm />
-          </Container>
+  const classes = useStyles();
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
+
+  let holding;
+  if (history.location.state) {
+    holding = { ...history.location.state };
+  } else {
+    holding = {};
+  }
+
+  const handleDeleteClick = async () => {
+    const answer = window.confirm(`Are you sure you want to delete ${holding.symbol}? This action cannot be undone.`);
+    if (answer) {
+      Cache.clear();
+      await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.id } }));
+      enqueueSnackbar('Holding Deleted', { variant: 'success' });
+      history.push('/app/holdings');
+    }
+  }
+
+  return (
+    <Page className={classes.root} title={holding.id ? `Edit ${holding.symbol}` : 'New Holding'}>
+      <Header holding={holding} />
+      <Grid item lg={6} xs={12}>
+        <Box mt={2}>
+          <Card>
+            <Formik
+              initialValues={{
+                price: holding.price || '',
+                quantity: holding.quantity || '',
+                symbol: holding.symbol || '',
+                comments: holding.comments || '',
+                submit: null
+              }}
+              validationSchema={Yup.object().shape({
+                price: Yup.number().required('Price per share is required'),
+                quantity: Yup.number().required('Number of shares are required'),
+                symbol: Yup.string().max(255).required('Symbol is required'),
+                comments: Yup.string()
+              })}
+              onSubmit={async (values, {
+                resetForm,
+                setErrors,
+                setStatus,
+                setSubmitting
+              }) => {
+                try {
+                  Cache.clear();
+
+                  if (holding.id) {
+                    await API.graphql(graphqlOperation(updateHolding, {
+                      input:
+                      {
+                        id: holding.id,
+                        price: values.price,
+                        comments: values.comments,
+                        quantity: values.quantity,
+                        symbol: String(values.symbol).toUpperCase(),
+                      }
+                    }));
+                  } else {
+                    const { attributes } = await Auth.currentAuthenticatedUser();
+                    await API.graphql(graphqlOperation(createHolding, {
+                      input: {
+                        price: values.price,
+                        comments: values.comments,
+                        quantity: values.quantity,
+                        owner: attributes.sub,
+                        symbol: String(values.symbol).toUpperCase(),
+                      }
+                    }));
+                  }
+                  resetForm();
+                  setStatus({ success: true });
+                  setSubmitting(false);
+                  history.push('/app/holdings');
+                  enqueueSnackbar(holding.id ? 'Holding Updated' : 'Holding Added', {
+                    variant: 'success',
+                  });
+                } catch (err) {
+                  console.error(err);
+                  setStatus({ success: false });
+                  setErrors({ submit: err.message });
+                  setSubmitting(false);
+                }
+              }}
+            >
+              {({
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                touched,
+                values,
+                setFieldValue
+              }) => (
+                <form
+                  // className={clsx(classes.root, className)}
+                  onSubmit={handleSubmit}
+                >
+                  <CardContent>
+                    <TextField
+                      error={Boolean(touched.symbol && errors.symbol)}
+                      fullWidth
+                      helperText={touched.symbol && errors.symbol}
+                      autoComplete='off'
+                      label="Symbol"
+                      name="symbol"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      value={values.symbol.toUpperCase()}
+                      variant="outlined"
+                      className={classes.textField}
+                    />
+                    <TextField
+                      error={Boolean(touched.quantity && errors.quantity)}
+                      fullWidth
+                      helperText={touched.quantity && errors.quantity}
+                      label="Quantity"
+                      name="quantity"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      value={values.quantity}
+                      variant="outlined"
+                      type='number'
+                      className={classes.textField}
+                    />
+                    <TextField
+                      error={Boolean(touched.price && errors.price)}
+                      fullWidth
+                      helperText={touched.price && errors.price}
+                      label="Price per Share"
+                      name="price"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.price}
+                      variant="outlined"
+                      // type='number'
+                      required
+                      className={classes.textField}
+                    />
+                    <TextField
+                      error={Boolean(touched.comments && errors.comments)}
+                      fullWidth
+                      multiline
+                      helperText={touched.comments && errors.comments}
+                      label='Comments'
+                      name='comments'
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.comments}
+                      variant='outlined'
+                      autoCapitalize='on'
+                      className={classes.textField}
+                    />
+                    <Box mt={2} className={classes.buttonsBar}>
+                      {holding.id && (
+                        <Button
+                          startIcon={<DeleteIcon />}
+                          onClick={handleDeleteClick}
+                          variant="outlined"
+                          color="error"
+                          disabled={isSubmitting}
+                          style={{ marginRight: 'auto' }}
+                        >
+                          Delete
+                        </Button>
+                      )}
+                      <Button
+                        variant='contained'
+                        color='secondary'
+                        type='submit'
+                        startIcon={<SaveIcon />}
+                        disabled={isSubmitting}
+                      >
+                        {holding.id ? 'Update Holding' : 'Add Holding'}
+                      </Button>
+                    </Box>
+                  </CardContent>
+                </form>
+              )}
+            </Formik>
+          </Card>
         </Box>
-      </Page>
-    );
-  };
-  
+      </Grid>
+    </Page>
+  );
+};

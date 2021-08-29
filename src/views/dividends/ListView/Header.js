@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({
+  search,
   className,
   handleClearSearch,
   handleSearchChange,
-  search,
   ...rest
 }) => {
   const classes = useStyles();
@@ -69,7 +69,7 @@ export default ({
           variant="h3"
           color="textPrimary"
         >
-          Dividends List
+          Dividend List
         </Typography>
       </Grid>
       <Grid item>
