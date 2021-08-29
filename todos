@@ -7,6 +7,8 @@ UI add holding doesn't let price be int only float (so no 1754.00)
 title is add holding when editing holding
 remove moment dependancy
 datagrid annoying scrollbars
-
+optimistic loading
+search box crash weird chars like ]
+dateformat date-fns dividends list
 
 redo allocation with new attributes coming from api (costbasis etc)

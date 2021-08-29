@@ -93,24 +93,26 @@ exports.handler = async (event) => {
         for (const { symbol, regularMarketPrice, dividendRate = 0, dividendYield = 0, ...rest } of yahooData.quoteResponse.result) {
             const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
 
-            const costBasis = match.price * match.quantity;
-            const marketValue = regularMarketPrice * match.quantity;
-            const gain = marketValue - costBasis;
+            if (match) {
+                const costBasis = match.price * match.quantity;
+                const marketValue = regularMarketPrice * match.quantity;
+                const gain = marketValue - costBasis;
 
-            list.push({
-                rest,
-                gain,
-                symbol,
-                costBasis,
-                marketValue,
-                dividendRate,
-                dividendYield,
-                buyPrice: match.price,
-                quantity: match.quantity,
-                marketPrice: regularMarketPrice,
-                totalDividends: dividendRate * match.quantity,
-                id: `${symbol}.${regularMarketPrice}`,
-            });
+                list.push({
+                    rest,
+                    gain,
+                    symbol,
+                    costBasis,
+                    marketValue,
+                    dividendRate,
+                    dividendYield,
+                    buyPrice: match.price,
+                    quantity: match.quantity,
+                    marketPrice: regularMarketPrice,
+                    totalDividends: dividendRate * match.quantity,
+                    id: `${symbol}.${regularMarketPrice}`,
+                });
+            }
         }
     } catch (error) {
         console.log(error);

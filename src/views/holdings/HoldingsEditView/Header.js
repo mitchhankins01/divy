@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Header = ({ className, ...rest }) => {
+export default ({ className, holding, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -28,10 +28,10 @@ const Header = ({ className, ...rest }) => {
         <Link
           variant="body1"
           color="inherit"
-          to="/app"
+          to="/app/holdings"
           component={RouterLink}
         >
-          Main
+          Holdings
         </Link>
         <Link
           variant="body1"
@@ -39,17 +39,21 @@ const Header = ({ className, ...rest }) => {
           to="/app/holdings"
           component={RouterLink}
         >
-          Holdings
+          List
         </Link>
+        <Typography
+            variant="body1"
+            color="textPrimary"
+          >
+            {holding.id ? 'Edit' : 'Add Holding'}
+          </Typography>
       </Breadcrumbs>
       <Typography
         variant="h3"
         color="textPrimary"
       >
-        Add Holding
+        {holding.id ? `Edit ${holding.symbol}` : 'Add Holding'}
       </Typography>
     </div>
   );
 };
-
-export default Header;

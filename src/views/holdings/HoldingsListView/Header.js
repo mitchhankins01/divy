@@ -2,33 +2,50 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-  Box,
   Breadcrumbs,
   Button,
   Grid,
   Link,
   SvgIcon,
   Typography,
-  makeStyles
+  makeStyles,
+  TextField,
+  InputAdornment,
+  IconButton,
 } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import {
   PlusCircle as PlusCircleIcon,
-  Download as DownloadIcon,
-  Upload as UploadIcon
+  Search as SearchIcon,
+  XCircle as ClearIcon
 } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  action: {
-    marginBottom: theme.spacing(1),
-    '& + &': {
-      marginLeft: theme.spacing(1)
-    }
-  }
+  button: {
+    height: 56,
+    marginLeft: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0
+    },
+  },
+  queryField: {
+    width: 250,
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    },
+  },
 }));
 
-const Header = ({ className, ...rest }) => {
+export default ({
+  search = '',
+  className,
+  handleClearSearch,
+  handleSearchChange,
+  ...rest
+}) => {
   const classes = useStyles();
 
   return (
@@ -36,7 +53,6 @@ const Header = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       container
       justify="space-between"
-      spacing={3}
       {...rest}
     >
       <Grid item>
@@ -47,49 +63,67 @@ const Header = ({ className, ...rest }) => {
           <Link
             variant="body1"
             color="inherit"
-            to="/app"
+            to="/app/holdings"
             component={RouterLink}
           >
-            Main
+            Holdings
           </Link>
           <Typography
             variant="body1"
             color="textPrimary"
           >
-            Holdings
+            List
           </Typography>
         </Breadcrumbs>
         <Typography
           variant="h3"
           color="textPrimary"
         >
-          All Holdings
+          Holding List
         </Typography>
-        <Box mt={2}>
-          <Button startIcon={
-            <SvgIcon fontSize="small">
-              <UploadIcon />
-            </SvgIcon>
-          }>
-            Import
-          </Button>
-          <Button startIcon={
-            <SvgIcon fontSize="small">
-              <DownloadIcon />
-            </SvgIcon>
-          }>
-            Export
-          </Button>
-        </Box>
       </Grid>
       <Grid item>
+        <TextField
+          className={classes.queryField}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SvgIcon
+                  fontSize="small"
+                  color="action"
+                >
+                  <SearchIcon />
+                </SvgIcon>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClearSearch} disabled={!search.length} >
+                  <SvgIcon
+                    fontSize="small"
+                    color="action"
+                  >
+                    <ClearIcon />
+                  </SvgIcon>
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          onChange={handleSearchChange}
+          autoComplete='off'
+          autoCorrect='off'
+          placeholder='Symbol'
+          value={search}
+          variant='outlined'
+        />
         <Button
-          color="secondary"
-          variant="contained"
+          className={classes.button}
+          color='secondary'
+          variant='contained'
           component={RouterLink}
-          to="/app/holdings/create"
+          to='/app/holdings/create'
           startIcon={
-            <SvgIcon fontSize="small">
+            <SvgIcon fontSize='small'>
               <PlusCircleIcon />
             </SvgIcon>
           }
@@ -101,4 +135,3 @@ const Header = ({ className, ...rest }) => {
   );
 };
 
-export default Header;
