@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: theme.spacing(3),
     backgroundColor: theme.palette.background.dark,
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1),
+    }
   },
   header: {
     flex: 1
@@ -110,13 +113,14 @@ export default () => {
         </Button>
       )
     },
-    { headerName: 'Quantity', field: 'quantity', flex: 1, hide: mobileDevice && true },
-    { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && true },
+    { headerName: 'Quantity', field: 'quantity', flex: 1, hide: mobileDevice && false },
+    { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && false },
     { headerName: 'Created', field: 'createdAt', valueGetter: params => format(new Date(params.row.createdAt), 'dd MMM yyyy H:mm'), flex: 1, hide: mobileDevice && true },
     { headerName: 'Updated', field: 'updatedAt', valueGetter: params => format(new Date(params.row.updatedAt), 'dd MMM yyyy H:mm'), flex: 1, hide: mobileDevice && true },
     {
       field: 'edit',
-      headerName: 'Edit',
+      headerName: ' ',
+      width: 70,
       renderCell: params => (
         <IconButton onClick={handleEditClick.bind(null, params.row)}>
           <SvgIcon
