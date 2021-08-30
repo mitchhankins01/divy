@@ -1,6 +1,8 @@
+move state up to auth (list all api calls and merge)
 prevent duplicate holdings
 autocomplete tickers
 optimistic loading
 caching
 hero full height
 redo allocation with new attributes coming from api (costbasis etc)
+mobile logo too big on login
