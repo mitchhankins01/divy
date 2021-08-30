@@ -1,12 +1,9 @@
-move state up to auth (list all api calls and merge)
 prevent duplicate holdings
 autocomplete tickers
 optimistic loading
-caching
 hero full height
-redo allocation with new attributes coming from api (costbasis etc)
 mobile logo too big on login
 
 sign up email customize
-loading from auth splash screen
 invalidate cache on updates in auth
+refreshing on /holdings/ causes redirect to dashboard
