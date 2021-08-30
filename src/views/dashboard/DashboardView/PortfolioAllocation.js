@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Charts from './Charts';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ className, data, marketValue, ...rest }) => {
+export default ({ className, ...rest }) => {
   const theme = useTheme();
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
@@ -33,15 +34,15 @@ export default ({ className, data, marketValue, ...rest }) => {
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
   const [chartType, setChartType] = useState('pie');
+  const { listStatistics: { data, marketValue } } = useAuth();
 
   useEffect(() => {
     const _labels = [];
     const _percentagesOfPortfolio = [];
 
     if (isMountedRef.current && marketValue > 0) {
-      data.forEach((holding, i) => {
-        const holdingMarketValue = Number(holding.quantity) * Number(holding.marketPrice);
-        const percentageOfPortfolio = Number((Number(holdingMarketValue) / Number(marketValue)) * 100).toFixed(1);
+      data.forEach((holding) => {
+        const percentageOfPortfolio = Number((Number(holding.marketValue) / Number(marketValue)) * 100).toFixed(1);
         _labels.push(holding.symbol);
         _percentagesOfPortfolio.push(percentageOfPortfolio);
       });

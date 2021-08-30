@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import formatter from '../../../utils/numberFormatter';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ({ className, totalDividends, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
+  const { listStatistics: { totalDividends } } = useAuth();
 
   return (
     <Card
@@ -47,7 +49,7 @@ export default ({ className, totalDividends, ...rest }) => {
           alignItems="center"
           flexWrap="wrap"
         >
-           <Typography
+          <Typography
             variant="h3"
             color="textPrimary"
           >

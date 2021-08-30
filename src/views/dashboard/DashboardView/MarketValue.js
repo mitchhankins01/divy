@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import formatter from '../../../utils/numberFormatter';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +28,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ({ className, marketValue, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
+  const { listStatistics: { marketValue } } = useAuth();
   
   return (
     <Card

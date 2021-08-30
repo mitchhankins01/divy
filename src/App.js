@@ -33,7 +33,7 @@ Hub.listen('auth', (data) => {
     //   break;
     case 'signOut':
       console.info('user signed out');
-      history.push('/login')
+      history.push('/')
       break;
     // case 'signIn_failure':
     //   logger.error('user sign in failed');

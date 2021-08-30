@@ -63,9 +63,9 @@ const TopBar = ({ className, ...rest }) => {
         <Divider className={classes.divider} />
         <Button
           color="secondary"
-          component="a"
+          component={RouterLink}
           startIcon={<Dashboard />}
-          href='/app/dashboard'
+          to='/app/dashboard'
           variant="contained"
           size="small"
         >
