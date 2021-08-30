@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback
-} from 'react';
+import React, { useState } from 'react';
 import {
   Edit as EditIcon,
 } from 'react-feather';
@@ -17,13 +13,11 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
-import { API, Cache, graphqlOperation } from 'aws-amplify';
 import { DataGrid } from '@material-ui/data-grid';
 import { useDebounce } from 'use-debounce';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import { listHoldings } from '../../../graphql/queries';
 import Header from './Header';
 import Page from 'src/components/Page';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,40 +42,10 @@ export default () => {
   const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
-  const isMountedRef = useIsMountedRef();
-  const [holdings, setHoldings] = useState([]);
+  const { listHoldings } = useAuth();
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(false);
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const getHoldings = useCallback(async () => {
-    try {
-      setLoading(true);
-      const { data } = await API.graphql(graphqlOperation(listHoldings))
-
-      if (isMountedRef.current) {
-        setLoading(false);
-        setHoldings(data?.listHoldings?.items)
-        console.log(data?.listHoldings?.items)
-        Cache.setItem('listHoldings', data?.listHoldings?.items)
-      }
-    } catch (err) {
-      setLoading(false);
-      console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    // const cached = Cache.getItem('listHoldings');
-    const cached = false;
-
-    if (cached) {
-      setHoldings(cached);
-    } else {
-      getHoldings();
-    }
-  }, [getHoldings]);
 
   const handleEditClick = (row) => {
     history.push('/app/holdings/create', row)
@@ -145,10 +109,10 @@ export default () => {
       />
       <Card className={classes.card}>
         <DataGrid
-          rows={holdings}
+          rows={listHoldings}
           columns={columns}
           autoPageSize={true}
-          loading={loading}
+          loading={false}
           disableSelectionOnClick={true}
           sortModel={[{ field: 'symbol', sort: 'asc' }]}
           filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
