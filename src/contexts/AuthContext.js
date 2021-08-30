@@ -5,7 +5,7 @@ import React, {
   useCallback
 } from 'react';
 import { Auth, Cache, API, graphqlOperation } from 'aws-amplify';
-import { listStatistics, listDividends } from 'src/graphql/queries';
+import { listStatistics, listDividends, listHoldings } from 'src/graphql/queries';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 
 const initialAuthState = {
@@ -19,7 +19,8 @@ const initialAuthState = {
   listDividends: {
     all: [],
     upcoming: []
-  }
+  },
+  listHoldings: [],
 };
 
 const AuthContext = createContext({
@@ -144,6 +145,27 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isMountedRef]);
 
+  const getHoldings = useCallback(async () => {
+    if (isMountedRef.current) {
+      const cachedListHoldings = Cache.getItem('listHoldings');
+
+      if (cachedListHoldings) {
+        console.log('listHoldings already cached');
+        setState(s => ({ ...s, listHoldings: cachedListHoldings }));
+      } else {
+        console.log('caching listHoldings');
+
+        const { data } = await API.graphql(graphqlOperation(listHoldings));
+        Cache.setItem(
+          'listHoldings',
+          data?.listHoldings?.items,
+          { expires: new Date().setHours(new Date().getHours() + 1) }
+        );
+        setState(s => ({ ...s, listHoldings: data?.listHoldings?.items }));
+      }
+    }
+  }, [isMountedRef]);
+
   /*
     Effects
   */
@@ -168,11 +190,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('isAuthenticated effect auth: ', isAuthenticated);
     if (isAuthenticated) {
-      console.log('auth yes, getStatistics - getDividends');
+      console.log('auth yes, getStatistics - getDividends - getHoldings');
       getStatistics();
       getDividends();
+      getHoldings();
     }
-  }, [isAuthenticated, getStatistics]);
+  }, [isAuthenticated, getStatistics, getDividends, getHoldings]);
 
   return (
     <AuthContext.Provider
