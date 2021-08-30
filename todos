@@ -8,3 +8,5 @@ redo allocation with new attributes coming from api (costbasis etc)
 mobile logo too big on login
 
 sign up email customize
+loading from auth splash screen
+invalidate cache on updates in auth

@@ -6,7 +6,6 @@ import React, {
   useState,
   useRef,
   useEffect,
-  useCallback
 } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -26,14 +25,12 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core';
-import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
-import { listDividends } from '../../../graphql/queries';
 import LoadingScreen from 'src/components/LoadingScreen';
 import formatter from '../../../utils/numberFormatter';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -162,14 +159,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CalendarView = () => {
+export default () => {
   const theme = useTheme();
   const classes = useStyles();
   const calendarRef = useRef(null);
-  const isMountedRef = useIsMountedRef();
-  const [events, setEvents] = useState([]);
+  const { listDividends: { all }} = useAuth();
   const [date, setDate] = useState(new Date());
-  const [loading, setLoading] = useState(false);
+  const { height: windowHeight } = useWindowSize();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+  const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
   const emptyDialog = {
     symbol: undefined,
     amount: undefined,
@@ -181,36 +179,6 @@ const CalendarView = () => {
     record_date: undefined,
   };
   const [dialog, setDialog] = useState(emptyDialog);
-  const { height: windowHeight } = useWindowSize();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-  const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
-
-  const getEvents = useCallback(async () => {
-    try {
-      setLoading(true);
-      const { data } = await API.graphql(graphqlOperation(listDividends));
-
-      if (isMountedRef.current) {
-        const parsed = JSON.parse(data.listDividends);
-        setEvents(parsed);
-        Cache.setItem('listDividends', parsed);
-      }
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    const cached = Cache.getItem('listDividends');
-
-    if (cached) {
-      setEvents(cached);
-    } else {
-      getEvents();
-    }
-  }, [getEvents]);
 
   const toggleDialog = (event = undefined) => {
     if (!event) {
@@ -302,12 +270,12 @@ const CalendarView = () => {
           onViewChange={handleViewChange}
         />
         <Paper className={classes.calendar}>
-          {loading && <LoadingScreen />}
+          {/* {loading && <LoadingScreen />} */}
           <FullCalendar
             weekends
             eventLimit
             header={false}
-            events={events}
+            events={all}
             ref={calendarRef}
             defaultDate={date}
             defaultView={view}
@@ -364,5 +332,3 @@ const CalendarView = () => {
     </>
   );
 };
-
-export default CalendarView;

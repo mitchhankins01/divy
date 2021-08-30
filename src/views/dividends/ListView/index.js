@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback
-} from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   useTheme,
@@ -14,12 +10,10 @@ import { format, parseISO } from 'date-fns';
 import { useDebounce } from 'use-debounce';
 import { DataGrid } from '@material-ui/data-grid';
 import { Link as RouterLink } from 'react-router-dom';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-import { API, graphqlOperation, Cache } from 'aws-amplify';
 import Page from 'src/components/Page';
 import Header from './Header';
-import { listDividends } from '../../../graphql/queries';
 import formatter from '../../../utils/numberFormatter';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,67 +37,16 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const theme = useTheme();
   const classes = useStyles();
-  const isMountedRef = useIsMountedRef();
-  const [events, setEvents] = useState([]);
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(false);
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
   const [hidePastDividends, setHidePastDividends] = useState(true);
-  const [eventsAfterToday, setEventsAfterToday] = useState([]);
+  const { listDividends: { all, upcoming } } = useAuth();
 
   const handleSwitchChange = (event) => {
     setHidePastDividends(!event.target.checked);
   };
 
-  const getEvents = useCallback(async () => {
-    try {
-      setLoading(true);
-      const { data } = await API.graphql(graphqlOperation(listDividends));
-
-      if (isMountedRef.current) {
-        const yesterday = new Date().setDate(new Date().getDate() - 1);
-
-        const afterToday = [];
-        const parsed = JSON.parse(data.listDividends);
-
-        parsed.forEach(item => {
-          if (new Date(item.paymentDate) > yesterday) {
-            afterToday.push(item);
-          }
-
-        });
-        setEventsAfterToday(afterToday);
-        // console.log(parsed)
-        setEvents(parsed);
-        Cache.setItem('listDividends', parsed);
-      }
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    // const cached = Cache.getItem('listDividends');
-    const cached = false;
-
-    if (cached) {
-      setEvents(cached);
-    } else {
-      getEvents();
-    }
-  }, [getEvents]);
-
-  useEffect(() => {
-    if (hidePastDividends) {
-
-    } else {
-
-    }
-  }, [hidePastDividends]);
 
   const handleSearchChange = (event) => {
     event.persist();
@@ -174,9 +117,9 @@ export default () => {
         <DataGrid
           columns={columns}
           autoPageSize={true}
-          loading={loading}
+          loading={false}
           disableSelectionOnClick={true}
-          rows={hidePastDividends ? eventsAfterToday : events}
+          rows={hidePastDividends ? upcoming : all}
           sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
           filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
         />
