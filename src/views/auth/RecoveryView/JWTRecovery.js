@@ -67,10 +67,10 @@ const ForgotPasswordSubmit = ({ className, ...rest }) => {
           {status && status.success ?
             (
               <Typography
-                variant="h4"
+                variant="body"
                 color="textPrimary"
               >
-                Done!
+                Password change successful.
               </Typography>
             ) : (
               <form

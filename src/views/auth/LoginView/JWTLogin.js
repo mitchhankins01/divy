@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const JWTLogin = ({ className, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
   const { login } = useAuth();
   const isMountedRef = useIsMountedRef();
@@ -120,5 +120,3 @@ const JWTLogin = ({ className, ...rest }) => {
     </Formik>
   );
 };
-
-export default JWTLogin;

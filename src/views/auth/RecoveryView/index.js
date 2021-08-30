@@ -12,7 +12,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Logo from 'src/components/Logo';
-import useAuth from 'src/hooks/useAuth';
 import JWTRecovery from './JWTRecovery';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginView = () => {
   const classes = useStyles();
-  const { method } = useAuth();
 
   return (
     <Page
@@ -97,7 +95,7 @@ const LoginView = () => {
             <Box
               flexGrow={1}
             >
-              {method === 'JWT' && <JWTRecovery />}
+               <JWTRecovery />
             </Box>
             <Box my={3}>
               <Divider />

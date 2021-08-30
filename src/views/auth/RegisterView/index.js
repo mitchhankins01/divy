@@ -12,9 +12,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Logo from 'src/components/Logo';
-import useAuth from 'src/hooks/useAuth';
-import Auth0Register from './Auth0Register';
-import FirebaseAuthRegister from './FirebaseAuthRegister';
 import JWTRegister from './JWTRegister';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterView = () => {
   const classes = useStyles();
-  const { method } = useAuth();
 
   return (
     <Page
@@ -106,9 +102,7 @@ const RegisterView = () => {
             <Box
               flexGrow={1}
             >
-              {method === 'Auth0' && <Auth0Register /> }
-              {method === 'FirebaseAuth' && <FirebaseAuthRegister /> }
-              {method === 'JWT' && <JWTRegister /> }
+              <JWTRegister />
             </Box>
             <Box my={3}>
               <Divider />
