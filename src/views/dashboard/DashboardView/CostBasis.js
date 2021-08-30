@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import HistoryIcon from '@material-ui/icons/History';
 import formatter from '../../../utils/numberFormatter';
+import useAuth from 'src/hooks/useAuth';
 // import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ({ className, costBasis, ...rest }) => {
+export default ({ className, ...rest }) => {
   const classes = useStyles();
+  const { listStatistics: { costBasis } } = useAuth();
 
   return (
     <Card
