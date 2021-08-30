@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const GuestGuard = ({ children }) => {
+export default ({ children }) => {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
@@ -15,5 +15,3 @@ const GuestGuard = ({ children }) => {
     </>
   );
 };
-
-export default GuestGuard;
