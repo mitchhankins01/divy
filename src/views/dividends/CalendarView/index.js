@@ -28,7 +28,7 @@ import {
 import Page from 'src/components/Page';
 import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
-import LoadingScreen from 'src/components/LoadingScreen';
+// import LoadingScreen from 'src/components/LoadingScreen';
 import formatter from '../../../utils/numberFormatter';
 import useAuth from 'src/hooks/useAuth';
 
