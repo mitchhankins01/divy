@@ -14,14 +14,26 @@ const useStyles = makeStyles(({ name, palette }) => ({
     textDecoration: 'none',
     justifyContent: 'space-around',
     fontSize: ({ rem }) => `${rem}rem`,
-    color: ({ forceDark }) => 
+    color: ({ forceDark }) =>
       name === THEMES.DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
-
+  },
+  iconOne: {
+    transform: 'rotate(15deg)',
+    fontSize: ({ rem }) => `${rem}em`,
+  },
+  iconTwo: {
+    transform: 'rotate(10deg)',
+    fontSize: ({ rem }) => `${rem * 1.75}em`,
+  },
+  iconThree: {
+    // transform: 'rotate(-20deg)',
+    fontSize: ({ rem }) => `${rem * 2.5}em`,
+    marginLeft: -6,
   },
   span: {
+    fontSize: ({ rem }) => `${rem * 2.5}em`,
     textDecoration: 'none',
-    fontSize: ({ rem }) => `${rem * 2.3}rem`,
-    color: ({ forceDark }) => 
+    color: ({ forceDark }) =>
       name === THEMES.DARK || forceDark ? palette.secondary.main : palette.primary.contrastText,
   },
 }));
@@ -32,33 +44,9 @@ const Logo = ({ rem = 1, forceDark = false, ...rest }) => {
   return (
     <div className={classes.div}>
       <span className={classes.icons} >
-        <AttachMoneyIcon
-          {...rest}
-          style={{
-            transform: 'rotate(-10deg)',
-            padding: 0,
-            fontSize: '1em',
-            marginRight: 2.5
-          }}
-        />
-        <AttachMoneyIcon
-          {...rest}
-          style={{
-            transform: 'rotate(-15deg)',
-            padding: 0, fontSize: '2.25em',
-            marginLeft: -2.5,
-            marginRight: -6
-          }}
-        />
-        <AttachMoneyIcon
-          {...rest}
-          style={{
-            transform: 'rotate(-20deg)',
-            padding: 0,
-            fontSize: '3.5em',
-            marginLeft: -6
-          }}
-        />
+        <AttachMoneyIcon className={classes.iconOne} />
+        <AttachMoneyIcon className={classes.iconTwo} />
+        <AttachMoneyIcon className={classes.iconThree} />
       </span>
       <span className={classes.span}>Divy</span>
     </div>

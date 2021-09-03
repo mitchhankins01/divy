@@ -41,7 +41,7 @@ export default () => {
       <Container className={classes.cardContainer} maxWidth="sm" >
         <Box mb={2} display="flex" justifyContent="center" >
           <RouterLink style={{ textDecoration: 'none' }} to="/">
-            <Logo rem={2} forceDark={true} />
+            <Logo rem={1.5} forceDark={true} />
           </RouterLink>
         </Box>
         <Card>
