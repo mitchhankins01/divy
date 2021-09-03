@@ -23,7 +23,10 @@ const initialDataState = {
     listHoldings: [],
 };
 
-const DataContext = createContext(initialDataState);
+const DataContext = createContext({
+    ...initialDataState,
+    processRefetch: () => { }
+});
 
 export const DataProvider = ({ children }) => {
     const { isAuthenticated } = useAuth();
@@ -137,8 +140,20 @@ export const DataProvider = ({ children }) => {
         }
     }, [isAuthenticated, getStatistics, getDividends, getHoldings]);
 
+    const processRefetch = () => {
+        console.log('refetching, clear cache');
+        Cache.clear();
+        getStatistics();
+        getDividends();
+        getHoldings();
+    }
+
+
     return (
-        <DataContext.Provider value={state}>
+        <DataContext.Provider value={{
+            ...state,
+            processRefetch
+        }}>
             {children}
         </DataContext.Provider>
     );

@@ -15,9 +15,10 @@ import { useSnackbar } from 'notistack';
 import Page from 'src/components/Page';
 import { Delete as DeleteIcon, Save as SaveIcon } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
-import { API, graphqlOperation, Auth, Cache } from 'aws-amplify';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
 import Header from './Header';
 import { createHolding, updateHolding, deleteHolding } from '../../../graphql/mutations';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles();
   const history = useHistory();
+  const { processRefetch } = useData();
   const { enqueueSnackbar } = useSnackbar();
 
   let holding;
@@ -54,8 +56,8 @@ export default () => {
   const handleDeleteClick = async () => {
     const answer = window.confirm(`Are you sure you want to delete ${holding.symbol}? This action cannot be undone.`);
     if (answer) {
-      Cache.clear();
       await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.id } }));
+      processRefetch();
       enqueueSnackbar('Holding Deleted', { variant: 'success' });
       history.push('/app/holdings');
     }
@@ -88,8 +90,6 @@ export default () => {
                 setSubmitting
               }) => {
                 try {
-                  Cache.clear();
-
                   if (holding.id) {
                     await API.graphql(graphqlOperation(updateHolding, {
                       input:
@@ -101,6 +101,7 @@ export default () => {
                         symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
                       }
                     }));
+                    processRefetch();
                   } else {
                     const { attributes } = await Auth.currentAuthenticatedUser();
                     await API.graphql(graphqlOperation(createHolding, {
@@ -112,6 +113,7 @@ export default () => {
                         symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
                       }
                     }));
+                    processRefetch();
                   }
                   resetForm();
                   setStatus({ success: true });
