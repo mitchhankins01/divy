@@ -10,7 +10,7 @@ import {
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Label from 'src/components/Label';
 import formatter from '../../../utils/numberFormatter';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { listStatistics: { marketValue, costBasis } } = useAuth();
+  const { listStatistics: { marketValue, costBasis } } = useData();
   const gain = marketValue - costBasis;
   const difference = Math.round((gain / costBasis) * 100);
 

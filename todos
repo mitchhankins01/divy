@@ -1,9 +1,12 @@
-prevent duplicate holdings
+
 autocomplete tickers
 optimistic loading
 hero full height
 mobile logo too big on login
 
 sign up email customize
+
+
 invalidate cache on updates in auth
 refreshing on /holdings/ causes redirect to dashboard
+prevent duplicate holdings

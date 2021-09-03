@@ -30,7 +30,7 @@ import Header from './Header';
 import useWindowSize from '../../../hooks/useWindowSize';
 // import LoadingScreen from 'src/components/LoadingScreen';
 import formatter from '../../../utils/numberFormatter';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,7 +163,7 @@ export default () => {
   const theme = useTheme();
   const classes = useStyles();
   const calendarRef = useRef(null);
-  const { listDividends: { all }} = useAuth();
+  const { listDividends: { all }} = useData();
   const [date, setDate] = useState(new Date());
   const { height: windowHeight } = useWindowSize();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));

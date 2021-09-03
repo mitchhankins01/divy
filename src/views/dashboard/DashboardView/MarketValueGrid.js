@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import formatter from '../../../utils/numberFormatter';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { listStatistics: { data, marketValue } } = useAuth();
+  const { listStatistics: { data, marketValue } } = useData();
   const columns = [
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
     // { headerName: 'Cost Basis', field: 'costBasis', flex: 1, renderCell: cell => formatter.format(cell.value), hide: isMobileDevice },

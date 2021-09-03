@@ -16,6 +16,7 @@ import CookiesNotification from 'src/components/CookiesNotification';
 import GoogleAnalytics from 'src/components/GoogleAnalytics';
 import SettingsNotification from 'src/components/SettingsNotification';
 import { AuthProvider } from 'src/contexts/AuthContext';
+import { DataProvider } from 'src/contexts/DataContext';
 import useSettings from 'src/hooks/useSettings';
 import { createTheme } from 'src/theme';
 import routes, { renderRoutes } from 'src/routes';
@@ -74,12 +75,14 @@ const App = () => {
               }}
             >
               <AuthProvider>
-                <GlobalStyles />
-                <ScrollReset />
-                <GoogleAnalytics />
-                <CookiesNotification />
-                <SettingsNotification />
-                {renderRoutes(routes)}
+                <DataProvider>
+                  <GlobalStyles />
+                  <ScrollReset />
+                  <GoogleAnalytics />
+                  <CookiesNotification />
+                  <SettingsNotification />
+                  {renderRoutes(routes)}
+                </DataProvider>
               </AuthProvider>
             </SnackbarProvider>
           </Router>

@@ -13,7 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Page from 'src/components/Page';
 import Header from './Header';
 import formatter from '../../../utils/numberFormatter';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,7 @@ export default () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [hidePastDividends, setHidePastDividends] = useState(true);
-  const { listDividends: { all, upcoming } } = useAuth();
+  const { listDividends: { all, upcoming } } = useData();
 
   const handleSwitchChange = (event) => {
     setHidePastDividends(!event.target.checked);

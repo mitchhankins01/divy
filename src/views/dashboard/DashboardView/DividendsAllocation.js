@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Charts from './Charts';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -29,7 +29,7 @@ export default ({ className, ...rest }) => {
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
   const [chartType, setChartType] = useState('horizontalBar');
-  const { listStatistics: { data, totalDividends } } = useAuth();
+  const { listStatistics: { data, totalDividends } } = useData();
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
 
   useEffect(() => {

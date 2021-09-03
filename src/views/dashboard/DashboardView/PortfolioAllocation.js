@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import Charts from './Charts';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,7 +34,7 @@ export default ({ className, ...rest }) => {
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
   const [chartType, setChartType] = useState('pie');
-  const { listStatistics: { data, marketValue } } = useAuth();
+  const { listStatistics: { data, marketValue } } = useData();
 
   useEffect(() => {
     const _labels = [];
