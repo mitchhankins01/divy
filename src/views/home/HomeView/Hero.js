@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.dark,
     paddingTop: 200,
     paddingBottom: 200,
+    minHeight: 'calc(100vh - 64px)',
     [theme.breakpoints.down('md')]: {
       paddingTop: 60,
       paddingBottom: 60
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
       transform: 'rotateY(-35deg) rotateX(15deg)',
       backfaceVisibility: 'hidden',
       boxShadow: theme.shadows[16]
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingTop: 60,
     }
   },
   shape: {
@@ -54,15 +58,8 @@ export default ({ className, ...rest }) => {
       {...rest}
     >
       <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            xs={12}
-            md={4}
-          >
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
             <Box
               display="flex"
               flexDirection="column"
