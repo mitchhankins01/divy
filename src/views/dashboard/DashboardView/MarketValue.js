@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import formatter from '../../../utils/numberFormatter';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { listStatistics: { marketValue } } = useAuth();
+  const { listStatistics: { marketValue } } = useData();
   
   return (
     <Card

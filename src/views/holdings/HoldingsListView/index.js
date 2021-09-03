@@ -17,7 +17,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useDebounce } from 'use-debounce';
 import Header from './Header';
 import Page from 'src/components/Page';
-import useAuth from 'src/hooks/useAuth';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +42,7 @@ export default () => {
   const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
-  const { listHoldings } = useAuth();
+  const { listHoldings } = useData();
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
