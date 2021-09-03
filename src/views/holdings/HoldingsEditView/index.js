@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles();
   const history = useHistory();
-  const { processRefetch } = useData();
   const { enqueueSnackbar } = useSnackbar();
+  const { processRefetch, listHoldings } = useData();
 
   let holding;
   if (history.location.state) {
@@ -103,25 +103,32 @@ export default () => {
                     }));
                     processRefetch();
                   } else {
-                    const { attributes } = await Auth.currentAuthenticatedUser();
-                    await API.graphql(graphqlOperation(createHolding, {
-                      input: {
-                        price: parseFloat(values.price),
-                        comments: values.comments,
-                        quantity: values.quantity,
-                        owner: attributes.sub,
-                        symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
-                      }
-                    }));
-                    processRefetch();
+                    const formattedSymbol = String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-');
+                    const symbolExists = listHoldings.some(({ symbol }) => symbol === formattedSymbol);
+
+                    if (symbolExists) {
+                      setErrors({ submit: 'Symbol already exists in portfolio.' });
+                    } else {
+                      const { attributes } = await Auth.currentAuthenticatedUser();
+                      await API.graphql(graphqlOperation(createHolding, {
+                        input: {
+                          price: parseFloat(values.price),
+                          comments: values.comments,
+                          quantity: values.quantity,
+                          owner: attributes.sub,
+                          symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
+                        }
+                      }));
+                      processRefetch();
+                      resetForm();
+                      setStatus({ success: true });
+                      setSubmitting(false);
+                      history.push('/app/holdings');
+                      enqueueSnackbar(holding.id ? 'Holding Updated' : 'Holding Added', {
+                        variant: 'success',
+                      });
+                    }
                   }
-                  resetForm();
-                  setStatus({ success: true });
-                  setSubmitting(false);
-                  history.push('/app/holdings');
-                  enqueueSnackbar(holding.id ? 'Holding Updated' : 'Holding Added', {
-                    variant: 'success',
-                  });
                 } catch (err) {
                   console.error(err);
                   setStatus({ success: false });
