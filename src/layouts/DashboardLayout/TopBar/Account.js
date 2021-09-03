@@ -106,7 +106,7 @@ const Account = () => {
           Account
         </MenuItem>
         <MenuItem onClick={handleLogout}>
-          Logout
+          Log Out
         </MenuItem>
       </Menu>
     </>

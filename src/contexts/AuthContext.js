@@ -4,8 +4,10 @@ import React, {
   useEffect,
 } from 'react';
 import { Auth, Cache } from 'aws-amplify';
+import SplashScreen from 'src/components/SplashScreen';
 
 const initialAuthState = {
+  isInitialized: false,
   isAuthenticated: false,
 };
 
@@ -23,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     await Auth.signIn({ username: email, password });
-    setState({ ...initialAuthState, isAuthenticated: true });
+    setState({ ...initialAuthState, isAuthenticated: true, isInitialized: true });
   };
 
   const forgotPassword = async (email) => {
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cache.clear();
     Auth.signOut();
-    setState({ ...initialAuthState, isAuthenticated: false });
+    setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
   };
 
   const register = async (email, name, password) => {
@@ -56,17 +58,22 @@ export const AuthProvider = ({ children }) => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         if (user) {
-          setState({ ...initialAuthState, isAuthenticated: true });
+          setState({ ...initialAuthState, isAuthenticated: true, isInitialized: true });
         } else {
+          setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
         }
       } catch (err) {
         console.log('session expired clearing cache');
         Cache.clear();
-        setState({ ...initialAuthState, isAuthenticated: false });
+        setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
       }
     };
     intialize();
   }, []);
+
+  if (!state.isInitialized) {
+    return <SplashScreen />;
+  }
 
   return (
     <AuthContext.Provider
