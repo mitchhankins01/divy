@@ -116,7 +116,7 @@ export default () => {
                           comments: values.comments,
                           quantity: values.quantity,
                           owner: attributes.sub,
-                          symbol: String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-'),
+                          symbol: formattedSymbol,
                         }
                       }));
                       processRefetch();
