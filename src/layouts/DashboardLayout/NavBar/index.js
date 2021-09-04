@@ -26,7 +26,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import ShowChartIcon from '@material-ui/icons/Timeline';
 import Logo from 'src/components/Logo';
-// import useAuth from 'src/hooks/useAuth';
+import useAuth from 'src/hooks/useAuth';
 import NavItem from './NavItem';
 
 const sections = [
@@ -172,7 +172,7 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-  // const { user } = useAuth();
+  const { attributes } = useAuth();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -226,14 +226,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               color="textPrimary"
               underline="none"
             >
-              {/* {'user.name'} */}
-              Kurt Weiss
+              {`${attributes.given_name} ${attributes.family_name}`}
             </Link>
             <Typography
               variant="body2"
               color="textSecondary"
             >
-              Premier User
+              Update this
             </Typography>
           </Box>
         </Box>

@@ -9,12 +9,18 @@ import SplashScreen from 'src/components/SplashScreen';
 const initialAuthState = {
   isInitialized: false,
   isAuthenticated: false,
+  attributes: {
+    given_name: '',
+    family_name: '',
+  }
 };
 
 const AuthContext = createContext({
   ...initialAuthState,
   login: () => Promise.resolve(),
   logout: () => { },
+  updateName: () => Promise.resolve(),
+  updatePassword: () => Promise.resolve(),
   register: () => Promise.resolve(),
   forgotPassword: () => Promise.resolve(),
   forgotPasswordSubmit: () => Promise.resolve(),
@@ -23,9 +29,19 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, setState] = useState(initialAuthState);
 
+  const setUserState = user => {
+    console.log(user);
+    setState({ ...initialAuthState, attributes: user.attributes, isAuthenticated: true, isInitialized: true });
+  }
+
+  const setInitialState = () => {
+    Cache.clear();
+    setState({ ...initialAuthState, isInitialized: true });
+  }
+
   const login = async (email, password) => {
-    await Auth.signIn({ username: email, password });
-    setState({ ...initialAuthState, isAuthenticated: true, isInitialized: true });
+    const user = await Auth.signIn({ username: email, password });
+    setUserState(user);
   };
 
   const forgotPassword = async (email) => {
@@ -37,9 +53,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
-    Cache.clear();
     Auth.signOut();
-    setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
+    setInitialState();
   };
 
   const register = async (email, name, password) => {
@@ -52,20 +67,34 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const updateName = async (firstName, lastName) => {
+    const user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      'given_name': firstName,
+      'family_name': lastName,
+    });
+    const updatedUser = await Auth.currentAuthenticatedUser();
+    setUserState(updatedUser);
+  };
+
+  const updatePassword = async (currentPassword, newPassword) => {
+    const user = await Auth.currentAuthenticatedUser();
+    return Auth.changePassword(user, currentPassword, newPassword);
+  };
+
   useEffect(() => {
     console.log('init');
     const intialize = async () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         if (user) {
-          setState({ ...initialAuthState, isAuthenticated: true, isInitialized: true });
+          setUserState(user);
         } else {
-          setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
+          setInitialState();
         }
       } catch (err) {
         console.log('session expired clearing cache');
-        Cache.clear();
-        setState({ ...initialAuthState, isAuthenticated: false, isInitialized: true });
+        setInitialState();
       }
     };
     intialize();
@@ -82,6 +111,8 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         register,
+        updateName,
+        updatePassword,
         forgotPassword,
         forgotPasswordSubmit
       }}

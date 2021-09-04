@@ -102,10 +102,6 @@ const Settings = () => {
           />
         </Box> */}
         <Box mt={2}>
-          <Button
-            style={{ justifyContent: "flex-start", textTransform: 'none', padding: 15 }} variant='outlined' fullWidth={true} >Chart Options</Button>
-        </Box>
-        <Box mt={2}>
           <TextField
             fullWidth
             label="Theme"

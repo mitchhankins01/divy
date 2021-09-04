@@ -25,19 +25,13 @@ const Header = ({ className, ...rest }) => {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        <Link color="inherit" to="/app" component={RouterLink}>
-          Dashboard
+        <Link color="inherit" to="/app/account" component={RouterLink}>
+          Miscellaneous
         </Link>
         <Typography color="textPrimary">
           Account
         </Typography>
       </Breadcrumbs>
-      <Typography
-        variant="h3"
-        color="textPrimary"
-      >
-        Settings
-      </Typography>
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import {
+  Avatar,
   Box,
   Grid,
   Button,
   Card,
   CardContent,
+  Link,
   Typography,
   makeStyles,
   TextField
@@ -18,6 +21,13 @@ import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
+  name: {
+    marginTop: theme.spacing(1)
+  },
+  avatar: {
+    height: 100,
+    width: 100
+  },
   textField: {
     marginBottom: theme.spacing(2)
   }
@@ -25,21 +35,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { updatePassword } = useAuth();
+  const { attributes, updateName } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   return (
     <Grid className={clsx(classes.root, className)} item lg={6} xs={12} {...rest}>
       <Formik
         initialValues={{
-          currentPassword: '',
-          newPassword: '',
-          confirmNewPassword: '',
+          firstName: attributes.given_name,
+          lastName: attributes.family_name
         }}
         validationSchema={Yup.object().shape({
-          currentPassword: Yup.string().max(255).required('Current password is required'),
-          newPassword: Yup.string().max(255).required('New password is required'),
-          confirmNewPassword: Yup.string().max(255).required('New password is required'),
+          firstName: Yup.string().max(255).required('First name is required'),
+          lastName: Yup.string().max(255).required('Last name is required'),
         })}
         onSubmit={async (values, {
           resetForm,
@@ -48,11 +56,7 @@ export default ({ className, ...rest }) => {
           setSubmitting
         }) => {
           try {
-            if (values.newPassword !== values.confirmNewPassword) {
-              return setErrors({ submit: 'New passwords don\'t match'});
-            } 
-            await updatePassword(values.currentPassword, values.newPassword);
-            resetForm();
+            await updateName(values.firstName, values.lastName);
             setSubmitting(false);
             setStatus({ success: true });
             enqueueSnackbar('Changes Saved', { variant: 'success' });
@@ -79,49 +83,67 @@ export default ({ className, ...rest }) => {
             {...rest}
           >
             <CardContent>
+              <Box
+                display="flex"
+                alignItems="center"
+                flexDirection="column"
+                textAlign="center"
+                mb={2}
+              >
+                <Avatar
+                  className={classes.avatar}
+                // src={user.avatar}
+                />
+                <Typography
+                  className={classes.name}
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h3"
+                >
+                  {`${attributes.given_name} ${attributes.family_name}`}
+                </Typography>
+                <Typography
+                  color="textPrimary"
+                  variant="body1"
+                >
+                  Your tier:
+                  {' '}
+                  <Link
+                    component={RouterLink}
+                    to="/pricing"
+                  >
+                    {/* {attributes.tier} */}
+                    Update this
+                  </Link>
+                </Typography>
+              </Box>
               <form onSubmit={handleSubmit}>
                 <TextField
-                  error={Boolean(touched.currentPassword && errors.currentPassword)}
+                  error={Boolean(touched.firstName && errors.firstName)}
                   fullWidth
-                  helperText={touched.currentPassword && errors.currentPassword}
+                  helperText={touched.firstName && errors.firstName}
                   autoComplete='off'
-                  label="Current Password"
-                  name="currentPassword"
+                  label="First Name"
+                  name="firstName"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   required
-                  value={values.currentPassword}
+                  value={values.firstName}
                   variant="outlined"
                   className={classes.textField}
-                  type='password'
                 />
                 <TextField
-                  error={Boolean(touched.newPassword && errors.newPassword)}
+                  error={Boolean(touched.lastName && errors.lastName)}
                   fullWidth
-                  helperText={touched.newPassword && errors.newPassword}
-                  label="New Password"
-                  name="newPassword"
+                  helperText={touched.lastName && errors.lastName}
+                  label="Last Name"
+                  name="lastName"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   required
-                  value={values.newPassword}
+                  value={values.lastName}
                   variant="outlined"
                   className={classes.textField}
-                  type='password'
-                />
-                <TextField
-                  error={Boolean(touched.confirmNewPassword && errors.confirmNewPassword)}
-                  fullWidth
-                  helperText={touched.confirmNewPassword && errors.confirmNewPassword}
-                  label="Confirm New Password"
-                  name="confirmNewPassword"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  required
-                  value={values.confirmNewPassword}
-                  variant="outlined"
-                  className={classes.textField}
-                  type='password'
                 />
                 <Typography color='error'>
                   {errors.submit}
@@ -135,7 +157,7 @@ export default ({ className, ...rest }) => {
                     startIcon={<SaveIcon />}
                     disabled={isSubmitting}
                   >
-                    Change Password
+                    Save Changes
                   </Button>
                 </Box>
               </form>
