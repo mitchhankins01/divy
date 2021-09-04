@@ -95,12 +95,6 @@ const Account = () => {
       >
         <MenuItem
           component={RouterLink}
-          to="/app/social/profile"
-        >
-          Profile
-        </MenuItem>
-        <MenuItem
-          component={RouterLink}
           to="/app/account"
         >
           Account

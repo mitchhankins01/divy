@@ -11,7 +11,7 @@ import Page from 'src/components/Page';
 import Header from './Header';
 import General from './General';
 import Subscription from './Subscription';
-import Notifications from './Notifications';
+// import Notifications from './Notifications';
 import Security from './Security';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const AccountView = () => {
   const tabs = [
     { value: 'general', label: 'General' },
     { value: 'subscription', label: 'Subscription' },
-    { value: 'notifications', label: 'Notifications' },
+    // { value: 'notifications', label: 'Notifications' },
     { value: 'security', label: 'Security' }
   ];
 
@@ -66,7 +66,7 @@ const AccountView = () => {
         <Box mt={3}>
           {currentTab === 'general' && <General />}
           {currentTab === 'subscription' && <Subscription />}
-          {currentTab === 'notifications' && <Notifications />}
+          {/* {currentTab === 'notifications' && <Notifications />} */}
           {currentTab === 'security' && <Security />}
         </Box>
       </Container>

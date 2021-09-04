@@ -1,8 +1,4 @@
-
-autocomplete tickers
-optimistic loading
-mobile logo too big on login
-
-sign up email customize
-
-Account / profile
+empty account add defaults
+subscription support
+deploy prod
+email link instead of code / sign up email customize
