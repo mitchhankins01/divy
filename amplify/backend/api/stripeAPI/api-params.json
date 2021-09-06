@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/checkout",
+      "lambdaFunction": "stripeFunction",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/checkout"
+    }
+  ],
+  "resourceName": "stripeAPI",
+  "apiName": "stripeAPI",
+  "functionArns": [
+    {
+      "lambdaFunction": "stripeFunction"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-divy-dev-183939-authRole",
+    "unAuthRoleName": "amplify-divy-dev-183939-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "stripeFunction",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

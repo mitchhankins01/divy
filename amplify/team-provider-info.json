@@ -18,11 +18,15 @@
       "function": {
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-555a59533575732f666f-build.zip"
+          "s3Key": "amplify-builds/dividendsFunction-4c333348476248704167-build.zip"
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-6a4631494b4b58703578-build.zip"
+          "s3Key": "amplify-builds/statisticsFunction-3747644b6557436e685a-build.zip"
+        },
+        "stripeFunction": {
+          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+          "s3Key": "amplify-builds/stripeFunction-75426730512b6173476c-build.zip"
         }
       }
     }
