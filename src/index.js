@@ -11,6 +11,7 @@ import 'nprogress/nprogress.css';
 import 'src/__mocks__';
 import 'src/assets/css/prism.css';
 import 'src/utils/chartjs';
+import '@stripe/stripe-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Amplify from 'aws-amplify';
