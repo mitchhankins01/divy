@@ -1,35 +1,55 @@
 {
-  "paths": [
-    {
-      "name": "/checkout",
-      "lambdaFunction": "stripeFunction",
-      "privacy": {
-        "open": true
-      },
-      "policyResourceName": "/checkout"
-    }
-  ],
-  "resourceName": "stripeAPI",
-  "apiName": "stripeAPI",
-  "functionArns": [
-    {
-      "lambdaFunction": "stripeFunction"
-    }
-  ],
-  "privacy": {
-    "auth": 0,
-    "unauth": 0,
-    "authRoleName": "amplify-divy-dev-183939-authRole",
-    "unAuthRoleName": "amplify-divy-dev-183939-unauthRole"
-  },
-  "dependsOn": [
-    {
-      "category": "function",
-      "resourceName": "stripeFunction",
-      "attributes": [
-        "Name",
-        "Arn"
-      ]
-    }
-  ]
+    "paths": [
+        {
+            "name": "/checkout",
+            "lambdaFunction": "stripeFunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/checkout"
+        },
+        {
+            "name": "/webhook",
+            "lambdaFunction": "stripeHookFunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/webhook"
+        }
+    ],
+    "resourceName": "stripeAPI",
+    "apiName": "stripeAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "stripeFunction"
+        },
+        {
+            "lambdaFunction": "stripeHookFunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-divy-dev-183939-authRole",
+        "unAuthRoleName": "amplify-divy-dev-183939-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "stripeFunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "stripeHookFunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "4752a8cc"
 }

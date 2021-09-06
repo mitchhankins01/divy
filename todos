@@ -2,3 +2,4 @@ empty account add defaults
 subscription support
 deploy prod
 email link instead of code / sign up email customize
+lambda timeout

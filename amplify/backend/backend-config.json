@@ -47,6 +47,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "stripeHookFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "api": {
@@ -76,6 +81,14 @@
         {
           "category": "function",
           "resourceName": "stripeFunction",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "stripeHookFunction",
           "attributes": [
             "Name",
             "Arn"

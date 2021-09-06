@@ -11,6 +11,9 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import { API } from '@aws-amplify/api';
+import { loadStripe } from '@stripe/stripe-js';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     padding: theme.spacing(5, 3),
     cursor: 'pointer',
-    transition: theme.transitions.create('transform', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    '&:hover': {
-      transform: 'scale(1.1)'
-    }
+    // transition: theme.transitions.create('transform', {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.leavingScreen
+    // }),
+    // '&:hover': {
+    //   transform: 'scale(1.1)'
+    // }
   },
   productImage: {
     borderRadius: theme.shape.borderRadius,
@@ -50,7 +53,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PricingView = () => {
+const stripePromise = loadStripe('pk_test_51JWjXZFRojIX8Uh4WO9RpSwXYM6IrS4PjNdfdDErr4yEICGPaZHASB9XXr7mdTrY8puy030kYKBcVG0oZJKXG9YO00vDrU6jW5');
+
+export default () => {
   const classes = useStyles();
 
   return (
@@ -225,6 +230,27 @@ const PricingView = () => {
                   variant="contained"
                   fullWidth
                   className={classes.chooseButton}
+                  onClick={async () => {
+                    try {
+                      const fetchSession = async () => {
+                        const apiName = 'stripeAPI'
+                        const apiEndpoint = '/checkout'
+                        const body = {
+                          quantity: 1,
+                          client_reference_id: 'UniqueString',
+                          priceId: 'price_1JWjZWFRojIX8Uh4yNsQ4cOp'
+                        }
+                        const session = await API.post(apiName, apiEndpoint, { body });
+                        return session;
+                      };
+
+                      const session = await fetchSession();
+                      const stripe = await stripePromise;
+                      stripe.redirectToCheckout({ sessionId: session.id });
+                    } catch (error) {
+                      console.log('error', error)
+                    }
+                  }}
                 >
                   Choose
                 </Button>
@@ -309,5 +335,3 @@ const PricingView = () => {
     </Page>
   );
 };
-
-export default PricingView;
