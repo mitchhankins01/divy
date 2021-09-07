@@ -18,24 +18,25 @@ app.post('/checkout', async function (req, res) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: req.body.priceId, // The priceId of the product being purchased, retrievable from the Stripe dashboard
+          // The priceId of the product being purchased, retrievable from the Stripe dashboard
+          price: req.body.priceId, 
           quantity: req.body.quantity,
         },
       ],
       mode: 'subscription',
       client_reference_id: req.body.client_reference_id,
       success_url:
-        'https://example.com/success?session_id={CHECKOUT_SESSION_ID}', // The URL the customer will be directed to after the payment or subscription creation is successful.
-      cancel_url: 'https://example.com/cancel', // The URL the customer will be directed to if they decide to cancel payment and return to your website.
+        'http://localhost:3000/pricing?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'http://localhost:3000/cancel',
     })
-    res.json(session)
+    res.json(session);
   } catch (err) {
-    res.json(err)
+    res.json(err);
   }
 })
 
 app.listen(3000, function () {
-  console.log("App started");
+  console.log('App started');
 });
 
 module.exports = app;

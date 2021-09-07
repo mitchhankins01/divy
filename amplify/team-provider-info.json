@@ -26,11 +26,11 @@
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeFunction-3959646d365a4446532b-build.zip"
+          "s3Key": "amplify-builds/stripeFunction-34674f6d6e4e6a7a4d4c-build.zip"
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-4d6e36536c6830597945-build.zip"
+          "s3Key": "amplify-builds/stripeHookFunction-326f48347153326c6e74-build.zip"
         }
       }
     }
