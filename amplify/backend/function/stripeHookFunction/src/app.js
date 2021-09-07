@@ -1,3 +1,4 @@
+const AWS = require('aws-sdk');
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -19,23 +20,34 @@ app.use(function (req, res, next) {
   next()
 });
 
-app.post("/webhook", async function (req, res) {
+app.post('/webhook', async function (req, res) {
+  const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ apiVersion: 'latest' });
   const sig = req.headers['stripe-signature'];
-  let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret)
+    const event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const { line_items } = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
+        await cognitoidentityserviceprovider.adminUpdateUserAttributes({
+          UserAttributes: [{
+            Name: 'custom:subscription',
+            Value: line_items.data[0].price.id
+          }],
+          UserPoolId: process.env.USER_POOL_ID,
+          Username: req.body.data.object.client_reference_id
+        }, function (err, data) {
+          console.log('error', err);
+          if (err) throw Error(err);
+        }).promise();
+
+        break;
+      default:
+        return res.status(400).end();
+    }
   } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`)
-  }
-
-  switch (event.type) {
-    case 'checkout.session.completed':
-      console.log(`Payment checkout session for ${req.body.data.object.client_reference_id} was successful!`)
-
-      break
-    default:
-      return res.status(400).end()
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   res.json({ received: true });

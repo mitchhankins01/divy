@@ -11,7 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { API } from '@aws-amplify/api';
+import { API, Auth } from 'aws-amplify';
 import { loadStripe } from '@stripe/stripe-js';
 
 
@@ -232,13 +232,15 @@ export default () => {
                   className={classes.chooseButton}
                   onClick={async () => {
                     try {
+                      const { username } = await Auth.currentAuthenticatedUser();
+
                       const fetchSession = async () => {
                         const apiName = 'stripeAPI'
                         const apiEndpoint = '/checkout'
                         const body = {
                           quantity: 1,
-                          client_reference_id: 'UniqueString',
-                          priceId: 'price_1JWjZWFRojIX8Uh4yNsQ4cOp'
+                          client_reference_id: username,
+                          priceId: 'price_1JWjZWFRojIX8Uh4yNsQ4cOp',
                         }
                         const session = await API.post(apiName, apiEndpoint, { body });
                         return session;
