@@ -43,6 +43,12 @@ app.post('/webhook', async function (req, res) {
         }).promise();
 
         break;
+      case 'invoice.paid':
+        // just add one month to the expires field
+        console.log('invoice paid', req.body);
+        break;
+      case 'invoice.payment_failed':
+        break;
       default:
         return res.status(400).end();
     }
