@@ -45,14 +45,14 @@ export default ({ className, holding, ...rest }) => {
             variant="body1"
             color="textPrimary"
           >
-            {holding.id ? 'Edit' : 'Add Holding'}
+            {holding.holdingID ? 'Edit' : 'Add Holding'}
           </Typography>
       </Breadcrumbs>
       <Typography
         variant="h3"
         color="textPrimary"
       >
-        {holding.id ? `Edit ${holding.symbol}` : 'Add Holding'}
+        {holding.holdingID ? `Edit ${holding.symbol}` : 'Add Holding'}
       </Typography>
     </div>
   );
