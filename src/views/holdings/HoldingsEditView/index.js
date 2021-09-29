@@ -102,6 +102,11 @@ export default () => {
                       }
                     }));
                     processRefetch();
+                      resetForm();
+                      setStatus({ success: true });
+                      setSubmitting(false);
+                      history.push('/app/holdings');
+                      enqueueSnackbar('Holding Added', { variant: 'success' });
                   } else {
                     const formattedSymbol = String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-');
                     const symbolExists = listHoldings.some(({ symbol }) => symbol === formattedSymbol);
@@ -124,9 +129,7 @@ export default () => {
                       setStatus({ success: true });
                       setSubmitting(false);
                       history.push('/app/holdings');
-                      enqueueSnackbar(holding.id ? 'Holding Updated' : 'Holding Added', {
-                        variant: 'success',
-                      });
+                      enqueueSnackbar('Holding Updated', { variant: 'success' });
                     }
                   }
                 } catch (err) {

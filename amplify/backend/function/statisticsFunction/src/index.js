@@ -99,6 +99,7 @@ exports.handler = async (event) => {
                 const gain = marketValue - costBasis;
 
                 list.push({
+                    ...match,
                     rest,
                     gain,
                     symbol,
@@ -110,7 +111,7 @@ exports.handler = async (event) => {
                     quantity: match.quantity,
                     marketPrice: regularMarketPrice,
                     totalDividends: dividendRate * match.quantity,
-                    id: `${symbol}.${regularMarketPrice}`,
+                    // id: `${symbol}.${regularMarketPrice}`,
                 });
             }
         }
