@@ -100,7 +100,6 @@ exports.handler = async (event) => {
 
                 list.push({
                     ...match,
-                    rest,
                     gain,
                     symbol,
                     costBasis,
@@ -111,7 +110,8 @@ exports.handler = async (event) => {
                     quantity: match.quantity,
                     marketPrice: regularMarketPrice,
                     totalDividends: dividendRate * match.quantity,
-                    // id: `${symbol}.${regularMarketPrice}`,
+                    id: `${symbol}.${regularMarketPrice}`,
+                    holdingID: match.id
                 });
             }
         }

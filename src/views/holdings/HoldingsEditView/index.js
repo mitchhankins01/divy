@@ -44,7 +44,7 @@ export default () => {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const { processRefetch, listHoldings } = useData();
+  const { processRefetch, listStatistics } = useData();
 
   let holding;
   if (history.location.state) {
@@ -56,7 +56,7 @@ export default () => {
   const handleDeleteClick = async () => {
     const answer = window.confirm(`Are you sure you want to delete ${holding.symbol}? This action cannot be undone.`);
     if (answer) {
-      await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.id } }));
+      await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.holdingID } }));
       processRefetch();
       enqueueSnackbar('Holding Deleted', { variant: 'success' });
       history.push('/app/holdings');
@@ -64,7 +64,7 @@ export default () => {
   }
 
   return (
-    <Page className={classes.root} title={holding.id ? `Edit ${holding.symbol}` : 'New Holding'}>
+    <Page className={classes.root} title={holding.holdingID ? `Edit ${holding.symbol}` : 'New Holding'}>
       <Header holding={holding} />
       <Grid item lg={6} xs={12}>
         <Box mt={2}>
@@ -90,11 +90,11 @@ export default () => {
                 setSubmitting
               }) => {
                 try {
-                  if (holding.id) {
+                  if (holding.holdingID) {
                     await API.graphql(graphqlOperation(updateHolding, {
                       input:
                       {
-                        id: holding.id,
+                        id: holding.holdingID,
                         price: parseFloat(values.price),
                         comments: values.comments,
                         quantity: values.quantity,
@@ -106,10 +106,11 @@ export default () => {
                       setStatus({ success: true });
                       setSubmitting(false);
                       history.push('/app/holdings');
-                      enqueueSnackbar('Holding Added', { variant: 'success' });
+                      enqueueSnackbar('Holding Updated', { variant: 'success' });
                   } else {
                     const formattedSymbol = String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-');
-                    const symbolExists = listHoldings.some(({ symbol }) => symbol === formattedSymbol);
+                    console.log('listStatistics', listStatistics)
+                    const symbolExists = listStatistics.data.some(({ symbol }) => symbol === formattedSymbol);
 
                     if (symbolExists) {
                       setErrors({ submit: 'Symbol already exists in portfolio.' });
@@ -129,7 +130,7 @@ export default () => {
                       setStatus({ success: true });
                       setSubmitting(false);
                       history.push('/app/holdings');
-                      enqueueSnackbar('Holding Updated', { variant: 'success' });
+                      enqueueSnackbar('Holding Added', { variant: 'success' });
                     }
                   }
                 } catch (err) {
@@ -215,7 +216,7 @@ export default () => {
                       {errors.submit}
                     </Typography>
                     <Box mt={2} className={classes.buttonsBar}>
-                      {holding.id && (
+                      {holding.holdingID && (
                         <Button
                           startIcon={<DeleteIcon />}
                           onClick={handleDeleteClick}
@@ -233,7 +234,7 @@ export default () => {
                         startIcon={<SaveIcon />}
                         disabled={isSubmitting}
                       >
-                        {holding.id ? 'Update Holding' : 'Add Holding'}
+                        {holding.holdingID ? 'Update Holding' : 'Add Holding'}
                       </Button>
                     </Box>
                   </CardContent>
