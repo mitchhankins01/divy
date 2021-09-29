@@ -99,6 +99,6 @@ exports.handler = async (event) => {
         }
 
     }
-    console.log(list)
+
     return JSON.stringify(list);
 };

@@ -5,9 +5,11 @@ import React, {
     useCallback
 } from 'react';
 import { Cache, API, graphqlOperation } from 'aws-amplify';
-import { listStatistics, listDividends, listHoldings } from 'src/graphql/queries';
+import { listStatistics, listDividends } from 'src/graphql/queries';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useAuth from 'src/hooks/useAuth';
+
+const disableCache = false;
 
 const initialDataState = {
     listStatistics: {
@@ -20,7 +22,6 @@ const initialDataState = {
         all: [],
         upcoming: []
     },
-    listHoldings: [],
 };
 
 const DataContext = createContext({
@@ -55,7 +56,7 @@ export const DataProvider = ({ children }) => {
         if (isMountedRef.current) {
             const cachedListStatistics = Cache.getItem('listStatistics');
 
-            if (cachedListStatistics) {
+            if (cachedListStatistics && !disableCache) {
                 console.log('listStatistics already cached');
                 processStatistics(cachedListStatistics);
             } else {
@@ -91,7 +92,7 @@ export const DataProvider = ({ children }) => {
         if (isMountedRef.current) {
             const cachedListDividends = Cache.getItem('listDividends');
 
-            if (cachedListDividends) {
+            if (cachedListDividends && !disableCache) {
                 console.log('listDividends already cached');
                 processDividends(cachedListDividends);
             } else {
@@ -109,43 +110,21 @@ export const DataProvider = ({ children }) => {
         }
     }, [isMountedRef]);
 
-    const getHoldings = useCallback(async () => {
-        if (isMountedRef.current) {
-            const cachedListHoldings = Cache.getItem('listHoldings');
-
-            if (cachedListHoldings) {
-                console.log('listHoldings already cached');
-                setState(s => ({ ...s, listHoldings: cachedListHoldings }));
-            } else {
-                console.log('caching listHoldings');
-
-                const { data } = await API.graphql(graphqlOperation(listHoldings));
-                Cache.setItem(
-                    'listHoldings',
-                    data?.listHoldings?.items,
-                    { expires: new Date().setHours(new Date().getHours() + 1) }
-                );
-                setState(s => ({ ...s, listHoldings: data?.listHoldings?.items }));
-            }
-        }
-    }, [isMountedRef]);
 
     useEffect(() => {
         console.log('isAuthenticated effect auth: ', isAuthenticated);
         if (isAuthenticated) {
-            console.log('auth yes, getStatistics - getDividends - getHoldings');
+            console.log('auth yes, getStatistics - getDividends');
             getStatistics();
             getDividends();
-            getHoldings();
         }
-    }, [isAuthenticated, getStatistics, getDividends, getHoldings]);
+    }, [isAuthenticated, getStatistics, getDividends]);
 
     const processRefetch = () => {
         console.log('refetching, clear cache');
         Cache.clear();
         getStatistics();
         getDividends();
-        getHoldings();
     }
 
 

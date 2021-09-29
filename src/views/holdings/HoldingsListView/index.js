@@ -7,8 +7,6 @@ import {
   SvgIcon,
   makeStyles,
   IconButton,
-  useTheme,
-  useMediaQuery,
   Card,
 } from '@material-ui/core';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
@@ -18,6 +16,7 @@ import { useDebounce } from 'use-debounce';
 import Header from './Header';
 import Page from 'src/components/Page';
 import useData from 'src/hooks/useData';
+import formatter from 'src/utils/numberFormatter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,13 +38,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
-  const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
-  const { listHoldings } = useData();
+  const { listStatistics } = useData();
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 500);
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleEditClick = (row) => {
     history.push('/app/holdings/create', row)
@@ -77,10 +74,14 @@ export default () => {
         </Button>
       )
     },
-    { headerName: 'Quantity', field: 'quantity', flex: 1, hide: mobileDevice && false },
-    { headerName: 'Price', field: 'price', flex: 1, valueGetter: params => `$${params.row.price}`, hide: mobileDevice && false },
-    { headerName: 'Created', field: 'createdAt', valueGetter: params => format(new Date(params.row.createdAt), 'dd MMM yyyy H:mm'), flex: 1, hide: mobileDevice && true },
-    { headerName: 'Updated', field: 'updatedAt', valueGetter: params => format(new Date(params.row.updatedAt), 'dd MMM yyyy H:mm'), flex: 1, hide: mobileDevice && true },
+    { headerName: 'Quantity', field: 'quantity', flex: 1 },
+    { headerName: 'Buy Price', field: 'price', flex: 1, valueFormatter: params => formatter.format(params.value) },
+    { headerName: 'Market Price', field: 'marketPrice', flex: 1, valueFormatter: params => formatter.format(params.value) },
+    { headerName: 'Cost Basis', field: 'costBasis', flex: 1, valueFormatter: params => formatter.format(params.value) },
+    { headerName: 'Market Value', field: 'marketValue', flex: 1, valueFormatter: params => formatter.format(params.value) },
+    { headerName: 'Gain', field: 'gain', flex: 1, valueFormatter: params => formatter.format(params.value) },
+    { headerName: 'Created', field: 'createdAt', valueGetter: params => format(new Date(params.row.createdAt), 'dd MMM yyyy H:mm'), flex: 1, hide: true },
+    { headerName: 'Updated', field: 'updatedAt', valueGetter: params => format(new Date(params.row.updatedAt), 'dd MMM yyyy H:mm'), flex: 1, hide: true },
     {
       field: 'edit',
       headerName: ' ',
@@ -109,7 +110,7 @@ export default () => {
       />
       <Card className={classes.card}>
         <DataGrid
-          rows={listHoldings}
+          rows={listStatistics.data}
           columns={columns}
           autoPageSize={true}
           loading={false}
