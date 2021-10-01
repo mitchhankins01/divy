@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -8,17 +8,21 @@ import {
   CardContent,
   TextField,
   Typography,
+  CircularProgress,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useSnackbar } from 'notistack';
-import Page from 'src/components/Page';
+import { useDebounce } from 'use-debounce';
 import { Delete as DeleteIcon, Save as SaveIcon } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import Header from './Header';
-import { createHolding, updateHolding, deleteHolding } from '../../../graphql/mutations';
 import useData from 'src/hooks/useData';
+import Page from 'src/components/Page';
+import { querySymbol } from 'src/graphql/queries';
+import { createHolding, updateHolding, deleteHolding } from 'src/graphql/mutations';
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
   },
   textField: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   }
 }));
 
@@ -45,6 +49,24 @@ export default () => {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const { processRefetch, listStatistics } = useData();
+  const [autoCompleteSearch, setAutoCompleteSearch] = useState('');
+  const [autoCompleteResults, setAutoCompleteResults] = useState([]);
+  const [autoCompleteLoading, setAutoCompleteLoading] = useState(false);
+  const [debouncedAutoCompleteSearch] = useDebounce(autoCompleteSearch, 1000);
+
+  useEffect(() => {
+    if (debouncedAutoCompleteSearch) {
+      setAutoCompleteLoading(true);
+
+      (async () => {
+        const { data } = await API.graphql(graphqlOperation(querySymbol, { symbol: debouncedAutoCompleteSearch }));
+        setAutoCompleteResults(data.querySymbol);
+        setAutoCompleteLoading(false);
+      })();
+
+    }
+  }, [debouncedAutoCompleteSearch]);
+
 
   let holding;
   if (history.location.state) {
@@ -102,11 +124,11 @@ export default () => {
                       }
                     }));
                     processRefetch();
-                      resetForm();
-                      setStatus({ success: true });
-                      setSubmitting(false);
-                      history.push('/app/holdings');
-                      enqueueSnackbar('Holding Updated', { variant: 'success' });
+                    resetForm();
+                    setStatus({ success: true });
+                    setSubmitting(false);
+                    history.push('/app/holdings');
+                    enqueueSnackbar('Holding Updated', { variant: 'success' });
                   } else {
                     const formattedSymbol = String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-');
                     console.log('listStatistics', listStatistics)
@@ -151,30 +173,51 @@ export default () => {
                 values,
                 setFieldValue
               }) => (
-                <form
-                  // className={clsx(classes.root, className)}
-                  onSubmit={handleSubmit}
-                >
+                <form onSubmit={handleSubmit}>
                   <CardContent>
-                    <TextField
-                      error={Boolean(touched.symbol && errors.symbol)}
-                      fullWidth
-                      helperText={touched.symbol && errors.symbol}
-                      autoComplete='off'
-                      label="Symbol"
-                      name="symbol"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      required
-                      value={values.symbol.toUpperCase()}
-                      variant="outlined"
-                      className={classes.textField}
-                    />
+                    {holding.holdingID ? (
+                      <TextField
+                        fullWidth
+                        disabled
+                        label="Symbol"
+                        name="symbol"
+                        value={values.symbol}
+                        variant="outlined"
+                        className={classes.textField}
+                      />
+                    ) : (
+                      <Autocomplete
+                        loading={autoCompleteLoading}
+                        noOptionsText='Begin typing for a list of results'
+                        loadingText={<CircularProgress size={25} />}
+                        options={autoCompleteLoading ? [] : autoCompleteResults}
+                        filterOptions={(x) => x}
+                        getOptionLabel={(option) => `${option.symbol} - ${option.longname}`}
+                        className={classes.textField}
+                        onChange={(e, value) => setFieldValue('symbol', value?.symbol || '')}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={Boolean(touched.symbol && errors.symbol)}
+                            fullWidth
+                            helperText={touched.symbol && errors.symbol}
+                            label="Search by Company Name or Symbol"
+                            name="symbol"
+                            required
+                            variant="outlined"
+                            onChange={event => {
+                              setAutoCompleteLoading(true);
+                              setAutoCompleteSearch(event.target.value);
+                            }}
+                          />
+                        )}
+                      />
+                    )}
                     <TextField
                       error={Boolean(touched.quantity && errors.quantity)}
                       fullWidth
                       helperText={touched.quantity && errors.quantity}
-                      label="Quantity"
+                      label="Number of Shares"
                       name="quantity"
                       onBlur={handleBlur}
                       onChange={handleChange}
