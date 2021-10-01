@@ -11,6 +11,21 @@ export const listStatistics = /* GraphQL */ `
     listStatistics
   }
 `;
+export const querySymbol = /* GraphQL */ `
+  query QuerySymbol($symbol: String!) {
+    querySymbol(symbol: $symbol) {
+      exchange
+      shortname
+      quoteType
+      symbol
+      index
+      score
+      typeDisp
+      longname
+      label
+    }
+  }
+`;
 export const getHolding = /* GraphQL */ `
   query GetHolding($id: ID!) {
     getHolding(id: $id) {
