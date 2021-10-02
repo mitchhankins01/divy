@@ -3,8 +3,8 @@ empty account add defaults
 domain
 email link instead of code / sign up email customize
 deploy prod
-subscription, portal, trial
+subscription, trial
 
-calendar show total divs in a month
 support
 sns stripe webhook
+autocomplete no pull if less < 1 char

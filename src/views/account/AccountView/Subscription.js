@@ -1,9 +1,6 @@
 import React, {
   useState,
-  useEffect,
-  useCallback
 } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   Box,
@@ -12,14 +9,10 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Link,
-  Paper,
-  Typography,
   makeStyles
 } from '@material-ui/core';
-import { API, Auth } from 'aws-amplify';
-import axios from 'src/utils/axios';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import { API } from 'aws-amplify';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -54,165 +47,40 @@ const useStyles = makeStyles((theme) => ({
 
 const Subscription = ({ className, ...rest }) => {
   const classes = useStyles();
-  const isMountedRef = useIsMountedRef();
-  const [subscription, setSubscription] = useState(null);
-
-  const getSubscription = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/account/subscription');
-
-      if (isMountedRef.current) {
-        setSubscription(response.data.subscription);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    getSubscription();
-  }, [getSubscription]);
-
-  if (!subscription) {
-    return null;
-  }
+  const {  attributes } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   return (
     <Card
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <CardHeader title="Manage your subscription" />
+      <CardHeader title="Manage your Subscription" />
       <Divider />
       <CardContent>
-        <Paper variant="outlined">
-          <Box className={classes.overview}>
-            <div>
-              <Typography
-                display="inline"
-                variant="h4"
-                color="textPrimary"
-              >
-                {subscription.currency}
-                {subscription.price}
-              </Typography>
-              <Typography
-                display="inline"
-                variant="subtitle1"
-              >
-                /mo
-              </Typography>
-            </div>
-            <Box
-              display="flex"
-              alignItems="center"
-            >
-              <img
-                alt="Product"
-                className={classes.productImage}
-                src="/static/images/products/product_premium.svg"
-              />
-              <Typography
-                variant="overline"
-                color="textSecondary"
-              >
-                {subscription.name}
-              </Typography>
-            </Box>
-          </Box>
-          <Divider />
-          <Box className={classes.details}>
-            <div>
-              <Typography
-                variant="body2"
-                color="textPrimary"
-              >
-                {`${subscription.proposalsLeft} proposals left`}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="textPrimary"
-              >
-                {`${subscription.templatesLeft} templates`}
-              </Typography>
-            </div>
-            <div>
-              <Typography
-                variant="body2"
-                color="textPrimary"
-              >
-                {`${subscription.invitesLeft} invites left`}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="textPrimary"
-              >
-                {`${subscription.adsLeft} ads left`}
-              </Typography>
-            </div>
-            <div>
-              {subscription.hasAnalytics && (
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                >
-                  Analytics dashboard
-                </Typography>
-              )}
-              {subscription.hasEmailAlerts && (
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                >
-                  Email alerts
-                </Typography>
-              )}
-            </div>
-          </Box>
-        </Paper>
-        <Box
-          mt={2}
-          display="flex"
-          justifyContent="flex-end"
-        >
+        <Box mt={2} display="flex">
           <Button
             size="small"
             color="secondary"
             variant="contained"
+            disabled={loading}
             onClick={async () => {
+              setLoading(true);
               const fetchSession = async () => {
                 const apiName = 'stripeAPI'
-                const apiEndpoint = '/create-customer-portal-session'
+                const apiEndpoint = '/create-customer-portal-sessio'
                 const body = {
-                  // client_id: username,
+                  id: attributes['custom:stripe_customer_id'],
                 }
                 const session = await API.post(apiName, apiEndpoint, { body });
                 return session;
               };
               const session = await fetchSession();
-              console.log(session)
+              window.location.replace(session.url);
             }}
           >
-            Upgrade plan
+            {loading ? 'Redirecting...' : 'Manage or Cancel Subscription'}
           </Button>
-        </Box>
-        <Box mt={2}>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-          >
-            The refunds don&apos;t work once you have the subscription, but you can
-            always
-            {' '}
-            <Link
-              color="secondary"
-              component={RouterLink}
-              to="#"
-            >
-              Cancel your subscription
-            </Link>
-            .
-          </Typography>
         </Box>
       </CardContent>
     </Card>
