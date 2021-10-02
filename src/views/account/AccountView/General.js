@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { attributes, updateName } = useAuth();
+  const { attributes, updateName, SUBSCRIPTIONS } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   return (
@@ -106,15 +106,12 @@ export default ({ className, ...rest }) => {
                   color="textPrimary"
                   variant="body1"
                 >
-                  Your tier:
-                  {' '}
-                  <Link
+                  {/* <Link
                     component={RouterLink}
                     to="/pricing"
-                  >
-                    {/* {attributes.tier} */}
-                    Update this
-                  </Link>
+                  > */}
+                    {`${SUBSCRIPTIONS[attributes['custom:subscription']]} Subscription`}
+                  {/* </Link> */}
                 </Typography>
               </Box>
               <form onSubmit={handleSubmit}>

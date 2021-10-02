@@ -172,7 +172,7 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-  const { attributes } = useAuth();
+  const { attributes, SUBSCRIPTIONS } = useAuth();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -232,7 +232,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               variant="body2"
               color="textSecondary"
             >
-              Update this
+              {SUBSCRIPTIONS[attributes['custom:subscription']]}
             </Typography>
           </Box>
         </Box>

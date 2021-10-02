@@ -29,7 +29,7 @@ export default ({ className, ...rest }) => {
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
   const [chartType, setChartType] = useState('horizontalBar');
-  const { listStatistics: { data, totalDividends } } = useData();
+  const { listStatistics: { data, totalDividends, sortedData } } = useData();
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default ({ className, ...rest }) => {
     const _percentagesOfPortfolio = [];
 
     if (isMountedRef.current && totalDividends > 0) {
-      data.forEach((holding) => {
+      sortedData.forEach((holding) => {
         const percentageOfDividends = Number((Number(holding.totalDividends) / Number(totalDividends)) * 100).toFixed(1);
         if (percentageOfDividends > 0) {
           _labels.push(holding.symbol);
@@ -48,7 +48,7 @@ export default ({ className, ...rest }) => {
       setLabels(_labels);
       setPercentagesOfDividends(_percentagesOfPortfolio);
     }
-  }, [isMountedRef, data, totalDividends]);
+  }, [isMountedRef, sortedData, totalDividends]);
 
   return (
     <Card

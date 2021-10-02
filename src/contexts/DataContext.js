@@ -14,6 +14,7 @@ const disableCache = false;
 const initialDataState = {
     listStatistics: {
         data: [],
+        sortedData: [],
         costBasis: 0,
         marketValue: 0,
         totalDividends: 0
@@ -50,7 +51,9 @@ export const DataProvider = ({ children }) => {
                 totalDividends += holding.totalDividends;
             });
 
-            setState(s => ({ ...s, listStatistics: { data: list, costBasis, marketValue, totalDividends } }));
+            const _sortedData = [...list].sort((a,b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
+
+            setState(s => ({ ...s, listStatistics: { data: list, sortedData: _sortedData, costBasis, marketValue, totalDividends } }));
         }
 
         if (isMountedRef.current) {
