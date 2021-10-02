@@ -163,9 +163,10 @@ export default () => {
   const theme = useTheme();
   const classes = useStyles();
   const calendarRef = useRef(null);
-  const { listDividends: { all }} = useData();
+  const { listDividends: { all } } = useData();
   const [date, setDate] = useState(new Date());
   const { height: windowHeight } = useWindowSize();
+  const [totalMonthlyDividends, setTotalMonthlyDividends] = useState(0);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
   const emptyDialog = {
@@ -257,6 +258,18 @@ export default () => {
     }
   }, [mobileDevice]);
 
+  useEffect(() => {
+    if (date) {
+      let total = 0;
+      all.forEach(dividend => {
+        if (dividend.paymentDate.split('-')[1] === date.toISOString().split('-')[1]) {
+          total += Number(dividend.extendedProps.amount);
+        }
+      })
+      setTotalMonthlyDividends(total);
+    }
+  }, [date, all]);
+
   return (
     <>
       <Page className={classes.root} title='Calendar'>
@@ -268,6 +281,7 @@ export default () => {
           onDatePrev={handleDatePrev}
           onDateToday={handleDateToday}
           onViewChange={handleViewChange}
+          totalMonthlyDividends={totalMonthlyDividends}
         />
         <Paper className={classes.calendar}>
           {/* {loading && <LoadingScreen />} */}
