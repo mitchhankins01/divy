@@ -26,11 +26,15 @@
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeFunction-34674f6d6e4e6a7a4d4c-build.zip"
+          "s3Key": "amplify-builds/stripeFunction-596335416f4f792b766a-build.zip"
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
           "s3Key": "amplify-builds/stripeHookFunction-754b354c356a2b332b6d-build.zip"
+        },
+        "querySymbolFunction": {
+          "deploymentBucketName": "amplify-divy-dev-183939-deployment",
+          "s3Key": "amplify-builds/querySymbolFunction-44696a49662f306b7662-build.zip"
         }
       }
     }

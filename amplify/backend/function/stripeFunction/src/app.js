@@ -33,7 +33,19 @@ app.post('/checkout', async function (req, res) {
   } catch (err) {
     res.json(err);
   }
-})
+});
+
+app.post('/create-customer-portal-session', async function (req, res) {
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: 'cus_KBTKc7kff8Qjbc',
+      return_url: 'http://localhost:3000/app/settings',
+    });
+    res.json(session);
+  } catch (err) {
+    res.json(err);
+  }
+});
 
 app.listen(3000, function () {
   console.log('App started');
