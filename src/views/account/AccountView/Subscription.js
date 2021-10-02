@@ -17,6 +17,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
+import { API, Auth } from 'aws-amplify';
 import axios from 'src/utils/axios';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 
@@ -178,6 +179,19 @@ const Subscription = ({ className, ...rest }) => {
             size="small"
             color="secondary"
             variant="contained"
+            onClick={async () => {
+              const fetchSession = async () => {
+                const apiName = 'stripeAPI'
+                const apiEndpoint = '/create-customer-portal-session'
+                const body = {
+                  // client_id: username,
+                }
+                const session = await API.post(apiName, apiEndpoint, { body });
+                return session;
+              };
+              const session = await fetchSession();
+              console.log(session)
+            }}
           >
             Upgrade plan
           </Button>

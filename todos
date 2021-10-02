@@ -1,11 +1,10 @@
 upgrade MUI?
 empty account add defaults
+domain
 email link instead of code / sign up email customize
 deploy prod
-subscription
+subscription, portal, trial
 
-sort by largest dividend (graph)
 calendar show total divs in a month
-change symbol text (search by symbol or company name)
 support
 sns stripe webhook
