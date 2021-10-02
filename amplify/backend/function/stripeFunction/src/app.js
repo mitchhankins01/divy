@@ -28,18 +28,18 @@ app.post('/checkout', async function (req, res) {
       success_url:
         'http://localhost:3000/pricing?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'http://localhost:3000/cancel',
-    })
+    });
     res.json(session);
   } catch (err) {
     res.json(err);
   }
 });
 
-app.post('/create-customer-portal-session', async function (req, res) {
+app.post('/create-customer-portal-sessio', async function (req, res) {
   try {
     const session = await stripe.billingPortal.sessions.create({
-      customer: 'cus_KBTKc7kff8Qjbc',
-      return_url: 'http://localhost:3000/app/settings',
+      customer: req.body.id,
+      return_url: 'http://localhost:3000/app/account',
     });
     res.json(session);
   } catch (err) {

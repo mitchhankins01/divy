@@ -29,11 +29,15 @@ app.post('/webhook', async function (req, res) {
 
     switch (event.type) {
       case 'checkout.session.completed':
-        const { line_items } = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
+        const retrievedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
         await cognitoidentityserviceprovider.adminUpdateUserAttributes({
           UserAttributes: [{
             Name: 'custom:subscription',
-            Value: line_items.data[0].price.id
+            Value: retrievedSession.line_items.data[0].price.id
+          },
+          {
+            Name: 'custom:stripe_customer_id',
+            Value: retrievedSession.customer
           }],
           UserPoolId: process.env.USER_POOL_ID,
           Username: req.body.data.object.client_reference_id
