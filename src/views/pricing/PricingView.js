@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
     height: '100%',
-    paddingTop: 120,
-    paddingBottom: 120
+    // paddingTop: 120,
+    // paddingBottom: 120
   },
   product: {
     position: 'relative',
@@ -64,52 +64,42 @@ export default () => {
       title="Pricing"
     >
       <Container maxWidth="sm">
-        <Typography
-          align="center"
-          variant="h1"
-          color="textPrimary"
-        >
-          Start today. Boost up your services!
-        </Typography>
-        <Box mt={3}>
+        <Box pt={3}>
+          <Typography
+            align="center"
+            variant="h2"
+            color="textPrimary"
+          >
+            Two Weeks Free Trial
+          </Typography>
           <Typography
             align="center"
             variant="subtitle1"
             color="textSecondary"
+            style={{ marginTop: 20 }}
           >
-            Welcome to the first platform created for freelancers and agencies
-            for showcasing and finding the best clinets in the market.
-            30% of our income goes into Whale Charity
+            Discover the power of Divy with a no-commitment free trial.
+            Simply choose from one of the options below. You can cancel at any time.
           </Typography>
         </Box>
       </Container>
-      <Box mt="160px">
-        <Container maxWidth="lg">
-          <Grid
-            container
-            spacing={4}
-          >
-            <Grid
-              item
-              md={4}
-              xs={12}
-            >
+
+
+      <Box mt={5}>
+        <Container maxWidth="md">
+          <Grid container spacing={4}>
+            <Grid item md={6} xs={12}>
               <Paper
                 className={classes.product}
                 elevation={1}
               >
-                <img
-                  alt="Product"
-                  className={classes.productImage}
-                  src="/static/images/products/product_standard.svg"
-                />
                 <Typography
                   component="h3"
                   gutterBottom
                   variant="overline"
                   color="textSecondary"
                 >
-                  Standard
+                  Monthly
                 </Typography>
                 <div>
                   <Typography
@@ -118,7 +108,7 @@ export default () => {
                     variant="h3"
                     color="textPrimary"
                   >
-                    $5
+                    $12.99
                   </Typography>
                   <Typography
                     component="span"
@@ -133,7 +123,7 @@ export default () => {
                   variant="overline"
                   color="textSecondary"
                 >
-                  Max 1 user
+                  Renews Monthly
                 </Typography>
                 <Box my={2}>
                   <Divider />
@@ -142,13 +132,13 @@ export default () => {
                   variant="body2"
                   color="textPrimary"
                 >
-                  20 proposals/month
+                  Unlimited Holdings
                   <br />
-                  10 templates
+                  Automatic Dividend Tracking
                   <br />
-                  Analytics dashboard
+                  Chat Support
                   <br />
-                  Email alerts
+                  Automatically Rewews Monthly
                 </Typography>
                 <Box my={2}>
                   <Divider />
@@ -158,31 +148,26 @@ export default () => {
                   fullWidth
                   className={classes.chooseButton}
                 >
-                  Choose
+                  Choose Monthly
                 </Button>
               </Paper>
             </Grid>
             <Grid
               item
-              md={4}
+              md={6}
               xs={12}
             >
               <Paper
                 className={clsx(classes.product, classes.recommendedProduct)}
                 elevation={1}
               >
-                <img
-                  alt="Product"
-                  className={classes.productImage}
-                  src="/static/images/products/product_premium--outlined.svg"
-                />
                 <Typography
                   component="h3"
                   gutterBottom
                   variant="overline"
                   color="inherit"
                 >
-                  Premium
+                  Yearly
                 </Typography>
                 <div>
                   <Typography
@@ -191,7 +176,7 @@ export default () => {
                     variant="h3"
                     color="inherit"
                   >
-                    $29
+                    $99
                   </Typography>
                   <Typography
                     component="span"
@@ -199,14 +184,14 @@ export default () => {
                     variant="subtitle2"
                     color="inherit"
                   >
-                    /month
+                    /year
                   </Typography>
                 </div>
                 <Typography
                   variant="overline"
                   color="inherit"
                 >
-                  Max 3 user
+                  Renews Yearly
                 </Typography>
                 <Box my={2}>
                   <Divider />
@@ -215,13 +200,13 @@ export default () => {
                   variant="body2"
                   color="inherit"
                 >
-                  20 proposals/month
+                  Unlimited Holdings
                   <br />
-                  10 templates
+                  Automatic Dividend Tracking
                   <br />
-                  Analytics dashboard
+                  Priority Chat Support
                   <br />
-                  Email alerts
+                  Automatically Rewews Monthly
                 </Typography>
                 <Box my={2}>
                   <Divider />
@@ -254,80 +239,7 @@ export default () => {
                     }
                   }}
                 >
-                  Choose
-                </Button>
-              </Paper>
-            </Grid>
-            <Grid
-              item
-              md={4}
-              xs={12}
-            >
-              <Paper
-                className={classes.product}
-                elevation={1}
-              >
-                <img
-                  alt="Product"
-                  className={classes.productImage}
-                  src="/static/images/products/product_extended.svg"
-                />
-                <Typography
-                  component="h3"
-                  gutterBottom
-                  variant="overline"
-                  color="textSecondary"
-                >
-                  Extended
-                </Typography>
-                <div>
-                  <Typography
-                    component="span"
-                    display="inline"
-                    variant="h3"
-                    color="textPrimary"
-                  >
-                    $259
-                  </Typography>
-                  <Typography
-                    component="span"
-                    display="inline"
-                    variant="subtitle2"
-                    color="textSecondary"
-                  >
-                    /month
-                  </Typography>
-                </div>
-                <Typography
-                  variant="overline"
-                  color="textSecondary"
-                >
-                  Unlimited
-                </Typography>
-                <Box my={2}>
-                  <Divider />
-                </Box>
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                >
-                  All from above
-                  <br />
-                  Unlimited 24/7 support
-                  <br />
-                  Personalised Page
-                  <br />
-                  Advertise your profile
-                </Typography>
-                <Box my={2}>
-                  <Divider />
-                </Box>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  className={classes.chooseButton}
-                >
-                  Choose
+                  Choose Yearly
                 </Button>
               </Paper>
             </Grid>

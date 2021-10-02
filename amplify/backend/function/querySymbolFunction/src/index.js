@@ -2,7 +2,6 @@ require('cross-fetch/polyfill');
 const axios = require('axios');
 
 exports.handler = async (event) => {
-    console.log('called')
     const options = {
         method: 'GET',
         url: 'https://yh-finance.p.rapidapi.com/auto-complete',

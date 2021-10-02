@@ -1,4 +1,3 @@
-pricing page
 upgrade MUI?
 empty account add defaults
 email link instead of code / sign up email customize
@@ -9,3 +8,4 @@ sort by largest dividend (graph)
 calendar show total divs in a month
 change symbol text (search by symbol or company name)
 support
+sns stripe webhook

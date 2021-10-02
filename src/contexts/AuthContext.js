@@ -12,6 +12,10 @@ const initialAuthState = {
   attributes: {
     given_name: '',
     family_name: '',
+    'custom:subscription': ''
+  },
+  SUBSCRIPTIONS: {
+    'price_1JWjZWFRojIX8Uh4yNsQ4cOp': 'Monthly'
   }
 };
 
