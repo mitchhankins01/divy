@@ -1,10 +1,9 @@
-upgrade MUI?
 empty account add defaults
-domain
 email link instead of code / sign up email customize
 deploy prod
-subscription, trial
+subscription, webhook change, trial
 
-support
+amplify config vars
+support & analytics
 sns stripe webhook
 autocomplete no pull if less < 1 char
