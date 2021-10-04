@@ -8,11 +8,6 @@
     }
   },
   "function": {
-    "dividendsLambda": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "dividendsFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
