@@ -57,11 +57,26 @@
       },
       "function": {
         "dividendsLambda": {},
-        "dividendsFunction": {},
-        "statisticsFunction": {},
-        "stripeFunction": {},
-        "stripeHookFunction": {},
-        "querySymbolFunction": {}
+        "dividendsFunction": {
+          "deploymentBucketName": "amplify-divy-prod-151031-deployment",
+          "s3Key": "amplify-builds/dividendsFunction-336b384c4f693953456f-build.zip"
+        },
+        "statisticsFunction": {
+          "deploymentBucketName": "amplify-divy-prod-151031-deployment",
+          "s3Key": "amplify-builds/statisticsFunction-4a594d6152594f527653-build.zip"
+        },
+        "stripeFunction": {
+          "deploymentBucketName": "amplify-divy-prod-151031-deployment",
+          "s3Key": "amplify-builds/stripeFunction-787a4b546a326134532b-build.zip"
+        },
+        "stripeHookFunction": {
+          "deploymentBucketName": "amplify-divy-prod-151031-deployment",
+          "s3Key": "amplify-builds/stripeHookFunction-4f376d4b316a72646830-build.zip"
+        },
+        "querySymbolFunction": {
+          "deploymentBucketName": "amplify-divy-prod-151031-deployment",
+          "s3Key": "amplify-builds/querySymbolFunction-44696a49662f306b7662-build.zip"
+        }
       }
     }
   }
