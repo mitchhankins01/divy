@@ -138,6 +138,13 @@
           "Version": "2012-10-17",
           "Statement": [
             {
+              "Action": [
+                "ses:SendEmail"
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:ses:us-east-1:361446625769:identity/*"
+            },
+            {
               "Effect": "Allow",
               "Action": [
                 "logs:CreateLogGroup",

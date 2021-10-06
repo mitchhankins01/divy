@@ -1,8 +1,8 @@
 email link instead of code / sign up email customize
-sns stripe webhook
-subscription, webhook change, trial
+subscription, webhook change, trial (loading button when choosing on pricing)
 loading auth
 
 empty account add defaults
 support & analytics
 autocomplete no pull if less < 1 char
+terms / privacy policy
