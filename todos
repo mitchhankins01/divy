@@ -1,9 +1,8 @@
-empty account add defaults
 email link instead of code / sign up email customize
-deploy prod
-subscription, webhook change, trial
-
-amplify config vars
-support & analytics
 sns stripe webhook
+subscription, webhook change, trial
+loading auth
+
+empty account add defaults
+support & analytics
 autocomplete no pull if less < 1 char
