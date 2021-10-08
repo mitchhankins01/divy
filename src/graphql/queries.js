@@ -26,6 +26,35 @@ export const querySymbol = /* GraphQL */ `
     }
   }
 `;
+export const getStripeEvent = /* GraphQL */ `
+  query GetStripeEvent($id: ID!) {
+    getStripeEvent(id: $id) {
+      id
+      type
+      message
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listStripeEvents = /* GraphQL */ `
+  query ListStripeEvents(
+    $filter: ModelStripeEventFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStripeEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        message
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getHolding = /* GraphQL */ `
   query GetHolding($id: ID!) {
     getHolding(id: $id) {

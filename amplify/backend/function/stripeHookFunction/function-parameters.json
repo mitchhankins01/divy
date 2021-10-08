@@ -1,3 +1,37 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "permissions": {
+    "auth": {
+      "divy302d4878302d4878": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "Holding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "StripeEvent:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "stripeSecretKey",
+      "environmentVariableName": "STRIPE_SECRET_KEY"
+    },
+    {
+      "cloudFormationParameterName": "stripeEndpointSecret",
+      "environmentVariableName": "STRIPE_ENDPOINT_SECRET"
+    }
+  ]
 }

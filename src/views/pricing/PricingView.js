@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import {
   Box,
@@ -57,6 +57,20 @@ const stripePromise = loadStripe('pk_test_51JWjXZFRojIX8Uh4WO9RpSwXYM6IrS4PjNdfd
 
 export default () => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const fetchSession = async (priceId) => {
+    setLoading(true);
+    const { username } = await Auth.currentAuthenticatedUser();
+    const apiName = 'stripeAPI'
+    const apiEndpoint = '/checkout'
+    const body = {
+      quantity: 1,
+      client_reference_id: username,
+      priceId
+    }
+    const session = await API.post(apiName, apiEndpoint, { body });
+    return session;
+  };
 
   return (
     <Page
@@ -83,8 +97,6 @@ export default () => {
           </Typography>
         </Box>
       </Container>
-
-
       <Box mt={5}>
         <Container maxWidth="md">
           <Grid container spacing={4}>
@@ -146,9 +158,19 @@ export default () => {
                 <Button
                   variant="contained"
                   fullWidth
+                  disabled={loading}
                   className={classes.chooseButton}
+                  onClick={async () => {
+                    try {
+                      const session = await fetchSession('price_1JWjYyFRojIX8Uh4Q3W5QFi0');
+                      const stripe = await stripePromise;
+                      stripe.redirectToCheckout({ sessionId: session.id });
+                    } catch (error) {
+                      console.log('error', error)
+                    }
+                  }}
                 >
-                  Choose Monthly
+                  {loading ? 'Redirecting to Checkout' : 'Choose Monthly'}
                 </Button>
               </Paper>
             </Grid>
@@ -214,24 +236,11 @@ export default () => {
                 <Button
                   variant="contained"
                   fullWidth
+                  disabled={loading}
                   className={classes.chooseButton}
                   onClick={async () => {
                     try {
-                      const { username } = await Auth.currentAuthenticatedUser();
-
-                      const fetchSession = async () => {
-                        const apiName = 'stripeAPI'
-                        const apiEndpoint = '/checkout'
-                        const body = {
-                          quantity: 1,
-                          client_reference_id: username,
-                          priceId: 'price_1JWjZWFRojIX8Uh4yNsQ4cOp',
-                        }
-                        const session = await API.post(apiName, apiEndpoint, { body });
-                        return session;
-                      };
-
-                      const session = await fetchSession();
+                      const session = await fetchSession('price_1JWjZWFRojIX8Uh4yNsQ4cOp');
                       const stripe = await stripePromise;
                       stripe.redirectToCheckout({ sessionId: session.id });
                     } catch (error) {
@@ -239,7 +248,7 @@ export default () => {
                     }
                   }}
                 >
-                  Choose Yearly
+                  {loading ? 'Redirecting to Checkout' : 'Choose Yearly'}
                 </Button>
               </Paper>
             </Grid>

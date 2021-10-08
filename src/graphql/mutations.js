@@ -52,3 +52,45 @@ export const deleteHolding = /* GraphQL */ `
     }
   }
 `;
+export const createStripeEvent = /* GraphQL */ `
+  mutation CreateStripeEvent(
+    $input: CreateStripeEventInput!
+    $condition: ModelStripeEventConditionInput
+  ) {
+    createStripeEvent(input: $input, condition: $condition) {
+      id
+      type
+      message
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateStripeEvent = /* GraphQL */ `
+  mutation UpdateStripeEvent(
+    $input: UpdateStripeEventInput!
+    $condition: ModelStripeEventConditionInput
+  ) {
+    updateStripeEvent(input: $input, condition: $condition) {
+      id
+      type
+      message
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteStripeEvent = /* GraphQL */ `
+  mutation DeleteStripeEvent(
+    $input: DeleteStripeEventInput!
+    $condition: ModelStripeEventConditionInput
+  ) {
+    deleteStripeEvent(input: $input, condition: $condition) {
+      id
+      type
+      message
+      createdAt
+      updatedAt
+    }
+  }
+`;

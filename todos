@@ -1,6 +1,8 @@
 email link instead of code / sign up email customize
-subscription, webhook change, trial (loading button when choosing on pricing)
+subscription, webhook change, redirects, trial
+config vars
 loading auth
+reload auth attributes after subscription
 
 empty account add defaults
 support & analytics

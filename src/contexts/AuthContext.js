@@ -16,7 +16,8 @@ const initialAuthState = {
     'custom:stripe_customer_id': ''
   },
   SUBSCRIPTIONS: {
-    'price_1JWjZWFRojIX8Uh4yNsQ4cOp': 'Monthly'
+    'price_1JWjYyFRojIX8Uh4Q3W5QFi0': 'Monthly',
+    'price_1JWjZWFRojIX8Uh4yNsQ4cOp': 'Yearly'
   }
 };
 
