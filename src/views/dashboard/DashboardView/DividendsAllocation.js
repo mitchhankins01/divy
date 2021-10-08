@@ -29,7 +29,7 @@ export default ({ className, ...rest }) => {
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
   const [chartType, setChartType] = useState('horizontalBar');
-  const { listStatistics: { data, totalDividends, sortedData } } = useData();
+  const { listStatistics: { totalDividends, sortedData } } = useData();
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
 
   useEffect(() => {
