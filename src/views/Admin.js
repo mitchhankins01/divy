@@ -1,7 +1,7 @@
 import React from 'react';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import ReactJson from 'react-json-view';
-import { Box, Button, Card, CardContent, CardHeader, Container, IconButton } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, IconButton } from '@material-ui/core';
 import { listStripeEvents } from 'src/graphql/queries';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { DeleteOutline } from '@material-ui/icons';
@@ -13,14 +13,15 @@ export default () => {
     const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async () => {
-        setLoading(true);
-        const { data } = await API.graphql(graphqlOperation(listStripeEvents));
-        setEvents(data.listStripeEvents.items)
-        setLoading(false);
+        if (isMountedRef.current) {
+            setLoading(true);
+            const { data } = await API.graphql(graphqlOperation(listStripeEvents));
+            setEvents(data.listStripeEvents.items)
+            setLoading(false);
+        }
     }, [isMountedRef]);
 
     React.useEffect(() => { getData() }, [getData]);
-    console.log(events)
 
     return (
         <Box p={5} mt={0}>
