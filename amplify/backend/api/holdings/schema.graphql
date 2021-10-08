@@ -31,3 +31,9 @@ type Holding @model
     comments: String!
     owner: String!
 }
+
+type StripeEvent @model {
+    id: ID!
+    type: String!
+    message: String!
+}

@@ -30,7 +30,9 @@
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-756b58514b68464d554d-build.zip"
+          "s3Key": "amplify-builds/stripeHookFunction-4f785944577048385733-build.zip",
+          "stripeSecretKey": "sk_test_51JWjXZFRojIX8Uh46KZnGduqJzPf2BUZChiOOBImG7gSMLU1n2du3lWzjMIN6CSB4jaBVdsO45UdjfvlbXkA8KmU0026mnYkVa",
+          "stripeEndpointSecret": "whsec_Ewi8IKqMczHI8nE3rLzTU7VflMhx161s"
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",

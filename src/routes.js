@@ -95,6 +95,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/admin',
+        component: lazy(() => import('src/views/Admin'))
+      },
+      {
+        exact: true,
         path: '/app/account',
         component: lazy(() => import('src/views/account/AccountView'))
       },

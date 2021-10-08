@@ -1,5 +1,15 @@
+/* Amplify Params - DO NOT EDIT
+	API_HOLDINGS_GRAPHQLAPIIDOUTPUT
+	API_HOLDINGS_HOLDINGTABLE_ARN
+	API_HOLDINGS_HOLDINGTABLE_NAME
+	API_HOLDINGS_STRIPEEVENTTABLE_ARN
+	API_HOLDINGS_STRIPEEVENTTABLE_NAME
+	AUTH_DIVY302D4878302D4878_USERPOOLID
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */
 const AWS = require('aws-sdk');
-const ses = new AWS.SES();
+const docClient = new AWS.DynamoDB.DocumentClient();
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -21,22 +31,18 @@ app.use(function (req, res, next) {
   next()
 });
 
-const sendEmail = async (subject, message) => {
+const saveEvent = async (id, type, message) => {
   try {
-    await ses
-      .sendEmail({
-        Destination: {
-          ToAddresses: ['mitchhankins@icloud.com'],
-        },
-        Source: 'mitchhankins@icloud.com',
-        Message: {
-          Subject: { Data: `Divy ${subject}` },
-          Body: {
-            Text: { Data: message },
-          },
-        },
-      })
-      .promise();
+    await docClient.put({
+      TableName: process.env.API_HOLDINGS_STRIPEEVENTTABLE_NAME,
+      Item: {
+        id: id,
+        type: type,
+        message: message,
+        updatedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString()
+      }
+    }).promise();
   } catch (error) {
     console.log(error);
   }
@@ -54,27 +60,38 @@ app.post('/webhook', async function (req, res) {
         const retrievedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
 
         await cognitoidentityserviceprovider.adminUpdateUserAttributes({
-          UserAttributes: [{
-            Name: 'custom:subscription',
-            Value: retrievedSession.line_items.data[0].price.id
-          },
-          {
-            Name: 'custom:stripe_customer_id',
-            Value: retrievedSession.customer
-          }],
-          UserPoolId: process.env.USER_POOL_ID,
+          UserAttributes: [
+            {
+              Name: 'custom:subscription',
+              Value: retrievedSession.line_items.data[0].price.id
+            },
+            {
+              Name: 'preferred_username',
+              Value: retrievedSession.customer
+            },
+            {
+              Name: 'custom:stripe_customer_id',
+              Value: retrievedSession.customer
+            }
+          ],
+          UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
           Username: req.body.data.object.client_reference_id
         }, function (err, data) {
           console.log('error', err);
           if (err) throw Error(err);
         }).promise();
 
-        sendEmail('checkout.session.completed', JSON.stringify({ event, retrievedSession }, null, 2));
+        await saveEvent(event.id, 'checkout.session.completed', JSON.stringify({ event, retrievedSession }));
         break;
-      case 'invoice.paid':
-        break;
+      // case 'invoice.paid': deleted this from webhook
       case 'invoice.payment_failed':
-        sendEmail('invoice.payment_failed', JSON.stringify({ event }, null, 2));
+      case 'customer.subscription.deleted':
+        // do I get all the info I need?
+        await saveEvent(event.id, event.type, JSON.stringify(event));
+        break;
+      case 'customer.subscription.updated':
+        // update admin
+        await saveEvent(event.id, 'customer.subscription.updated', JSON.stringify(event));
         break;
       default:
         return res.status(400).end();
