@@ -28,25 +28,27 @@ export default () => {
             <Button disabled={loading} onClick={getData}>Refresh</Button>
             {loading && 'Loading...'}
             {events.map(event => (
-                <Card key={event.id}>
-                    <CardHeader
-                        title={event.type}
-                        subheader={event.createdAt.replace('T', ' ').slice(0, 19)}
-                        action={
-                            <IconButton onClick={async () => {
-                                if (window.confirm('Delete?')) {
-                                    await API.graphql(graphqlOperation(deleteStripeEvent, { input: { id: event.id } }));
-                                    getData();
-                                }
-                            }}>
-                                <DeleteOutline />
-                            </IconButton>
-                        }
-                    />
-                    <CardContent>
-                        <ReactJson collapsed={1} theme='solarized' src={JSON.parse(event.message)} />
-                    </CardContent>
-                </Card>
+                <Box key={event.id} marginY={3}>
+                    <Card>
+                        <CardHeader
+                            title={event.type}
+                            subheader={event.createdAt.replace('T', ' ').slice(0, 19)}
+                            action={
+                                <IconButton onClick={async () => {
+                                    if (window.confirm('Delete?')) {
+                                        await API.graphql(graphqlOperation(deleteStripeEvent, { input: { id: event.id } }));
+                                        getData();
+                                    }
+                                }}>
+                                    <DeleteOutline />
+                                </IconButton>
+                            }
+                        />
+                        <CardContent>
+                            <ReactJson collapsed={1} theme='solarized' src={JSON.parse(event.message)} />
+                        </CardContent>
+                    </Card>
+                </Box>
             ))}
         </Box>
     )
