@@ -9,7 +9,9 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  makeStyles
+  Grid,
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 import { API } from 'aws-amplify';
 import useAuth from 'src/hooks/useAuth';
@@ -47,43 +49,53 @@ const useStyles = makeStyles((theme) => ({
 
 const Subscription = ({ className, ...rest }) => {
   const classes = useStyles();
-  const {  attributes } = useAuth();
+  const { attributes } = useAuth();
   const [loading, setLoading] = useState(false);
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <CardHeader title="Manage your Subscription" />
-      <Divider />
-      <CardContent>
-        <Box mt={2} display="flex">
-          <Button
-            size="small"
-            color="secondary"
-            variant="contained"
-            disabled={loading}
-            onClick={async () => {
-              setLoading(true);
-              const fetchSession = async () => {
-                const apiName = 'stripeAPI'
-                const apiEndpoint = '/create-customer-portal-sessio'
-                const body = {
-                  id: attributes['custom:stripe_customer_id'],
-                }
-                const session = await API.post(apiName, apiEndpoint, { body });
-                return session;
-              };
-              const session = await fetchSession();
-              window.location.replace(session.url);
-            }}
-          >
-            {loading ? 'Redirecting...' : 'Manage or Cancel Subscription'}
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
+    <Grid item lg={6} xs={12}>
+      <Card
+        className={clsx(classes.root, className)}
+        {...rest}
+      >
+        <CardHeader title="Manage your Subscription" />
+        <Divider />
+        <CardContent>
+          <Box mt={2} display="flex" flexDirection='column'>
+            <Box mb={2}>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+              >
+                {`Expires: ${new Date(Number(attributes['custom:expires'])).toISOString().slice(0, 10)}`}
+              </Typography>
+            </Box>
+            <Button
+              size="small"
+              color="secondary"
+              variant="contained"
+              disabled={loading}
+              onClick={async () => {
+                setLoading(true);
+                const fetchSession = async () => {
+                  const apiName = 'stripeAPI'
+                  const apiEndpoint = '/create-customer-portal-sessio'
+                  const body = {
+                    id: attributes['custom:stripe_customer_id'],
+                  }
+                  const session = await API.post(apiName, apiEndpoint, { body });
+                  return session;
+                };
+                const session = await fetchSession();
+                window.location.replace(session.url);
+              }}
+            >
+              {loading ? 'Redirecting...' : 'Manage or Cancel Subscription'}
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

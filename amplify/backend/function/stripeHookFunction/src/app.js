@@ -1,18 +1,20 @@
 /* Amplify Params - DO NOT EDIT
-	API_HOLDINGS_GRAPHQLAPIIDOUTPUT
-	API_HOLDINGS_HOLDINGTABLE_ARN
-	API_HOLDINGS_HOLDINGTABLE_NAME
-	API_HOLDINGS_STRIPEEVENTTABLE_ARN
-	API_HOLDINGS_STRIPEEVENTTABLE_NAME
-	AUTH_DIVY302D4878302D4878_USERPOOLID
-	ENV
-	REGION
+  API_HOLDINGS_GRAPHQLAPIIDOUTPUT
+  API_HOLDINGS_HOLDINGTABLE_ARN
+  API_HOLDINGS_HOLDINGTABLE_NAME
+  API_HOLDINGS_STRIPEEVENTTABLE_ARN
+  API_HOLDINGS_STRIPEEVENTTABLE_NAME
+  AUTH_DIVY302D4878302D4878_USERPOOLID
+  ENV
+  REGION
 Amplify Params - DO NOT EDIT */
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+const getUnixTime = require('date-fns/getUnixTime');
+const addToDate = require('date-fns/add');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
@@ -56,6 +58,9 @@ app.post('/webhook', async function (req, res) {
     const event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
 
     switch (event.type) {
+      /* 
+        checkout.session.completed
+      */
       case 'checkout.session.completed':
         const retrievedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
 
@@ -72,31 +77,69 @@ app.post('/webhook', async function (req, res) {
             {
               Name: 'custom:stripe_customer_id',
               Value: retrievedSession.customer
+            },
+            {
+              Name: 'custom:expires',
+              Value: String(getUnixTime(addToDate(new Date(), { months: 1, days: 2 })))
             }
           ],
           UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
           Username: req.body.data.object.client_reference_id
-        }, function (err, data) {
-          console.log('error', err);
-          if (err) throw Error(err);
         }).promise();
 
         await saveEvent(event.id, 'checkout.session.completed', JSON.stringify({ event, retrievedSession }));
         break;
-      // case 'invoice.paid': deleted this from webhook
+
+
+      /* 
+        invoice.payment_failed
+        customer.subscription.deleted
+      */
       case 'invoice.payment_failed':
       case 'customer.subscription.deleted':
         // do I get all the info I need?
         await saveEvent(event.id, event.type, JSON.stringify(event));
         break;
+
+
+      /* 
+        customer.subscription.updated
+      */
       case 'customer.subscription.updated':
-        // update admin
-        await saveEvent(event.id, 'customer.subscription.updated', JSON.stringify(event));
+        const { Users } = await cognitoidentityserviceprovider.listUsers({
+          UserPoolId:  process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
+          Filter: `preferred_username = \"${event.data.object.customer}\"`
+        }).promise();
+
+        if (Users.length) {
+          await cognitoidentityserviceprovider.adminUpdateUserAttributes({
+            UserAttributes: [
+              {
+                Name: 'custom:subscription',
+                Value: event.data.object.items.data[0].price.id
+              },
+              {
+                Name: 'custom:expires',
+                Value: String(Number(event.data.object.current_period_end) * 1000)
+              }
+            ],
+            UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
+            Username: Users[0].Username
+          }).promise();
+          await saveEvent(event.id, 'customer.subscription.updated', JSON.stringify({ note: 'user found', event }));
+        } else {
+          await saveEvent(event.id, 'customer.subscription.updated', JSON.stringify({ note: 'no user found', event }));
+        }
+
+        
         break;
+
+
       default:
         return res.status(400).end();
     }
   } catch (err) {
+    console.log(err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 

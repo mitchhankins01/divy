@@ -13,6 +13,7 @@ const initialAuthState = {
     given_name: '',
     family_name: '',
     'custom:subscription': '',
+    'custom:expires': '',
     'custom:stripe_customer_id': ''
   },
   SUBSCRIPTIONS: {
@@ -27,6 +28,7 @@ const AuthContext = createContext({
   logout: () => { },
   updateName: () => Promise.resolve(),
   updatePassword: () => Promise.resolve(),
+  updateUserAttributes: () => Promise.resolve(),
   register: () => Promise.resolve(),
   forgotPassword: () => Promise.resolve(),
   forgotPasswordSubmit: () => Promise.resolve(),
@@ -36,7 +38,6 @@ export const AuthProvider = ({ children }) => {
   const [state, setState] = useState(initialAuthState);
 
   const setUserState = user => {
-    console.log(user);
     setState({ ...initialAuthState, attributes: user.attributes, isAuthenticated: true, isInitialized: true });
   }
 
@@ -88,6 +89,11 @@ export const AuthProvider = ({ children }) => {
     return Auth.changePassword(user, currentPassword, newPassword);
   };
 
+  const updateUserAttributes = async () => {
+    const currentUserInfo = await Auth.currentUserInfo();
+    setState({ ...state, attributes: currentUserInfo.attributes });
+  }
+
   useEffect(() => {
     console.log('init');
     const intialize = async () => {
@@ -119,6 +125,7 @@ export const AuthProvider = ({ children }) => {
         register,
         updateName,
         updatePassword,
+        updateUserAttributes,
         forgotPassword,
         forgotPasswordSubmit
       }}

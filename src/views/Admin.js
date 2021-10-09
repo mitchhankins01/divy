@@ -16,7 +16,7 @@ export default () => {
         if (isMountedRef.current) {
             setLoading(true);
             const { data } = await API.graphql(graphqlOperation(listStripeEvents));
-            setEvents(data.listStripeEvents.items)
+            setEvents(data.listStripeEvents.items.reverse())
             setLoading(false);
         }
     }, [isMountedRef]);
@@ -29,6 +29,7 @@ export default () => {
             {loading && 'Loading...'}
             {events.map(event => (
                 <Box key={event.id} marginY={3}>
+                    {console.log(JSON.parse(event.message))}
                     <Card>
                         <CardHeader
                             title={event.type}
