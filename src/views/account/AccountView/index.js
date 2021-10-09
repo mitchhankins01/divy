@@ -7,12 +7,14 @@ import {
   Tabs,
   makeStyles
 } from '@material-ui/core';
+import { useLocation, useHistory } from 'react-router-dom';
 import Page from 'src/components/Page';
 import Header from './Header';
 import General from './General';
 import Subscription from './Subscription';
 // import Notifications from './Notifications';
 import Security from './Security';
+import useAuth from 'src/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +27,15 @@ const useStyles = makeStyles((theme) => ({
 
 const AccountView = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const { updateUserAttributes } = useAuth();
   const [currentTab, setCurrentTab] = useState('general');
+
+  if (location.search.includes('updated')) {
+    updateUserAttributes();
+    history.push('/app/account');
+  }
 
   const tabs = [
     { value: 'general', label: 'General' },

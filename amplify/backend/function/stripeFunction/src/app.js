@@ -39,7 +39,7 @@ app.post('/create-customer-portal-sessio', async function (req, res) {
   try {
     const session = await stripe.billingPortal.sessions.create({
       customer: req.body.id,
-      return_url: 'http://localhost:3000/app/account',
+      return_url: 'http://localhost:3000/app/account?updated=true',
     });
     res.json(session);
   } catch (err) {

@@ -1,8 +1,7 @@
 email link instead of code / sign up email customize
-subscription, webhook change, redirects, trial
+subscription, webhook change (upgrade to update cognito and delete when does expire), trial
 config vars
 loading auth
-reload auth attributes after subscription
 
 empty account add defaults
 support & analytics
