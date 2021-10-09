@@ -12,6 +12,7 @@ import useAuth from 'src/hooks/useAuth';
 const disableCache = false;
 
 const initialDataState = {
+    loading: false,
     listStatistics: {
         data: [],
         sortedData: [],
@@ -34,6 +35,8 @@ export const DataProvider = ({ children }) => {
     const { isAuthenticated } = useAuth();
     const isMountedRef = useIsMountedRef();
     const [state, setState] = useState(initialDataState);
+    const [isDividendsLoading, setIsDividendsLoading] = useState(true);
+    const [isStatisticsLoading, setIsStatisticsLoading] = useState(true);
 
     /*
       Data
@@ -54,6 +57,7 @@ export const DataProvider = ({ children }) => {
             const _sortedData = [...list].sort((a,b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
 
             setState(s => ({ ...s, listStatistics: { data: list, sortedData: _sortedData, costBasis, marketValue, totalDividends } }));
+            setIsStatisticsLoading(false);
         }
 
         if (isMountedRef.current) {
@@ -90,6 +94,7 @@ export const DataProvider = ({ children }) => {
             });
 
             setState(s => ({ ...s, listDividends: { all: list, upcoming } }));
+            setIsDividendsLoading(false);
         }
 
         if (isMountedRef.current) {
@@ -134,6 +139,7 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider value={{
             ...state,
+            loading: isStatisticsLoading || isDividendsLoading,
             processRefetch
         }}>
             {children}

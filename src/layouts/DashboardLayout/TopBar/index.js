@@ -8,7 +8,8 @@ import {
   IconButton,
   Toolbar,
   makeStyles,
-  SvgIcon
+  SvgIcon,
+  LinearProgress
 } from '@material-ui/core';
 import { Menu as MenuIcon } from 'react-feather';
 import Logo from 'src/components/Logo';
@@ -17,6 +18,7 @@ import Account from './Account';
 // import Notifications from './Notifications';
 // import Search from './Search';
 import Settings from './Settings';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,12 +43,14 @@ const TopBar = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const { loading } = useData();
 
   return (
     <AppBar
       className={clsx(classes.root, className)}
       {...rest}
     >
+      {loading && <LinearProgress />}
       <Toolbar className={classes.toolbar}>
         <Hidden lgUp>
           <IconButton
