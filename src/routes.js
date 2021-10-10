@@ -93,6 +93,12 @@ const routes = [
         path: '/app',
         component: () => <Redirect to="/app/dashboard" />
       },
+
+      {
+        exact: true,
+        path: '/app/admin',
+        component: lazy(() => import('src/views/Admin'))
+      },
       {
         exact: true,
         path: '/app/account',
@@ -151,11 +157,6 @@ const routes = [
         exact: true,
         path: '/',
         component: HomeView
-      },
-      {
-        exact: true,
-        path: '/admin',
-        component: lazy(() => import('src/views/Admin'))
       },
       {
         exact: true,

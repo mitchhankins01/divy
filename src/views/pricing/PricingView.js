@@ -220,7 +220,7 @@ export default () => {
                       className={classes.chooseButton}
                       onClick={async () => {
                         try {
-                          const session = await fetchSession('price_1JWjYyFRojIX8Uh4Q3W5QFi0');
+                          const session = await fetchSession('price_1Jj45gFRojIX8Uh49dyp76XT');
                           const stripe = await stripePromise;
                           stripe.redirectToCheckout({ sessionId: session.id });
                         } catch (error) {
@@ -298,7 +298,7 @@ export default () => {
                       className={classes.chooseButton}
                       onClick={async () => {
                         try {
-                          const session = await fetchSession('price_1JWjZWFRojIX8Uh4yNsQ4cOp');
+                          const session = await fetchSession('price_1Jj46BFRojIX8Uh41J3eyCld');
                           const stripe = await stripePromise;
                           stripe.redirectToCheckout({ sessionId: session.id });
                         } catch (error) {
