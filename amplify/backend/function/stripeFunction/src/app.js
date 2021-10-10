@@ -23,6 +23,9 @@ app.post('/checkout', async function (req, res) {
           quantity: req.body.quantity,
         },
       ],
+      subscription_data: {
+        trial_period_days: 14
+      },
       mode: 'subscription',
       client_reference_id: req.body.client_reference_id,
       success_url:
