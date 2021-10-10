@@ -1,5 +1,6 @@
 email link instead of code / sign up email customize
-subscription trial
+admin page auth
+redirect after billing portal no changes goes to pricing page and is stuck
 token cognito timeout
 config vars
 

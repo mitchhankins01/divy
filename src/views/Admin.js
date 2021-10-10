@@ -16,6 +16,9 @@ export default () => {
         if (isMountedRef.current) {
             setLoading(true);
             const { data } = await API.graphql(graphqlOperation(listStripeEvents));
+            data.listStripeEvents.items.sort(function(a,b){
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              });
             setEvents(data.listStripeEvents.items.reverse())
             setLoading(false);
         }

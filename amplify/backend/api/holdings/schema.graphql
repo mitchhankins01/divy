@@ -32,7 +32,7 @@ type Holding @model
     owner: String!
 }
 
-type StripeEvent @model {
+type StripeEvent @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
     id: ID!
     type: String!
     message: String!
