@@ -51,8 +51,9 @@ const saveEvent = async (id, type, message) => {
 }
 
 app.post('/webhook', async function (req, res) {
-  const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ apiVersion: 'latest' });
+  const oneDayMs = 86400000;
   const sig = req.headers['stripe-signature'];
+  const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ apiVersion: 'latest' });
 
   try {
     const event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
@@ -61,7 +62,7 @@ app.post('/webhook', async function (req, res) {
       /* 
         checkout.session.completed
       */
-      case 'checkout.session.completed':
+      case 'checkout.session.completed': {
         const retrievedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, { expand: ["line_items"] });
 
         await cognitoidentityserviceprovider.adminUpdateUserAttributes({
@@ -89,25 +90,15 @@ app.post('/webhook', async function (req, res) {
 
         await saveEvent(event.id, 'checkout.session.completed', JSON.stringify({ event, retrievedSession }));
         break;
-
-
-      /* 
-        invoice.payment_failed
-        customer.subscription.deleted
-      */
-      case 'invoice.payment_failed':
-      case 'customer.subscription.deleted':
-        // do I get all the info I need?
-        await saveEvent(event.id, event.type, JSON.stringify(event));
-        break;
+      }
 
 
       /* 
         customer.subscription.updated
       */
-      case 'customer.subscription.updated':
+      case 'customer.subscription.updated': {
         const { Users } = await cognitoidentityserviceprovider.listUsers({
-          UserPoolId:  process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
+          UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
           Filter: `preferred_username = \"${event.data.object.customer}\"`
         }).promise();
 
@@ -120,7 +111,7 @@ app.post('/webhook', async function (req, res) {
               },
               {
                 Name: 'custom:expires',
-                Value: String(Number(event.data.object.current_period_end) * 1000)
+                Value: String(Number(event.data.object.current_period_end) * 1000 + (2 * oneDayMs))
               }
             ],
             UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
@@ -130,9 +121,48 @@ app.post('/webhook', async function (req, res) {
         } else {
           await saveEvent(event.id, 'customer.subscription.updated', JSON.stringify({ note: 'no user found', event }));
         }
-
-        
         break;
+      }
+
+
+      /* 
+        invoice.paid
+      */
+      case 'invoice.paid': {
+        const { Users } = await cognitoidentityserviceprovider.listUsers({
+          UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
+          Filter: `preferred_username = \"${event.data.object.customer}\"`
+        }).promise();
+
+        if (Users.length) {
+          await cognitoidentityserviceprovider.adminUpdateUserAttributes({
+            UserAttributes: [
+              {
+                Name: 'custom:expires',
+                Value: String(Number(event.data.object.period_end) * 1000 + (2 * oneDayMs))
+              }
+            ],
+            UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,
+            Username: Users[0].Username
+          }).promise();
+          await saveEvent(event.id, 'invoice.paid', JSON.stringify({ note: 'user found', event }));
+        } else {
+          await saveEvent(event.id, 'invoice.paid', JSON.stringify({ note: 'no user found', event }));
+        }
+        break;
+      }
+
+
+      /* 
+        invoice.payment_failed
+        customer.subscription.deleted
+      */
+      case 'invoice.payment_failed':
+      case 'customer.subscription.deleted': {
+        // do I get all the info I need?
+        await saveEvent(event.id, event.type, JSON.stringify(event));
+        break;
+      }
 
 
       default:
