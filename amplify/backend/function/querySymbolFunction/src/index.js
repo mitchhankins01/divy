@@ -8,7 +8,7 @@ exports.handler = async (event) => {
         params: { q: event.arguments.symbol, region: 'US' },
         headers: {
             'x-rapidapi-host': 'yh-finance.p.rapidapi.com',
-            'x-rapidapi-key': '9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae'
+            'x-rapidapi-key': process.env.YAHOO_KEY
         }
     };
 

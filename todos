@@ -1,10 +1,15 @@
-email link instead of code / sign up email customize
-admin page auth
-redirect after billing portal no changes goes to pricing page and is stuck
-token cognito timeout
-config vars
-
-empty account add defaults
-support & analytics
-autocomplete no pull if less < 1 char
 terms / privacy policy
+empty account add defaults
+support
+analytics
+questions in stats lambda and replace
+go into all lambdas and install packages
+
+prod deploy
+    make stripe products env vars
+    stripe products out of test
+    config vars from dev
+    email link instead of code / sign up email customize
+
+
+token cognito timeout - did it work?

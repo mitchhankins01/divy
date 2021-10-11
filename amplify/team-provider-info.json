@@ -18,15 +18,18 @@
       "function": {
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-336b384c4f693953456f-build.zip"
+          "s3Key": "amplify-builds/dividendsFunction-4352487a505241474b47-build.zip",
+          "benzingaToken": "871b3e8d86f34211b2fe278e1f347d23"
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-4a594d6152594f527653-build.zip"
+          "s3Key": "amplify-builds/statisticsFunction-543034684d5a58593136-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeFunction-47346356344b794a764e-build.zip"
+          "s3Key": "amplify-builds/stripeFunction-47346356344b794a764e-build.zip",
+          "stripeSecretKey": "sk_test_51JWjXZFRojIX8Uh46KZnGduqJzPf2BUZChiOOBImG7gSMLU1n2du3lWzjMIN6CSB4jaBVdsO45UdjfvlbXkA8KmU0026mnYkVa"
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
@@ -36,7 +39,8 @@
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/querySymbolFunction-44696a49662f306b7662-build.zip"
+          "s3Key": "amplify-builds/querySymbolFunction-65746b374d586739342f-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         }
       }
     }
