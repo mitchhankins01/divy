@@ -107,7 +107,8 @@ export default () => {
     );
   }
 
-  const hasSubscription = attributes['custom:subscription'];
+  const hasSubscription = false;
+  // const hasSubscription = attributes['custom:subscription'];
   return (
     <Page
       className={classes.root}
@@ -314,7 +315,7 @@ export default () => {
 
               <Box pt={2}>
                 <Button onClick={logout}>
-                  Log Out
+                  Experiencing issues? Click here to logout.
                 </Button>
               </Box>
             </Container>

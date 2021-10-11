@@ -70,7 +70,7 @@ exports.handler = async (event) => {
 
     const list = [];
     const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
-    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=871b3e8d86f34211b2fe278e1f347d23&parameters[tickers]=${symbols.join(',')}`);
+    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${symbols.join(',')}`);
     let benzingaData;
 
     try {

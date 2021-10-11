@@ -8,5 +8,11 @@
         "Subscription"
       ]
     }
-  }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "yahooKey",
+      "environmentVariableName": "YAHOO_KEY"
+    }
+  ]
 }
