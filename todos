@@ -1,5 +1,4 @@
 empty account add defaults
-support
 analytics
 { owner: event.identity.claims[true ? 'sub' : 'cognito:username'] } in dividendsfunc and statistics
 
