@@ -18,6 +18,15 @@
     },
     "stripeSecretKey": {
       "Type": "String"
+    },
+    "successUrl": {
+      "Type": "String"
+    },
+    "cancelUrl": {
+      "Type": "String"
+    },
+    "returnUrl": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -75,6 +84,15 @@
             },
             "STRIPE_SECRET_KEY": {
               "Ref": "stripeSecretKey"
+            },
+            "SUCCESS_URL": {
+              "Ref": "successUrl"
+            },
+            "CANCEL_URL": {
+              "Ref": "cancelUrl"
+            },
+            "RETURN_URL": {
+              "Ref": "returnUrl"
             }
           }
         },

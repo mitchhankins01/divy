@@ -18,7 +18,6 @@ app.post('/checkout', async function (req, res) {
       payment_method_types: ['card'],
       line_items: [
         {
-          // The priceId of the product being purchased, retrievable from the Stripe dashboard
           price: req.body.priceId, 
           quantity: req.body.quantity,
         },
@@ -28,9 +27,8 @@ app.post('/checkout', async function (req, res) {
       },
       mode: 'subscription',
       client_reference_id: req.body.client_reference_id,
-      success_url:
-        'http://localhost:3000/pricing?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: process.env.SUCCESS_URL,
+      cancel_url: process.env.CANCEL_URL,
     });
     res.json(session);
   } catch (err) {
@@ -42,7 +40,7 @@ app.post('/create-customer-portal-sessio', async function (req, res) {
   try {
     const session = await stripe.billingPortal.sessions.create({
       customer: req.body.id,
-      return_url: 'http://localhost:3000/app/account?updated=true',
+      return_url: process.env.RETURN_URL
     });
     res.json(session);
   } catch (err) {

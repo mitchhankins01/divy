@@ -1,8 +1,35 @@
+/* Amplify Params - DO NOT EDIT
+	API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT
+	API_HOLDINGS_GRAPHQLAPIIDOUTPUT
+	API_HOLDINGS_STRIPEEVENTTABLE_ARN
+	API_HOLDINGS_STRIPEEVENTTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */
 require('cross-fetch/polyfill');
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient();
 const axios = require('axios');
 const gql = require('graphql-tag');
 const AWSAppSyncClient = require('aws-appsync').default;
 const fs = require('fs');
+
+const saveEvent = async (id, type, message) => {
+    try {
+      await docClient.put({
+        TableName: process.env.API_HOLDINGS_STRIPEEVENTTABLE_NAME,
+        Item: {
+          id: id,
+          type: type,
+          message: message,
+          updatedAt: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        }
+      }).promise();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 const graphqlClient = new AWSAppSyncClient({
     url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
@@ -25,13 +52,6 @@ const graphqlClient = new AWSAppSyncClient({
     },
 });
 
-const formatNumber = number => {
-    if (isNaN(Number(number))) {
-        return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
-    }
-
-    return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
-}
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
@@ -73,6 +93,10 @@ exports.handler = async (event) => {
     const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
     const list = [];
 
+    if (!symbols.length) {
+        return JSON.stringify(list);
+    }
+
     const options = {
         method: 'GET',
         url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
@@ -84,15 +108,14 @@ exports.handler = async (event) => {
     };
 
     try {
-        // What happens if symbol is not found, does the loop break?
-        // what happens if user has no symbols?
         const unparsedData = fs.readFileSync('yahooData', 'utf8')
         yahooData = JSON.parse(unparsedData)
         // const { data: yahooData } = await axios.request(options);
 
         for (const { symbol, regularMarketPrice, dividendRate = 0, dividendYield = 0, ...rest } of yahooData.quoteResponse.result) {
-            const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
-
+            // const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
+            const match = data.holdingsByOwner.items.find(item => item.symbol === symbol);
+            
             if (match) {
                 const costBasis = match.price * match.quantity;
                 const marketValue = regularMarketPrice * match.quantity;
@@ -113,6 +136,12 @@ exports.handler = async (event) => {
                     id: `${symbol}.${regularMarketPrice}`,
                     holdingID: match.id
                 });
+            } else {
+                await saveEvent(symbol, 'stats_func_symbol_404', JSON.stringify({ 
+                    symbol,
+                    owner0: event.identity.claims['sub'],
+                    owner1: event.identity.claims['cognito:username']
+                }));
             }
         }
     } catch (error) {
