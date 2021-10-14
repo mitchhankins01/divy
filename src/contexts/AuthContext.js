@@ -4,12 +4,16 @@ import React, {
   useEffect,
 } from 'react';
 import { Auth, Cache } from 'aws-amplify';
+import { ChatWidget } from '@papercups-io/chat-widget';
+import { useTheme } from '@material-ui/core';
 import SplashScreen from 'src/components/SplashScreen';
 
 const initialAuthState = {
   isInitialized: false,
   isAuthenticated: false,
   attributes: {
+    sub: '',
+    email: '',
     given_name: '',
     family_name: '',
     'custom:subscription': '',
@@ -35,6 +39,7 @@ const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
+  const theme = useTheme();
   const [state, setState] = useState(initialAuthState);
 
   const setUserState = user => {
@@ -130,7 +135,33 @@ export const AuthProvider = ({ children }) => {
         forgotPasswordSubmit
       }}
     >
-      {children}
+      <>
+        {children}
+        <ChatWidget
+          token={process.env.REACT_APP_PAPERCUPS_TOKEN}
+          // token="da152080-edbd-4a60-8d07-7ad2c61738ab"
+          title="Welcome to Divy"
+          subtitle="Ask us anything in the chat window below 😊"
+          primaryColor={theme.palette.primary.main}
+          newMessagePlaceholder="Start typing..."
+          showAgentAvailability={false}
+          agentAvailableText="We're online right now!"
+          agentUnavailableText="We're away at the moment."
+          requireEmailUpfront={false}
+          iconVariant="outlined"
+          baseUrl="https://app.papercups.io"
+          customer={{
+            name: `${state.attributes.given_name} ${state.attributes.family_name}`,
+            email: state.attributes.email,
+            metadata: {
+              sub: state.attributes.sub,
+              plan: state.attributes['custom:subscription'],
+              stripe_id: state.attributes['custom:stripe_customer_id'],
+              stripe_expires: state.attributes['custom:expires']
+            }
+          }}
+        />
+      </>
     </AuthContext.Provider>
   );
 };
