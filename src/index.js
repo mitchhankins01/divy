@@ -15,6 +15,7 @@ import '@stripe/stripe-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Amplify from 'aws-amplify';
+import ReactGA from 'react-ga4';
 import awsconfig from './aws-exports';
 import { enableES5 } from 'immer';
 import * as serviceWorker from 'src/serviceWorker';
@@ -23,6 +24,12 @@ import App from 'src/App';
 
 enableES5();
 Amplify.configure(awsconfig);
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  console.log('no analytics');
+} else {
+  ReactGA.initialize('G-FHQ780HNNW');
+}
 
 ReactDOM.render(
   <SettingsProvider>
