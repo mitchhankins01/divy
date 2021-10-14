@@ -60,7 +60,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="h4"
                   color="textPrimary"
                 >
-                  What do we use for styling our components?
+                  Where can I find your privacy policy?
                 </Typography>
               </dt>
               <dd>
@@ -68,8 +68,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  We use Material-ui&apos;s hooks api as we think it’s
-                  the best way of avoiding clutter.
+                  <a href="https://www.termsfeed.com/live/79139007-2623-440c-968b-382566ab49a6" rel="noopener noreferrer" target="_blank">You can view our privacy policy by clicking here.</a>
                 </Typography>
               </dd>
             </Box>
@@ -79,7 +78,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="h4"
                   color="textPrimary"
                 >
-                  Is Typescript available?
+                  Where can I find your Terms of Service (ToS)?
                 </Typography>
               </dt>
               <dd>
@@ -87,7 +86,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  Yes, we have the Typescript version available for Standard Plus and Extended license.
+                  <a href="/tos" rel="noopener noreferrer" target="_blank">You can view our TOS by clicking here.</a>
                 </Typography>
               </dd>
             </Box>
