@@ -11,6 +11,7 @@ import {
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import HomeView from 'src/views/home/HomeView';
+import TOS from 'src/views/home/HomeView/TOS';
 import LoadingScreen from 'src/components/LoadingScreen';
 import AuthGuard from 'src/components/AuthGuard';
 import GuestGuard from 'src/components/GuestGuard';
@@ -157,6 +158,11 @@ const routes = [
         exact: true,
         path: '/',
         component: HomeView
+      },
+      {
+        exact: true,
+        path: '/tos',
+        component: TOS
       },
       {
         exact: true,
