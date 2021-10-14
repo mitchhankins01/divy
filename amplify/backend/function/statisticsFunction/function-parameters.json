@@ -7,6 +7,12 @@
         "Mutation",
         "Subscription"
       ]
+    },
+    "storage": {
+      "StripeEvent:@model(appsync)": [
+        "create",
+        "read"
+      ]
     }
   },
   "environmentVariableList": [

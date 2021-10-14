@@ -2,8 +2,7 @@ terms / privacy policy
 empty account add defaults
 support
 analytics
-questions in stats lambda and replace
-go into all lambdas and install packages
+{ owner: event.identity.claims[true ? 'sub' : 'cognito:username'] } in dividendsfunc and statistics
 
 prod deploy
     make stripe products env vars
