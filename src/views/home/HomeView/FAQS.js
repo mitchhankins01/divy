@@ -33,7 +33,7 @@ const FAQS = ({ className, ...rest }) => {
           variant="h1"
           color="textPrimary"
         >
-          Frequently asked questions
+          Frequently Asked Questions
         </Typography>
         <Box my={3}>
           <Divider />
@@ -52,7 +52,7 @@ const FAQS = ({ className, ...rest }) => {
               variant="overline"
               color="secondary"
             >
-              Technical &amp; Licensing
+             Policies
             </Typography>
             <Box mt={6}>
               <dt>
@@ -68,7 +68,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  <a href="https://www.termsfeed.com/live/79139007-2623-440c-968b-382566ab49a6" rel="noopener noreferrer" target="_blank">You can view our privacy policy by clicking here.</a>
+                  <a href="https://www.termsfeed.com/live/79139007-2623-440c-968b-382566ab49a6" rel="noopener noreferrer" target="_blank">You can view our privacy policy by clicking here</a>
                 </Typography>
               </dd>
             </Box>
@@ -86,26 +86,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  <a href="/tos" rel="noopener noreferrer" target="_blank">You can view our TOS by clicking here.</a>
-                </Typography>
-              </dd>
-            </Box>
-            <Box mt={6}>
-              <dt>
-                <Typography
-                  variant="h4"
-                  color="textPrimary"
-                >
-                  Are you providing support for setting up my project?
-                </Typography>
-              </dt>
-              <dd>
-                <Typography
-                  variant="body1"
-                  color="textSecondary"
-                >
-                  Yes, we offer email support for all our customers &amp;
-                  even skype meetings for our extended license customers.
+                  <a href="/tos" rel="noopener noreferrer" target="_blank">You can view our TOS by clicking here</a>
                 </Typography>
               </dd>
             </Box>
@@ -119,9 +100,9 @@ const FAQS = ({ className, ...rest }) => {
               variant="overline"
               color="secondary"
             >
-              Design
+              Other
             </Typography>
-            <Box mt={6}>
+            {/* <Box mt={6}>
               <dt>
                 <Typography
                   variant="h4"
@@ -138,7 +119,7 @@ const FAQS = ({ className, ...rest }) => {
                   No, we offer the design source file only to Standard Plus and Extended License.
                 </Typography>
               </dd>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </Container>
