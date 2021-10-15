@@ -10,6 +10,8 @@ import TotalDividends from './TotalDividends';
 import MarketValue from './MarketValue';
 import DividendsGrid from './DividendsGrid';
 import UnrealizedGain from './UnrealizedGain';
+import useData from 'src/hooks/useData';
+import Empty from './Empty';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,12 +23,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
+  const { loading, listStatistics: { data } } = useData();
 
   return (
     <Page className={classes.root} title='Dashboard'>
       <Container maxWidth={false}>
         <Header />
         <Grid container spacing={3}>
+          {!loading && !data.length && (
+            <Grid item lg={12}>
+              <Empty />
+            </Grid>
+          )}
           <Grid item lg={3} md={6} xs={12}>
             <TotalDividends />
           </Grid>

@@ -12,7 +12,7 @@ import useAuth from 'src/hooks/useAuth';
 const disableCache = false;
 
 const initialDataState = {
-    loading: false,
+    loading: true,
     listStatistics: {
         data: [],
         sortedData: [],

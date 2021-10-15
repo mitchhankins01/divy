@@ -37,7 +37,7 @@ export default ({ className, ...rest }) => {
   const classes = useStyles();
   const { listStatistics: { marketValue, costBasis } } = useData();
   const gain = marketValue - costBasis;
-  const difference = Math.round((gain / costBasis) * 100);
+  const difference = Math.round((gain / costBasis) * 100) || 0;
 
   return (
     <Card
@@ -54,9 +54,9 @@ export default ({ className, ...rest }) => {
           Unrealized
           <Label
             className={classes.label}
-            color={gain > 0 ? 'success' : 'error'}
+            color={gain >= 0 ? 'success' : 'error'}
           >
-            {difference > 0 ? '+' : ''}
+            {difference >= 0 ? '+' : ''}
             {difference}
             %
           </Label>
