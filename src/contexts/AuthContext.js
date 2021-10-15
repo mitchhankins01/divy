@@ -65,8 +65,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
-    Auth.signOut();
     setInitialState();
+    Auth.signOut();
   };
 
   const register = async (email, name, password) => {

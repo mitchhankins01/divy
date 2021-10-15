@@ -17,10 +17,8 @@ import {
 } from '@material-ui/core';
 import {
   User as UserIcon,
-  DollarSign as DollarSignIcon,
   List as ListIcon,
   Calendar as CalendarIcon,
-  Upload
 } from 'react-feather';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
@@ -64,11 +62,6 @@ const sections = [
         icon: ListIcon
       },
       {
-        title: 'Bulk',
-        href: '/app/holdings/bulk',
-        icon: Upload
-      },
-      {
         title: 'Chart',
         href: '/app/chart/aapl',
         icon: ShowChartIcon
@@ -83,11 +76,6 @@ const sections = [
         href: '/app/account',
         icon: UserIcon
       },
-      {
-        title: 'Pricing',
-        href: '/pricing',
-        icon: DollarSignIcon
-      }
     ]
   },
 ];
@@ -204,16 +192,15 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             display="flex"
             justifyContent="center"
           >
-            {/* <RouterLink to="/app/account"> */}
+            <RouterLink to="/app/account">
               <Avatar
                 alt="User"
                 className={classes.avatar}
                 // src={user.avatar}
               >
-                {/* KK */}
                 <PersonIcon fontSize='large' />
               </Avatar>
-            {/* </RouterLink> */}
+            </RouterLink>
           </Box>
           <Box
             mt={2}
@@ -258,28 +245,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           ))}
         </Box>
         <Divider />
-        <Box p={2}>
-          <Box
-            p={2}
-            borderRadius="borderRadius"
-            bgcolor="background.dark"
-          >
-            <Typography
-              variant="h6"
-              color="textPrimary"
-            >
-              Free Version
-            </Typography>
-            <Link
-              variant="subtitle1"
-              color="secondary"
-              component={RouterLink}
-              to="/docs"
-            >
-              Upgrade to Pro
-            </Link>
-          </Box>
-        </Box>
       </PerfectScrollbar>
     </Box>
   );
