@@ -36,7 +36,7 @@
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-4d68616e577648704b75-build.zip",
+          "s3Key": "amplify-builds/stripeHookFunction-54696f65653944794556-build.zip",
           "stripeSecretKey": "sk_test_51JWjXZFRojIX8Uh46KZnGduqJzPf2BUZChiOOBImG7gSMLU1n2du3lWzjMIN6CSB4jaBVdsO45UdjfvlbXkA8KmU0026mnYkVa",
           "stripeEndpointSecret": "whsec_Ewi8IKqMczHI8nE3rLzTU7VflMhx161s"
         },
@@ -68,12 +68,12 @@
         "dividendsLambda": {},
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-4352487a505241474b47-build.zip",
+          "s3Key": "amplify-builds/dividendsFunction-417532653868766a7239-build.zip",
           "benzingaToken": "871b3e8d86f34211b2fe278e1f347d23"
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-7259306b684d4d797861-build.zip",
+          "s3Key": "amplify-builds/statisticsFunction-45306f664e4d50347941-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         },
         "stripeFunction": {
@@ -86,7 +86,7 @@
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-4d68616e577648704b75-build.zip",
+          "s3Key": "amplify-builds/stripeHookFunction-54696f65653944794556-build.zip",
           "stripeEndpointSecret": "whsec_4NY8OqUygQJtSzuoMoQe45EyPUQzloNi",
           "stripeSecretKey": "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"
         },
