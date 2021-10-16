@@ -1,11 +1,5 @@
-empty account add defaults
-{ owner: event.identity.claims[true ? 'sub' : 'cognito:username'] } in dividendsfunc and statistics
 
 prod deploy
-    make stripe products env vars
-    stripe products out of test
     config vars from dev
     email link instead of code / sign up email customize
 
-
-token cognito timeout - did it work?

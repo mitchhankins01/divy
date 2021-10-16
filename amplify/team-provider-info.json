@@ -23,12 +23,12 @@
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-543034684d5a58593136-build.zip",
+          "s3Key": "amplify-builds/statisticsFunction-5843786d5173344c5377-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeFunction-47346356344b794a764e-build.zip",
+          "s3Key": "amplify-builds/stripeFunction-3634384c637430315858-build.zip",
           "stripeSecretKey": "sk_test_51JWjXZFRojIX8Uh46KZnGduqJzPf2BUZChiOOBImG7gSMLU1n2du3lWzjMIN6CSB4jaBVdsO45UdjfvlbXkA8KmU0026mnYkVa",
           "successUrl": "http://localhost:3000/pricing?session_id={CHECKOUT_SESSION_ID}",
           "cancelUrl": "http://localhost:3000/cancel",
@@ -36,13 +36,13 @@
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-49372b4a427845696f67-build.zip",
+          "s3Key": "amplify-builds/stripeHookFunction-4d68616e577648704b75-build.zip",
           "stripeSecretKey": "sk_test_51JWjXZFRojIX8Uh46KZnGduqJzPf2BUZChiOOBImG7gSMLU1n2du3lWzjMIN6CSB4jaBVdsO45UdjfvlbXkA8KmU0026mnYkVa",
           "stripeEndpointSecret": "whsec_Ewi8IKqMczHI8nE3rLzTU7VflMhx161s"
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/querySymbolFunction-65746b374d586739342f-build.zip",
+          "s3Key": "amplify-builds/querySymbolFunction-5632745a424170485a44-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         }
       }
