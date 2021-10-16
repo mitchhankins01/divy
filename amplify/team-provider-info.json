@@ -68,23 +68,32 @@
         "dividendsLambda": {},
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-336b384c4f693953456f-build.zip"
+          "s3Key": "amplify-builds/dividendsFunction-336b384c4f693953456f-build.zip",
+          "benzingaToken": "871b3e8d86f34211b2fe278e1f347d23"
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-4a594d6152594f527653-build.zip"
+          "s3Key": "amplify-builds/statisticsFunction-4a594d6152594f527653-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/stripeFunction-787a4b546a326134532b-build.zip"
+          "s3Key": "amplify-builds/stripeFunction-787a4b546a326134532b-build.zip",
+          "cancelUrl": "https://www.divytracker.com/cancel",
+          "returnUrl": "https://www.divytracker.com/app/account?updated=true",
+          "stripeSecretKey": "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",
+          "successUrl": "https://www.divytracker.com/pricing?session_id={CHECKOUT_SESSION_ID}"
         },
         "stripeHookFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/stripeHookFunction-4f376d4b316a72646830-build.zip"
+          "s3Key": "amplify-builds/stripeHookFunction-4f376d4b316a72646830-build.zip",
+          "stripeEndpointSecret": "whsec_4NY8OqUygQJtSzuoMoQe45EyPUQzloNi",
+          "stripeSecretKey": "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"
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/querySymbolFunction-44696a49662f306b7662-build.zip"
+          "s3Key": "amplify-builds/querySymbolFunction-44696a49662f306b7662-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         }
       }
     }

@@ -13,6 +13,10 @@
     {
       "cloudFormationParameterName": "benzingaToken",
       "environmentVariableName": "BENZINGA_TOKEN"
+    },
+    {
+      "cloudFormationParameterName": "benzingaToken",
+      "environmentVariableName": "BENZINGA_TOKEN"
     }
   ]
 }

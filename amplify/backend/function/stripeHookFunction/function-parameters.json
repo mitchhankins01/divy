@@ -32,6 +32,14 @@
     {
       "cloudFormationParameterName": "stripeEndpointSecret",
       "environmentVariableName": "STRIPE_ENDPOINT_SECRET"
+    },
+    {
+      "cloudFormationParameterName": "stripeEndpointSecret",
+      "environmentVariableName": "STRIPE_ENDPOINT_SECRET"
+    },
+    {
+      "cloudFormationParameterName": "stripeSecretKey",
+      "environmentVariableName": "STRIPE_SECRET_KEY"
     }
   ]
 }
