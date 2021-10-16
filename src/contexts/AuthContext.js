@@ -69,12 +69,13 @@ export const AuthProvider = ({ children }) => {
     Auth.signOut();
   };
 
-  const register = async (email, name, password) => {
+  const register = async (email, password, given_name, family_name) => {
     await Auth.signUp({
       username: email,
       password: password,
       attributes: {
-        name: name
+        given_name,
+        family_name
       }
     });
   };

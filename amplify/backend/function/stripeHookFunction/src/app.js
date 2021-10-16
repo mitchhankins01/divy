@@ -81,7 +81,7 @@ app.post('/webhook', async function (req, res) {
             },
             {
               Name: 'custom:expires',
-              Value: String(getUnixTime(addToDate(new Date(), { months: 1, days: 2 })))
+              Value: String(getUnixTime(addToDate(new Date(), { months: 1, days: 2 })) * 1000)
             }
           ],
           UserPoolId: process.env.AUTH_DIVY302D4878302D4878_USERPOOLID,

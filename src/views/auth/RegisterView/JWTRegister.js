@@ -28,14 +28,16 @@ const JWTRegister = ({ className, ...rest }) => {
     <Formik
       initialValues={{
         email: '',
-        name: '',
+        given_name: '',
+        family_name: '',
         password: '',
         policy: false,
         submit: null
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-        name: Yup.string().max(255).required('Name is required'),
+        given_name: Yup.string().max(255).required('First name is required'),
+        family_name: Yup.string().max(255).required('Last name is required'),
         password: Yup.string().min(7).max(255).required('Password is required'),
         policy: Yup.boolean().oneOf([true], 'This field must be checked')
       })}
@@ -45,7 +47,7 @@ const JWTRegister = ({ className, ...rest }) => {
         setSubmitting
       }) => {
         try {
-          await register(values.email, values.name, values.password);
+          await register(values.email, values.password, values.given_name, values.family_name);
 
           if (isMountedRef.current) {
             setStatus({ success: true });
@@ -86,15 +88,27 @@ const JWTRegister = ({ className, ...rest }) => {
                 {...rest}
               >
                 <TextField
-                  error={Boolean(touched.name && errors.name)}
+                  error={Boolean(touched.given_name && errors.given_name)}
                   fullWidth
-                  helperText={touched.name && errors.name}
-                  label="Name"
+                  helperText={touched.given_name && errors.given_name}
+                  label="First Name"
                   margin="normal"
-                  name="name"
+                  name="given_name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.name}
+                  value={values.given_name}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.family_name && errors.family_name)}
+                  fullWidth
+                  helperText={touched.family_name && errors.family_name}
+                  label="Last Name"
+                  margin="normal"
+                  name="family_name"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.family_name}
                   variant="outlined"
                 />
                 <TextField
