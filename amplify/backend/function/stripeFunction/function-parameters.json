@@ -16,6 +16,22 @@
     {
       "cloudFormationParameterName": "returnUrl",
       "environmentVariableName": "RETURN_URL"
+    },
+    {
+      "cloudFormationParameterName": "cancelUrl",
+      "environmentVariableName": "CANCEL_URL"
+    },
+    {
+      "cloudFormationParameterName": "returnUrl",
+      "environmentVariableName": "RETURN_URL"
+    },
+    {
+      "cloudFormationParameterName": "stripeSecretKey",
+      "environmentVariableName": "STRIPE_SECRET_KEY"
+    },
+    {
+      "cloudFormationParameterName": "successUrl",
+      "environmentVariableName": "SUCCESS_URL"
     }
   ]
 }

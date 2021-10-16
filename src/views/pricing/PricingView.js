@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const stripePromise = loadStripe('pk_test_51JWjXZFRojIX8Uh4WO9RpSwXYM6IrS4PjNdfdDErr4yEICGPaZHASB9XXr7mdTrY8puy030kYKBcVG0oZJKXG9YO00vDrU6jW5');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 export default () => {
   const classes = useStyles();
@@ -107,8 +107,8 @@ export default () => {
     );
   }
 
-  const hasSubscription = false;
-  // const hasSubscription = attributes['custom:subscription'];
+  // const hasSubscription = false;
+  const hasSubscription = attributes['custom:subscription'];
   return (
     <Page
       className={classes.root}
@@ -133,6 +133,11 @@ export default () => {
               You can manage your subscription under account settings.
             </Link>
           </Typography>
+          <Box pt={2}>
+            <Button onClick={logout}>
+              Experiencing issues? Click here to logout.
+            </Button>
+          </Box>
         </Box>
       ) : (
         <>
@@ -221,7 +226,7 @@ export default () => {
                       className={classes.chooseButton}
                       onClick={async () => {
                         try {
-                          const session = await fetchSession('price_1Jj45gFRojIX8Uh49dyp76XT');
+                          const session = await fetchSession(process.env.REACT_APP_PRICE_ID_MONTHLY);
                           const stripe = await stripePromise;
                           stripe.redirectToCheckout({ sessionId: session.id });
                         } catch (error) {
@@ -299,7 +304,7 @@ export default () => {
                       className={classes.chooseButton}
                       onClick={async () => {
                         try {
-                          const session = await fetchSession('price_1Jj46BFRojIX8Uh41J3eyCld');
+                          const session = await fetchSession(process.env.REACT_APP_PRICE_ID_YEARLY);
                           const stripe = await stripePromise;
                           stripe.redirectToCheckout({ sessionId: session.id });
                         } catch (error) {
