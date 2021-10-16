@@ -6,3 +6,5 @@ prod deploy
 benzinga
 name
 disable console logs in prod
+chat icon
+env hooks
