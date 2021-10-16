@@ -25,6 +25,10 @@ const graphqlClient = new AWSAppSyncClient({
     },
 });
 
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 const formatNumber = number => {
     if (isNaN(Number(number))) {
         return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
@@ -70,15 +74,15 @@ exports.handler = async (event) => {
 
     const list = [];
     const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
-    // const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${symbols.join(',')}`);
-    let benzingaData;
-
-    try {
-        const data = fs.readFileSync('benzingaData', 'utf8')
-        benzingaData = JSON.parse(data)
-    } catch (err) {
-        console.error(err)
-    }
+    const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(symbols.join(','), '-', '/')}`);
+    
+    // let benzingaData;
+    // try {
+    //     const data = fs.readFileSync('benzingaData', 'utf8');
+    //     benzingaData = JSON.parse(data);
+    // } catch (err) {
+    //     console.error(err);
+    // }
 
     for (const { dividend, payable_date, ticker, ...rest } of benzingaData['dividends']) {
         const match = data.holdingsByOwner.items.find(item => item.symbol === ticker);
