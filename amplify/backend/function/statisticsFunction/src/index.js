@@ -52,10 +52,6 @@ const graphqlClient = new AWSAppSyncClient({
     },
 });
 
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
-
 exports.handler = async (event) => {
     const query = gql`query HoldingsByOwner(
         $owner: String
@@ -100,7 +96,7 @@ exports.handler = async (event) => {
     const options = {
         method: 'GET',
         url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
-        params: { region: 'US', symbols: replaceAll(symbols.join(','), '/', '-') },
+        params: { region: 'US', symbols: symbols.join(',') },
         headers: {
             'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
             'x-rapidapi-key': process.env.YAHOO_KEY
@@ -108,9 +104,9 @@ exports.handler = async (event) => {
     };
 
     try {
-        const unparsedData = fs.readFileSync('yahooData', 'utf8')
-        yahooData = JSON.parse(unparsedData)
-        // const { data: yahooData } = await axios.request(options);
+        // const unparsedData = fs.readFileSync('yahooData', 'utf8')
+        // yahooData = JSON.parse(unparsedData)
+        const { data: yahooData } = await axios.request(options);
 
         for (const { symbol, regularMarketPrice, dividendRate = 0, dividendYield = 0, ...rest } of yahooData.quoteResponse.result) {
             // const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
