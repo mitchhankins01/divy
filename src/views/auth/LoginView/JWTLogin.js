@@ -24,8 +24,8 @@ export default ({ className, ...rest }) => {
   return (
     <Formik
       initialValues={{
-        email: 'mitchhankins@icloud.com',
-        password: 'biergeil',
+        email: '',
+        password: '',
         submit: null
       }}
       validationSchema={Yup.object().shape({
