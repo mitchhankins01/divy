@@ -71,7 +71,7 @@ export default ({ className, ...rest }) => {
                 </Box>
                 <Box py={1}>
                     <Typography variant="body1" color="inherit">
-                        Feel free to use the chat functionality in the bottom right of your screen if you have any questions.
+                        Feel free to use the chat functionality in the bottom left of your screen if you have any questions.
                     </Typography>
                 </Box>
             </Box>

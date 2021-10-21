@@ -83,8 +83,8 @@ export default ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  The ultimate divided tracking tool for dividend investors, created by dividend investors.
-                  It's easy, simple, and beautifully designed just for you.
+                  The ultimate divided tracking tool for dividend investors, created by a dividend investor.
+                  It's simple and beautifully designed just for you.
                 </Typography>
               </Box>
             </Box>

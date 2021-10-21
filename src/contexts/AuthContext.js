@@ -140,7 +140,6 @@ export const AuthProvider = ({ children }) => {
         {children}
         <ChatWidget
           token={process.env.REACT_APP_PAPERCUPS_TOKEN}
-          // token="da152080-edbd-4a60-8d07-7ad2c61738ab"
           title="Welcome to Divy"
           subtitle="Ask us anything in the chat window below 😊"
           primaryColor={theme.palette.primary.main}
@@ -148,9 +147,10 @@ export const AuthProvider = ({ children }) => {
           showAgentAvailability={false}
           agentAvailableText="We're online right now!"
           agentUnavailableText="We're away at the moment."
-          requireEmailUpfront={false}
+          requireEmailUpfront={true}
           iconVariant="outlined"
           baseUrl="https://app.papercups.io"
+          position="left"
           customer={{
             name: `${state.attributes.given_name} ${state.attributes.family_name}`,
             email: state.attributes.email,
