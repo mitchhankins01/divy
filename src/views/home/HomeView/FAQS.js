@@ -102,13 +102,13 @@ const FAQS = ({ className, ...rest }) => {
             >
               Other
             </Typography>
-            {/* <Box mt={6}>
+            <Box mt={6}>
               <dt>
                 <Typography
                   variant="h4"
                   color="textPrimary"
                 >
-                  Are the design files (Sketch, Figma) included in the Standard License?
+                  What kind of subscriptions do you offer?
                 </Typography>
               </dt>
               <dd>
@@ -116,10 +116,28 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  No, we offer the design source file only to Standard Plus and Extended License.
+                  We offer a monthly subscription for $12.99 or a yearly subscription for $99 (35% discount).
                 </Typography>
               </dd>
-            </Box> */}
+            </Box>
+            <Box mt={6}>
+              <dt>
+                <Typography
+                  variant="h4"
+                  color="textPrimary"
+                >
+                  How can I contact you with any questions?
+                </Typography>
+              </dt>
+              <dd>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                >
+                  We offer a live chat! Just click the chat icon in the bottom left of your screen to get started.
+                </Typography>
+              </dd>
+            </Box>
           </Grid>
         </Grid>
       </Container>

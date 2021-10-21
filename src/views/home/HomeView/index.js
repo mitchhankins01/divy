@@ -6,6 +6,7 @@ import Features from './Features';
 // import Testimonials from './Testimonials';
 import CTA from './CTA';
 import FAQS from './FAQS';
+import ChatIndicator from './ChatIndicator';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -19,11 +20,12 @@ const HomeView = () => {
       className={classes.root}
       title='Home'
     >
+    {/* <Testimonials /> */}
       <Hero />
       <Features />
-      {/* <Testimonials /> */}
       <CTA />
       <FAQS />
+      <ChatIndicator />
     </Page>
   );
 };
