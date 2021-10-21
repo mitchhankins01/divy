@@ -1,10 +1,3 @@
-
-prod deploy
-    config vars from dev
-    email link instead of code / sign up email customize
-
 benzinga
-name
-disable console logs in prod
-chat icon
-env hooks
+amplify env hooks
+seo

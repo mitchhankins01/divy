@@ -28,6 +28,7 @@ Amplify.configure(awsconfig);
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   console.log('no analytics');
 } else {
+  console.log = () => {};
   ReactGA.initialize('G-FHQ780HNNW');
 }
 
