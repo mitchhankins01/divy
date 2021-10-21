@@ -71,11 +71,13 @@ export const DataProvider = ({ children }) => {
 
                 const { data: listStatisticsData } = await API.graphql(graphqlOperation(listStatistics));
                 const parsedListStatisticsData = JSON.parse(listStatisticsData.listStatistics);
-                Cache.setItem(
-                    'listStatistics',
-                    parsedListStatisticsData,
-                    { expires: new Date().setHours(new Date().getHours() + 1) }
-                );
+                try {
+                    Cache.setItem(
+                        'listStatistics',
+                        parsedListStatisticsData,
+                        { expires: new Date().setHours(new Date().getHours() + 1) }
+                    );
+                } catch {}
                 processStatistics(parsedListStatisticsData);
             }
         }
@@ -108,11 +110,13 @@ export const DataProvider = ({ children }) => {
 
                 const { data } = await API.graphql(graphqlOperation(listDividends));
                 const parsed = JSON.parse(data.listDividends);
-                Cache.setItem(
-                    'listDividends',
-                    parsed,
-                    { expires: new Date().setHours(new Date().getHours() + 1) }
-                );
+                try {
+                    Cache.setItem(
+                        'listDividends',
+                        parsed,
+                        { expires: new Date().setHours(new Date().getHours() + 1) }
+                    );
+                } catch {}
                 processDividends(parsed);
             }
         }
