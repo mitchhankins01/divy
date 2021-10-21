@@ -30,7 +30,11 @@ export const restoreSettings = () => {
 };
 
 export const storeSettings = (settings) => {
-  window.localStorage.setItem('settings', JSON.stringify(settings));
+  try {
+    window.localStorage.setItem('settings', JSON.stringify(settings));
+  } catch (error) {
+
+  }
 };
 
 const SettingsContext = createContext({
