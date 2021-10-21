@@ -145,7 +145,7 @@ const ForgotPassword = ({ className, ...rest }) => {
   return (
     <Formik
       initialValues={{
-        email: 'mitchhankins@icloud.com',
+        email: '',
         submit: null
       }}
       validationSchema={Yup.object().shape({
