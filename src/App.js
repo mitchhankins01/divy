@@ -12,9 +12,8 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Hub } from 'aws-amplify';
 import GlobalStyles from 'src/components/GlobalStyles';
 import ScrollReset from 'src/components/ScrollReset';
-import CookiesNotification from 'src/components/CookiesNotification';
-import GoogleAnalytics from 'src/components/GoogleAnalytics';
-import SettingsNotification from 'src/components/SettingsNotification';
+// import CookiesNotification from 'src/components/CookiesNotification';
+// import SettingsNotification from 'src/components/SettingsNotification';
 import { AuthProvider } from 'src/contexts/AuthContext';
 import { DataProvider } from 'src/contexts/DataContext';
 import useSettings from 'src/hooks/useSettings';
@@ -80,9 +79,8 @@ const App = () => {
                 <DataProvider>
                   <GlobalStyles />
                   <ScrollReset />
-                  <GoogleAnalytics />
-                  <CookiesNotification />
-                  <SettingsNotification />
+                  {/* <CookiesNotification /> */}
+                  {/* <SettingsNotification /> */}
                   {renderRoutes(routes)}
                 </DataProvider>
               </AuthProvider>
