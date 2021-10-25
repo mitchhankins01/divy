@@ -26,27 +26,18 @@ const useStyles = makeStyles((theme) => ({
   image: {
     perspectiveOrigin: 'left center',
     transformStyle: 'preserve-3d',
-    perspective: 1500,
+    // perspective: 2000,
     '& > img': {
       maxWidth: '100%',
       height: 'auto',
-      transform: 'rotateY(-25deg) rotateX(5deg)',
       backfaceVisibility: 'hidden',
+      // transform: 'rotateY(5deg) rotateX(5deg)',
       boxShadow: theme.shadows[16]
     },
     [theme.breakpoints.down('md')]: {
       paddingTop: 60,
     }
   },
-  shape: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    '& > img': {
-      maxWidth: '90%',
-      height: 'auto'
-    }
-  }
 }));
 
 export default ({ className, ...rest }) => {
@@ -59,6 +50,21 @@ export default ({ className, ...rest }) => {
     >
       <Container maxWidth="lg">
         <Grid container spacing={3}>
+        <Grid
+            item
+            xs={12}
+            md={8}
+          >
+            <Box position="relative">
+              <div className={classes.image}>
+                <img
+                  alt="Presentation"
+                  src="/static/home/calendar.png"
+                />
+              </div>
+            </Box>
+          </Grid>
+
           <Grid item xs={12} md={4}>
             <Box
               display="flex"
@@ -70,45 +76,26 @@ export default ({ className, ...rest }) => {
                 variant="overline"
                 color="secondary"
               >
-                Introducing
+                Income at a Glance
               </Typography>
               <Typography
                 variant="h1"
                 color="textPrimary"
               >
-                Divy - Dividend Tracker
+                Dividend Calendar
               </Typography>
               <Box mt={3}>
                 <Typography
                   variant="body1"
                   color="textSecondary"
                 >
-                  The ultimate divided tracking tool for dividend investors, created by a dividend investor.
-                  It's simple and beautifully designed just for you.
+                  Easily see when, and how much you're getting paid.
                 </Typography>
               </Box>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={8}
-          >
-            <Box position="relative">
-              <div className={classes.shape}>
-                <img
-                  alt="Shapes"
-                  src="/static/home/shapes.svg"
-                />
-              </div>
-              <div className={classes.image}>
-                <img
-                  alt="Presentation"
-                  src="/static/home/dark-light.png"
-                />
-              </div>
-            </Box>
-          </Grid>
+
+         
         </Grid>
       </Container>
     </div>
