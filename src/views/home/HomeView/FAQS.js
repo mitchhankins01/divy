@@ -116,7 +116,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  We offer a monthly subscription for $12.99 or a yearly subscription for $99 (35% discount).
+                  You can choose a monthly subscription for $12.99 or a yearly subscription for $99 (35% discount).
                 </Typography>
               </dd>
             </Box>
@@ -134,7 +134,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  We offer a live chat! Just click the chat icon in the bottom left of your screen to get started.
+                  Just click the message icon in the bottom left of your screen to start a live chat.
                 </Typography>
               </dd>
             </Box>
