@@ -192,7 +192,7 @@ export default () => {
                         loadingText={<CircularProgress size={25} />}
                         options={autoCompleteLoading ? [] : autoCompleteResults}
                         filterOptions={(x) => x}
-                        getOptionLabel={(option) => `${option.symbol} - ${option.longname}`}
+                        getOptionLabel={(option) => `${option.symbol} - ${option.shortname} | ${option.quoteType} - ${option.exchange}`}
                         className={classes.textField}
                         onChange={(e, value) => setFieldValue('symbol', value?.symbol || '')}
                         renderInput={(params) => (
