@@ -42,7 +42,7 @@
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/querySymbolFunction-5632745a424170485a44-build.zip",
+          "s3Key": "amplify-builds/querySymbolFunction-7448526d44505450516f-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         }
       }
