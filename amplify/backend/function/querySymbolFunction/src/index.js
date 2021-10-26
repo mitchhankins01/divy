@@ -14,7 +14,7 @@ exports.handler = async (event) => {
 
     try {
         const { data: { quotes } } = await axios.request(options);
-        return quotes.filter(quote => quote.quoteType === 'EQUITY');
+        return quotes.filter(quote => quote.quoteType === 'EQUITY' || quote.quoteType === 'ETF');
     } catch (error) {
         console.log(error);
         return error;
