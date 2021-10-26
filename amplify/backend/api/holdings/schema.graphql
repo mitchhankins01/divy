@@ -27,7 +27,7 @@ type Holding @model
     id: ID!
     symbol: String!
     price: Float!
-    quantity: Int!
+    quantity: Float!
     comments: String!
     owner: String!
 }
