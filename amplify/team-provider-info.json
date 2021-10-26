@@ -73,7 +73,7 @@
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-prod-151031-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-45306f664e4d50347941-build.zip",
+          "s3Key": "amplify-builds/statisticsFunction-5171534f636a30637971-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
         },
         "stripeFunction": {
