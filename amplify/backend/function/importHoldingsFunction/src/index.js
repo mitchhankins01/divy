@@ -14,7 +14,7 @@ exports.handler = async (event) => {
     const params = {
         Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
         // Bucket: 'importholdingsbucket183939-dev',
-        Key: event.arguments.fileKey,
+        Key: `public/${event.arguments.fileKey}`,
     };
     const data = await s3.getObject(params).promise();
     const workbook = xlsx.read(data.Body, { type: 'buffer' });
