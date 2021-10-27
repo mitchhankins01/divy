@@ -32,13 +32,16 @@ export default (props) => {
     const { enqueueSnackbar } = useSnackbar();
     const [error, setError] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
-   
+    function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
     const onSubmitFinishReview = async () => {
         try {
             setLoading(true);
             const { attributes } = await Auth.currentAuthenticatedUser();
 
             await Promise.all(props.data.successSymbols.map(async item => {
+                await timeout(10000);
                 return await API.graphql(graphqlOperation(createHolding, {
                     input: {
                         price: item.pricePerShare,
