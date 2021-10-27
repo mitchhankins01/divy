@@ -68,6 +68,20 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "importHoldingsFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "importHoldingsStorage",
+          "attributes": [
+            "BucketName"
+          ]
+        }
+      ]
     }
   },
   "api": {
@@ -114,5 +128,10 @@
     }
   },
   "hosting": {},
-  "storage": {}
+  "storage": {
+    "importHoldingsStorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
 }

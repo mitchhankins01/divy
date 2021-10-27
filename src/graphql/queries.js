@@ -26,6 +26,24 @@ export const querySymbol = /* GraphQL */ `
     }
   }
 `;
+export const importHoldings = /* GraphQL */ `
+  query ImportHoldings($fileKey: String!, $existingSymbols: String) {
+    importHoldings(fileKey: $fileKey, existingSymbols: $existingSymbols) {
+      failSymbols {
+        id
+        symbol
+        reason
+      }
+      successSymbols {
+        id
+        symbol
+        numberOfShares
+        pricePerShare
+        comments
+      }
+    }
+  }
+`;
 export const getStripeEvent = /* GraphQL */ `
   query GetStripeEvent($id: ID!) {
     getStripeEvent(id: $id) {

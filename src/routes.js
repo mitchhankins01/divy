@@ -127,6 +127,11 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/holdings/import',
+        component: lazy(() => import('src/views/holdings/HoldingsImportView'))
+      },
+      {
+        exact: true,
         path: '/app/holdings/bulk',
         component: lazy(() => import('src/views/holdings/Bulk'))
       },

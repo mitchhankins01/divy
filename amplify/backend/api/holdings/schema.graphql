@@ -10,10 +10,30 @@ type AutoCompleteSymbolType {
   label: String
 }
 
+type ImportHoldingsFail {
+  id: String!
+  symbol: String!
+  reason: String!
+}
+
+type ImportHoldingsSuccess {
+  id: String!
+  symbol: String!
+  numberOfShares: Float!
+  pricePerShare: Float!
+  comments: String!
+}
+
+type ImportHoldingsResponse {
+  failSymbols: [ImportHoldingsFail]
+  successSymbols: [ImportHoldingsSuccess]
+}
+
 type Query {
   listDividends: String! @function(name: "dividendsFunction-${env}")
   listStatistics: String! @function(name: "statisticsFunction-${env}")
   querySymbol(symbol: String!): [AutoCompleteSymbolType]! @function(name: "querySymbolFunction-${env}")
+  importHoldings(fileKey: String!, existingSymbols: String): ImportHoldingsResponse! @function(name: "importHoldingsFunction-${env}")
 }
 
 type Holding @model

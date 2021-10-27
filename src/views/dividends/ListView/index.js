@@ -41,7 +41,7 @@ export default () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [hidePastDividends, setHidePastDividends] = useState(true);
-  const { listDividends: { all, upcoming } } = useData();
+  const { listDividends: { all, upcoming }, loading } = useData();
 
   const handleSwitchChange = (event) => {
     setHidePastDividends(!event.target.checked);
@@ -117,7 +117,7 @@ export default () => {
         <DataGrid
           columns={columns}
           autoPageSize={true}
-          loading={false}
+          loading={loading}
           disableSelectionOnClick={true}
           rows={hidePastDividends ? upcoming : all}
           sortModel={[{ field: 'paymentDate', sort: 'asc' }]}
