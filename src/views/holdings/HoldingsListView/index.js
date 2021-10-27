@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles();
   const history = useHistory();
-  const { listStatistics } = useData();
+  const { listStatistics, loading } = useData();
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 500);
 
@@ -113,7 +113,7 @@ export default () => {
           rows={listStatistics.data}
           columns={columns}
           autoPageSize={true}
-          loading={false}
+          loading={loading}
           disableSelectionOnClick={true}
           sortModel={[{ field: 'symbol', sort: 'asc' }]}
           filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}

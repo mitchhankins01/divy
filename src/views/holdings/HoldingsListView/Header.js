@@ -19,6 +19,7 @@ import {
   Search as SearchIcon,
   XCircle as ClearIcon
 } from 'react-feather';
+import { CloudUpload } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -116,6 +117,20 @@ export default ({
           value={search}
           variant='outlined'
         />
+        <Button
+          className={classes.button}
+          color='secondary'
+          variant='outlined'
+          component={RouterLink}
+          to='/app/holdings/import'
+          startIcon={
+            <SvgIcon fontSize='small'>
+              <CloudUpload />
+            </SvgIcon>
+          }
+        >
+          Import Holdings
+        </Button>
         <Button
           className={classes.button}
           color='secondary'

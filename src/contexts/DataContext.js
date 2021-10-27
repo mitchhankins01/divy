@@ -61,6 +61,7 @@ export const DataProvider = ({ children }) => {
         }
 
         if (isMountedRef.current) {
+            setIsStatisticsLoading(true);
             const cachedListStatistics = Cache.getItem('listStatistics');
 
             if (cachedListStatistics && !disableCache) {
@@ -100,6 +101,7 @@ export const DataProvider = ({ children }) => {
         }
 
         if (isMountedRef.current) {
+            setIsDividendsLoading(true);
             const cachedListDividends = Cache.getItem('listDividends');
 
             if (cachedListDividends && !disableCache) {
