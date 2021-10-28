@@ -124,7 +124,7 @@ export default ({ className, ...rest }) => {
                     color="textPrimary"
                     gutterBottom
                   >
-                    Charts, metrics, and so much more.
+                    Charts, metrics, and more.
                   </Typography>
                 </Box>
               </Box>

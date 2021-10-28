@@ -5,7 +5,10 @@ import {
   Button,
   Container,
   Typography,
-  makeStyles
+  makeStyles,
+  Grid,
+  Paper,
+  Divider
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +19,16 @@ const useStyles = makeStyles((theme) => ({
   },
   browseButton: {
     marginLeft: theme.spacing(2)
-  }
+  },
+  product: {
+    position: 'relative',
+    padding: theme.spacing(5, 3),
+    backgroundColor: theme.palette.background.dark,
+  },
+  recommendedProduct: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white
+  },
 }));
 
 export default ({ className, ...rest }) => {
@@ -36,12 +48,140 @@ export default ({ className, ...rest }) => {
           Ready to get started?
         </Typography>
         <Typography
-          variant="h1"
+          variant="h2"
           align="center"
           color="secondary"
         >
-          Sign up for a free account today.
+          Sign up for a free two week trial today,
         </Typography>
+        <Typography
+          variant="h2"
+          align="center"
+          color="secondary"
+        >
+          you can cancel at any time.
+        </Typography>
+
+        <Box mt={5}>
+          <Container maxWidth="md">
+            <Grid container spacing={4}>
+              <Grid item md={6} xs={12}>
+                <Paper
+                  className={classes.product}
+                  elevation={1}
+                >
+                  <Typography
+                    component="h3"
+                    gutterBottom
+                    variant="overline"
+                    color="textSecondary"
+                  >
+                    Monthly
+                  </Typography>
+                  <div>
+                    <Typography
+                      component="span"
+                      display="inline"
+                      variant="h3"
+                      color="textPrimary"
+                    >
+                      $12.99
+                    </Typography>
+                    <Typography
+                      component="span"
+                      display="inline"
+                      variant="subtitle2"
+                      color="textSecondary"
+                    >
+                      /month
+                    </Typography>
+                  </div>
+                  <Typography
+                    variant="overline"
+                    color="textSecondary"
+                  >
+                    Renews Monthly
+                  </Typography>
+                  <Box my={2}>
+                    <Divider />
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    Unlimited Holdings
+                    <br />
+                    Automatic Dividend Tracking
+                    <br />
+                    Chat Support
+                    <br />
+                    Automatically Rewews Monthly
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid
+                item
+                md={6}
+                xs={12}
+              >
+                <Paper
+                  className={clsx(classes.product, classes.recommendedProduct)}
+                  elevation={1}
+                >
+                  <Typography
+                    component="h3"
+                    gutterBottom
+                    variant="overline"
+                    color="inherit"
+                  >
+                    Yearly (35% Off!)
+                  </Typography>
+                  <div>
+                    <Typography
+                      component="span"
+                      display="inline"
+                      variant="h3"
+                      color="inherit"
+                    >
+                      $99
+                    </Typography>
+                    <Typography
+                      component="span"
+                      display="inline"
+                      variant="subtitle2"
+                      color="inherit"
+                    >
+                      /year
+                    </Typography>
+                  </div>
+                  <Typography
+                    variant="overline"
+                    color="inherit"
+                  >
+                    Renews Yearly
+                  </Typography>
+                  <Box my={2}>
+                    <Divider />
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    color="inherit"
+                  >
+                    Unlimited Holdings
+                    <br />
+                    Automatic Dividend Tracking
+                    <br />
+                    Priority Chat Support
+                    <br />
+                    Automatically Rewews Yearly
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+
+          </Container>
+        </Box>
+
         <Box
           mt={6}
           display="flex"
@@ -54,7 +194,7 @@ export default ({ className, ...rest }) => {
             href="/register"
             variant="contained"
           >
-            Sign Up
+             Sign up for a trial
           </Button>
         </Box>
       </Container>
