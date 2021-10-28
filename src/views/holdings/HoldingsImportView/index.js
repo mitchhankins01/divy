@@ -50,6 +50,7 @@ export default () => {
             const existingSymbols = listStatistics.data.map(item => item.symbol).join(',');
             const formData = new FormData();
             formData.append('file', selectedFile);
+            // const s3Result = await Storage.put(selectedFile.name, selectedFile, { contentType: selectedFile.type });
             const s3Result = await Storage.put(`${new Date().getTime()}.xlsx`, selectedFile, { contentType: selectedFile.type });
             const { data } = await API.graphql(graphqlOperation(importHoldings, { existingSymbols, fileKey: s3Result.key }));
             setImportHoldingsResponse(data.importHoldings);
