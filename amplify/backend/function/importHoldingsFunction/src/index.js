@@ -28,18 +28,18 @@ exports.handler = async (event) => {
     const successSymbols = [];
     const formattedSheet = jsonSheet.map((e, index) => {
         const formattedSymbol = e.symbol.trim().toUpperCase();
-        
+
         if (symbols.includes(formattedSymbol)) {
-            failSymbols.push({ 
-                id: `${formattedSymbol}${index}`, 
-                symbol: formattedSymbol, 
-                reason: 'Symbol is a duplicate.' 
+            failSymbols.push({
+                id: `${formattedSymbol}${index}`,
+                symbol: formattedSymbol,
+                reason: 'Symbol is a duplicate.'
             });
         } else if (existingSymbols.includes(formattedSymbol)) {
-            failSymbols.push({ 
-                id: `${formattedSymbol}${index}`, 
-                symbol: formattedSymbol, 
-                reason: 'Symbol already exists in portfolio.' 
+            failSymbols.push({
+                id: `${formattedSymbol}${index}`,
+                symbol: formattedSymbol,
+                reason: 'Symbol already exists in portfolio.'
             });
         } else {
             symbols.push(formattedSymbol);
@@ -47,18 +47,34 @@ exports.handler = async (event) => {
         }
     }).filter(e => e !== undefined);
 
-    try {
-        const { data: { quoteResponse } } = await axios.request({
-            method: 'GET',
-            url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
-            params: { region: 'US', symbols: symbols.join(',') },
-            headers: {
-                'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
-                'x-rapidapi-key': process.env.YAHOO_KEY
-            }
-        });
+    const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / 45);
 
-        quoteResponse.result.forEach((yahooItem, index) => {
+        if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [];
+        }
+
+        resultArray[chunkIndex].push(item);
+        return resultArray;
+    }, []);
+
+    try {
+        const yahooData = [];
+
+        for (const chunkedItems of chunkedSymbols) {
+            const { data: { quoteResponse } } = await axios.request({
+                method: 'GET',
+                url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
+                params: { region: 'US', symbols: chunkedItems.join(',') },
+                headers: {
+                    'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+                    'x-rapidapi-key': process.env.YAHOO_KEY
+                }
+            });
+            yahooData.push(...quoteResponse.result);
+        }
+
+        yahooData.forEach((yahooItem, index) => {
             symbols = symbols.filter(e => e !== yahooItem.symbol);
 
             const sheetItem = formattedSheet.find(e => e.symbol === yahooItem.symbol);
@@ -66,35 +82,35 @@ exports.handler = async (event) => {
             const parsedPricePerShare = Number(sheetItem.pricePerShare);
 
             if (isNaN(parsedNumberOfShares)) {
-                failSymbols.push({ 
-                    symbol: sheetItem.symbol, 
-                    id: `${sheetItem.symbol}${index}`, 
-                    reason: `Number of shares is not valid, got "${sheetItem.numberOfShares}".` 
+                failSymbols.push({
+                    symbol: sheetItem.symbol,
+                    id: `${sheetItem.symbol}${index}`,
+                    reason: `Number of shares is not valid, got "${sheetItem.numberOfShares}".`
                 });
             } else if (isNaN(parsedPricePerShare)) {
-                failSymbols.push({ 
+                failSymbols.push({
                     symbol: sheetItem.symbol,
-                    id: `${sheetItem.symbol}${index}`, 
-                    reason: `Price per share is not valid, got "${sheetItem.pricePerShare}".` 
+                    id: `${sheetItem.symbol}${index}`,
+                    reason: `Price per share is not valid, got "${sheetItem.pricePerShare}".`
                 });
             } else {
-                successSymbols.push({ 
-                    ...sheetItem, 
-                    id: `${sheetItem.symbol}${index}`, 
-                    numberOfShares: parsedNumberOfShares, 
+                successSymbols.push({
+                    ...sheetItem,
+                    id: `${sheetItem.symbol}${index}`,
+                    numberOfShares: parsedNumberOfShares,
                     pricePerShare: parsedPricePerShare,
-                    comments: `${sheetItem.comments} - Automatically imported by Divy` 
+                    comments: `${sheetItem.comments} - Automatically imported by Divy`
                 });
             }
         });
 
         symbols.forEach((symbol, index) => {
-            failSymbols.push({ symbol,  id: `${symbol}${index}`, reason: 'Symbol could not be found.' });
+            failSymbols.push({ symbol, id: `${symbol}${index}`, reason: 'Symbol could not be found.' });
         });
     } catch (error) {
         console.log(error.message);
         throw new Error('Corrupt spreadsheet.')
     }
-    
+
     return { successSymbols, failSymbols };
 };
