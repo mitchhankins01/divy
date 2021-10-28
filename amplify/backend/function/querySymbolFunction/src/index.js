@@ -4,10 +4,10 @@ const axios = require('axios');
 exports.handler = async (event) => {
     const options = {
         method: 'GET',
-        url: 'https://yh-finance.p.rapidapi.com/auto-complete',
+        url: `https://${process.env.YAHOO_HOST}/auto-complete`,
         params: { q: event.arguments.symbol, region: 'US' },
         headers: {
-            'x-rapidapi-host': 'yh-finance.p.rapidapi.com',
+            'x-rapidapi-host': process.env.YAHOO_HOST,
             'x-rapidapi-key': process.env.YAHOO_KEY
         }
     };

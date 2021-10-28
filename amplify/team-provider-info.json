@@ -23,8 +23,9 @@
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-38413876423534794857-build.zip",
-          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
+          "s3Key": "amplify-builds/statisticsFunction-4a423979595152616d68-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
+          "yahooHost": "yh-finance.p.rapidapi.com"
         },
         "stripeFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
@@ -42,13 +43,15 @@
         },
         "querySymbolFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/querySymbolFunction-7448526d44505450516f-build.zip",
-          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
+          "s3Key": "amplify-builds/querySymbolFunction-4a485069636277435735-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
+          "yahooHost": "yh-finance.p.rapidapi.com"
         },
         "importHoldingsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/importHoldingsFunction-6c5639686d4979357a34-build.zip",
-          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae"
+          "s3Key": "amplify-builds/importHoldingsFunction-7241576c77756c6f6d44-build.zip",
+          "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
+          "yahooHost": "yh-finance.p.rapidapi.com"
         }
       }
     }
