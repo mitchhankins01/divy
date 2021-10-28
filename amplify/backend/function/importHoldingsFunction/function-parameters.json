@@ -14,6 +14,10 @@
     {
       "cloudFormationParameterName": "yahooKey",
       "environmentVariableName": "YAHOO_KEY"
+    },
+    {
+      "cloudFormationParameterName": "yahooHost",
+      "environmentVariableName": "YAHOO_HOST"
     }
   ]
 }

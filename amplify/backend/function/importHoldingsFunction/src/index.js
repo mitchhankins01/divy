@@ -63,10 +63,10 @@ exports.handler = async (event) => {
         for (const chunkedItems of chunkedSymbols) {
             const { data: { quoteResponse } } = await axios.request({
                 method: 'GET',
-                url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
+                url: `https://${process.env.YAHOO_HOST}/market/v2/get-quotes`,
                 params: { region: 'US', symbols: chunkedItems.join(',') },
                 headers: {
-                    'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+                    'x-rapidapi-host': process.env.YAHOO_HOST,
                     'x-rapidapi-key': process.env.YAHOO_KEY
                 }
             });

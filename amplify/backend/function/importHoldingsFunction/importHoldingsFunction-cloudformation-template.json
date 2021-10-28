@@ -22,6 +22,9 @@
     },
     "yahooKey": {
       "Type": "String"
+    },
+    "yahooHost": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -82,6 +85,9 @@
             },
             "YAHOO_KEY": {
               "Ref": "yahooKey"
+            },
+            "YAHOO_HOST": {
+              "Ref": "yahooHost"
             }
           }
         },
