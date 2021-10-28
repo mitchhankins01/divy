@@ -253,7 +253,7 @@ export default () => {
                       variant="overline"
                       color="inherit"
                     >
-                      Yearly
+                      Yearly (35% Off!)
                     </Typography>
                     <div>
                       <Typography
@@ -262,7 +262,7 @@ export default () => {
                         variant="h3"
                         color="inherit"
                       >
-                        $99
+                        $99 
                       </Typography>
                       <Typography
                         component="span"
