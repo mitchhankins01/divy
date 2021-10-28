@@ -93,22 +93,36 @@ exports.handler = async (event) => {
     return JSON.stringify(list);
   }
 
-  const options = {
-    method: 'GET',
-    url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
-    params: { region: 'US', symbols: symbols.join(',') },
-    headers: {
-      'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
-      'x-rapidapi-key': process.env.YAHOO_KEY
+  const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
+    const chunkIndex = Math.floor(index / 45);
+
+    if (!resultArray[chunkIndex]) {
+      resultArray[chunkIndex] = [];
     }
-  };
+
+    resultArray[chunkIndex].push(item);
+    return resultArray;
+  }, []);
 
   try {
-    // const unparsedData = fs.readFileSync('yahooData', 'utf8')
-    // yahooData = JSON.parse(unparsedData)
-    const { data: yahooData } = await axios.request(options);
+    const yahooData = [];
+    
+    for (const chunkedItems of chunkedSymbols) {
+      const options = {
+        method: 'GET',
+        url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
+        params: { region: 'US', symbols: chunkedItems.join(',') },
+        headers: {
+          'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+          'x-rapidapi-key': process.env.YAHOO_KEY
+        }
+      };
 
-    for (const { symbol, regularMarketPrice, dividendRate, dividendYield, trailingAnnualDividendRate, trailingAnnualDividendYield, ...rest } of yahooData.quoteResponse.result) {
+      const { data } = await axios.request(options);
+      yahooData.push(...data.quoteResponse.result);
+    }
+
+    for (const { symbol, regularMarketPrice, dividendRate, dividendYield, trailingAnnualDividendRate, trailingAnnualDividendYield, ...rest } of yahooData) {
       // const match = data.holdingsByOwner.items.find(item => replaceAll(item.symbol, '/', '-') === symbol);
       const match = data.holdingsByOwner.items.find(item => item.symbol === symbol);
 

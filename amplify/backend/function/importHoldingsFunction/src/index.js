@@ -12,9 +12,10 @@ const axios = require('axios');
 // DELETE SHEET AFTER DONE, bucket env
 exports.handler = async (event) => {
     const params = {
-        Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
-        // Bucket: 'importholdingsbucket183939-dev',
-        Key: `public/${event.arguments.fileKey}`,
+        // Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
+        Bucket: 'importholdingsbucket183939-dev',
+        Key: 'import.xlsx'
+        // Key: `public/${event.arguments.fileKey}`,
     };
     const data = await s3.getObject(params).promise();
     const workbook = xlsx.read(data.Body, { type: 'buffer' });
