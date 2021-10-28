@@ -24,10 +24,10 @@
       "Type": "String",
       "Default": "apiholdingsGraphQLAPIEndpointOutput"
     },
-    "yahooKey": {
+    "yahooHost": {
       "Type": "String"
     },
-    "yahooHost": {
+    "yahooKey": {
       "Type": "String"
     }
   },
@@ -116,11 +116,11 @@
                 ]
               ]
             },
-            "YAHOO_KEY": {
-              "Ref": "yahooKey"
-            },
             "YAHOO_HOST": {
               "Ref": "yahooHost"
+            },
+            "YAHOO_KEY": {
+              "Ref": "yahooKey"
             }
           }
         },

@@ -2,6 +2,10 @@
   "lambdaLayers": [],
   "environmentVariableList": [
     {
+      "cloudFormationParameterName": "yahooHost",
+      "environmentVariableName": "YAHOO_HOST"
+    },
+    {
       "cloudFormationParameterName": "yahooKey",
       "environmentVariableName": "YAHOO_KEY"
     },

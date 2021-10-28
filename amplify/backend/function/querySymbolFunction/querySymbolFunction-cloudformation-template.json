@@ -16,10 +16,10 @@
     "s3Key": {
       "Type": "String"
     },
-    "yahooKey": {
+    "yahooHost": {
       "Type": "String"
     },
-    "yahooHost": {
+    "yahooKey": {
       "Type": "String"
     }
   },
@@ -76,11 +76,11 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "YAHOO_KEY": {
-              "Ref": "yahooKey"
-            },
             "YAHOO_HOST": {
               "Ref": "yahooHost"
+            },
+            "YAHOO_KEY": {
+              "Ref": "yahooKey"
             }
           }
         },
