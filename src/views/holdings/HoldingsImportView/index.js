@@ -54,6 +54,7 @@ export default () => {
             const s3Result = await Storage.put(`${new Date().getTime()}.xlsx`, selectedFile, { contentType: selectedFile.type });
             const { data } = await API.graphql(graphqlOperation(importHoldings, { existingSymbols, fileKey: s3Result.key }));
             setImportHoldingsResponse(data.importHoldings);
+            await Storage.remove(s3Result.key);
         } catch (error) {
             console.log(error);
             setLoading(false);
