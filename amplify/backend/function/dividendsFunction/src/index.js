@@ -69,39 +69,51 @@ exports.handler = async (event) => {
     const client = await graphqlClient.hydrated();
     const { data } = await client.query({
         query,
-        variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'] }
+        variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'], limit: 500 }
     });
 
     const list = [];
     const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
-    const { data: benzingaData } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(symbols.join(','), '-', '/')}`);
-    
-    // let benzingaData;
-    // try {
-    //     const data = fs.readFileSync('benzingaData', 'utf8');
-    //     benzingaData = JSON.parse(data);
-    // } catch (err) {
-    //     console.error(err);
-    // }
 
-    for (const { dividend, payable_date, ticker, ...rest } of benzingaData['dividends']) {
-        const match = data.holdingsByOwner.items.find(item => item.symbol === ticker);
-        if (match) {
-            const amount = formatNumber(Number(match.quantity) * Number(dividend));
+    const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / 50);
 
-            list.push({
-                ...rest,
-                quantity: match.quantity,
-                allDay: true,
-                title: `${ticker} $${amount}`,
-                id: `${ticker} $${payable_date}`,
-                symbol: ticker,
-                start: payable_date,
-                paymentDate: payable_date,
-                extendedProps: { amount },
-            });
+        if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [];
         }
 
+        resultArray[chunkIndex].push(item);
+        return resultArray;
+    }, []);
+
+    try {
+        const benzingaData = [];
+
+        for (const chunkedItems of chunkedSymbols) {
+            const { data } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(chunkedItems.join(','), '-', '/')}`);
+            benzingaData.push(...data['dividends']);
+        }
+
+        for (const { dividend, payable_date, ticker, ...rest } of benzingaData) {
+            const match = data.holdingsByOwner.items.find(item => item.symbol === ticker);
+            if (match) {
+                const amount = formatNumber(Number(match.quantity) * Number(dividend));
+
+                list.push({
+                    ...rest,
+                    quantity: match.quantity,
+                    allDay: true,
+                    title: `${ticker} $${amount}`,
+                    id: `${ticker} $${payable_date}`,
+                    symbol: ticker,
+                    start: payable_date,
+                    paymentDate: payable_date,
+                    extendedProps: { amount },
+                });
+            }
+        }
+    } catch (error) {
+        console.log(error);
     }
 
     return JSON.stringify(list);

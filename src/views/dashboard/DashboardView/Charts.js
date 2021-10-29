@@ -8,6 +8,7 @@ export default ({ type, labels, data = [] }) => {
     const { palette } = useTheme();
     const options = {
         responsive: true,
+        animation: false,
         maintainAspectRatio: false,
         legend: { display: false },
     };
@@ -48,10 +49,14 @@ export default ({ type, labels, data = [] }) => {
                 options={{
                     ...options,
                     zoomOutPercentage: 80,
-                    layout: { padding: 150 },
+                    layout: { padding: labels.length < 50 ? 150 : 250 },
                     plugins: {
                         outlabels: {
                             color: palette.type === 'light' ? 'white' : 'black',
+                            font: {
+                                minSize: 14,
+                                maxSize: 14
+                            },
                             text: ({ dataset, dataIndex, labels }) => {
                                 return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
                             },
@@ -68,10 +73,14 @@ export default ({ type, labels, data = [] }) => {
                     ...options,
                     cutoutPercentage: 10,
                     zoomOutPercentage: 80,
-                    layout: { padding: 150 },
+                    layout: { padding: labels.length < 50 ? 150 : 250 },
                     plugins: {
                         outlabels: {
                             color: palette.type === 'light' ? 'white' : 'black',
+                            font: {
+                                minSize: 14,
+                                maxSize: 14
+                            },
                             text: ({ dataset, dataIndex, labels }) => {
                                 return `${labels[dataIndex]} ${dataset.data[dataIndex]}%`
                             },

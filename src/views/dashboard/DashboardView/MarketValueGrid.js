@@ -13,7 +13,7 @@ import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 654
+    height: 804
   },
   label: {
     marginLeft: theme.spacing(1)
@@ -59,7 +59,7 @@ export default ({ className, ...rest }) => {
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader title='Market Value' />
       <Divider />
-      <Box style={{ height: 600 }}>
+      <Box style={{ height: 750 }}>
         <DataGrid
           className={classes.dataGrid}
           rows={data}

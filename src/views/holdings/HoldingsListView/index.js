@@ -8,15 +8,23 @@ import {
   makeStyles,
   IconButton,
   Card,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@material-ui/core';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { API, graphqlOperation } from 'aws-amplify';
 import { format } from 'date-fns';
+import { useSnackbar } from 'notistack';
 import { DataGrid } from '@material-ui/data-grid';
 import { useDebounce } from 'use-debounce';
 import Header from './Header';
 import Page from 'src/components/Page';
 import useData from 'src/hooks/useData';
 import formatter from 'src/utils/numberFormatter';
+import { deleteHolding } from 'src/graphql/mutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +48,13 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles();
   const history = useHistory();
-  const { listStatistics, loading } = useData();
   const [search, setSearch] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
   const [debouncedSearch] = useDebounce(search, 500);
+  const [deleteLoading, setDeleteLoading] = React.useState(false);
+  const { listStatistics, loading, processRefetch } = useData();
+  const [selectedHoldings, setSelectedHoldings] = React.useState([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
 
   const handleEditClick = (row) => {
     history.push('/app/holdings/create', row)
@@ -57,6 +69,28 @@ export default () => {
     event.persist();
     setSearch('');
   };
+
+  const onClickDeleteSelectedHoldings = async () => {
+    setDeleteDialogOpen(true);
+  }
+
+  const onClickCancelDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+  }
+
+  const onClickConfirmDeleteDialog = async () => {
+    setDeleteDialogOpen(false);
+    setDeleteLoading(true);
+
+    for (const id of selectedHoldings) {
+      await API.graphql(graphqlOperation(deleteHolding, { input: { id } }));
+    }
+
+    processRefetch();
+    setDeleteLoading(false);
+    setSelectedHoldings([]);
+    enqueueSnackbar('Holdings Deleted', { variant: 'success' });
+  }
 
   const columns = [
     {
@@ -105,19 +139,40 @@ export default () => {
       <Header
         search={search}
         className={classes.header}
+        loading={loading || deleteLoading}
+        selectedHoldings={selectedHoldings}
         handleClearSearch={handleClearSearch}
         handleSearchChange={handleSearchChange}
+        onClickDeleteSelectedHoldings={onClickDeleteSelectedHoldings}
       />
       <Card className={classes.card}>
         <DataGrid
-          rows={listStatistics.data}
           columns={columns}
           autoPageSize={true}
-          loading={loading}
+          checkboxSelection={true}
+          rows={listStatistics.data}
           disableSelectionOnClick={true}
+          loading={loading || deleteLoading}
           sortModel={[{ field: 'symbol', sort: 'asc' }]}
+          onSelectionChange={({ rowIds }) => setSelectedHoldings(rowIds)}
           filterModel={{ items: [{ columnField: 'symbol', operatorValue: 'contains', value: debouncedSearch }] }}
         />
+        <Dialog open={deleteDialogOpen} onClose={onClickCancelDeleteDialog}>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete the selected holdings? This action cannot be undone.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onClickCancelDeleteDialog} color="primary" autoFocus>
+              No, Cancel
+            </Button>
+            <Button onClick={onClickConfirmDeleteDialog} color="primary" style={{ color: 'red' }}>
+              Yes, I'm sure
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Card>
     </Page>
   );
