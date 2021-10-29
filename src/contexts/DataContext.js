@@ -15,10 +15,11 @@ const initialDataState = {
     loading: true,
     listStatistics: {
         data: [],
-        sortedData: [],
         costBasis: 0,
         marketValue: 0,
-        totalDividends: 0
+        totalDividends: 0,
+        sortedDividendData: [],
+        sortedMarketValueData: [],
     },
     listDividends: {
         all: [],
@@ -54,9 +55,10 @@ export const DataProvider = ({ children }) => {
                 totalDividends += holding.totalDividends;
             });
 
-            const _sortedData = [...list].sort((a,b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
+            const _sortedDividendData = [...list].sort((a,b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
+            const _sortedMarketValueData = [...list].sort((a,b) => (a.marketValue < b.marketValue) ? 1 : ((b.marketValue < a.marketValue) ? -1 : 0))
 
-            setState(s => ({ ...s, listStatistics: { data: list, sortedData: _sortedData, costBasis, marketValue, totalDividends } }));
+            setState(s => ({ ...s, listStatistics: { data: list, sortedMarketValueData: _sortedMarketValueData, sortedDividendData: _sortedDividendData, costBasis, marketValue, totalDividends } }));
             setIsStatisticsLoading(false);
         }
 

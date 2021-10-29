@@ -64,7 +64,7 @@ export default ({
           <Link
             variant="body1"
             color="inherit"
-            to="/app/dividendslist"
+            to="/app/dividends/list"
             component={RouterLink}
           >
             Dividends

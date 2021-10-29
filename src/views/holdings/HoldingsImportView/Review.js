@@ -40,8 +40,8 @@ export default (props) => {
             setLoading(true);
             const { attributes } = await Auth.currentAuthenticatedUser();
 
-            await Promise.all(props.data.successSymbols.map(async item => {
-                return await API.graphql(graphqlOperation(createHolding, {
+            for (const item of props.data.successSymbols) {
+                await API.graphql(graphqlOperation(createHolding, {
                     input: {
                         price: item.pricePerShare,
                         comments: item.comments,
@@ -50,7 +50,7 @@ export default (props) => {
                         symbol: item.symbol,
                     }
                 }));
-            }));
+            }
 
             processRefetch();
             enqueueSnackbar('Import Complete', { variant: 'success' });

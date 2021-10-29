@@ -2,7 +2,6 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
 import {
   Box,
@@ -20,7 +19,7 @@ import useData from 'src/hooks/useData';
 const useStyles = makeStyles((theme) => ({
   root: {},
   chart: {
-    height: 600,
+    height: 750,
   },
 }));
 
@@ -29,7 +28,7 @@ export default ({ className, ...rest }) => {
   const isMountedRef = useIsMountedRef();
   const [labels, setLabels] = useState([]);
   const [chartType, setChartType] = useState('horizontalBar');
-  const { listStatistics: { totalDividends, sortedData } } = useData();
+  const { listStatistics: { totalDividends, sortedDividendData } } = useData();
   const [percentagesOfDividends, setPercentagesOfDividends] = useState([]);
 
   useEffect(() => {
@@ -37,18 +36,20 @@ export default ({ className, ...rest }) => {
     const _percentagesOfPortfolio = [];
 
     if (isMountedRef.current && totalDividends > 0) {
-      sortedData.forEach((holding) => {
-        const percentageOfDividends = Number((Number(holding.totalDividends) / Number(totalDividends)) * 100).toFixed(1);
-        if (percentageOfDividends > 0) {
-          _labels.push(holding.symbol);
-          _percentagesOfPortfolio.push(percentageOfDividends);
+      sortedDividendData.forEach((holding, index) => {
+        if (index < 50) {
+          const percentageOfDividends = Number((Number(holding.totalDividends) / Number(totalDividends)) * 100).toFixed(1);
+          if (percentageOfDividends > 0) {
+            _labels.push(holding.symbol);
+            _percentagesOfPortfolio.push(percentageOfDividends);
+          }
         }
       });
 
       setLabels(_labels);
       setPercentagesOfDividends(_percentagesOfPortfolio);
     }
-  }, [isMountedRef, sortedData, totalDividends]);
+  }, [isMountedRef, sortedDividendData, totalDividends]);
 
   return (
     <Card
@@ -56,7 +57,7 @@ export default ({ className, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        title='Dividends Allocation'
+        title={`Dividends Allocation ${labels.length > 49 ? '(Top 50)' : ''}`}
         action={
           <Select value={chartType} onChange={e => setChartType(e.target.value)}>
             <MenuItem value={'pie'}>Pie Chart</MenuItem>
@@ -67,15 +68,13 @@ export default ({ className, ...rest }) => {
         }
       />
       <Divider />
-      <PerfectScrollbar>
-        <Box p={3} className={classes.chart}>
-          <Charts
-            labels={labels}
-            type={chartType}
-            data={percentagesOfDividends}
-          />
-        </Box>
-      </PerfectScrollbar>
+      <Box p={0} className={classes.chart}>
+        <Charts
+          labels={labels}
+          type={chartType}
+          data={percentagesOfDividends}
+        />
+      </Box>
     </Card>
   );
 };

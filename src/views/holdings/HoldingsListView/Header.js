@@ -19,7 +19,7 @@ import {
   Search as SearchIcon,
   XCircle as ClearIcon
 } from 'react-feather';
-import { CloudUpload } from '@material-ui/icons';
+import { CloudUpload, Delete } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -38,13 +38,26 @@ const useStyles = makeStyles((theme) => ({
       display: 'none'
     },
   },
+  deleteButton: {
+    height: 56,
+    color: 'red',
+    border: '1px solid red',
+    marginLeft: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0
+    },
+  }
 }));
 
 export default ({
   search = '',
+  loading,
   className,
+  selectedHoldings,
   handleClearSearch,
   handleSearchChange,
+  onClickDeleteSelectedHoldings,
   ...rest
 }) => {
   const classes = useStyles();
@@ -117,34 +130,54 @@ export default ({
           value={search}
           variant='outlined'
         />
-        <Button
-          className={classes.button}
-          color='secondary'
-          variant='outlined'
-          component={RouterLink}
-          to='/app/holdings/import'
-          startIcon={
-            <SvgIcon fontSize='small'>
-              <CloudUpload />
-            </SvgIcon>
-          }
-        >
-          Import Holdings
-        </Button>
-        <Button
-          className={classes.button}
-          color='secondary'
-          variant='contained'
-          component={RouterLink}
-          to='/app/holdings/create'
-          startIcon={
-            <SvgIcon fontSize='small'>
-              <PlusCircleIcon />
-            </SvgIcon>
-          }
-        >
-          Add Holding
-        </Button>
+        {selectedHoldings.length ? (
+          <Button
+            className={classes.deleteButton}
+            variant='outlined'
+            onClick={onClickDeleteSelectedHoldings}
+            disabled={loading}
+            startIcon={
+              <SvgIcon fontSize='small'>
+                <Delete />
+              </SvgIcon>
+            }
+          >
+            {`Delete ${selectedHoldings.length} Holdings`}
+          </Button>
+        ) : (
+          <>
+            <Button
+              className={classes.button}
+              color='secondary'
+              variant='outlined'
+              component={RouterLink}
+              to='/app/holdings/import'
+              disabled={loading}
+              startIcon={
+                <SvgIcon fontSize='small'>
+                  <CloudUpload />
+                </SvgIcon>
+              }
+            >
+              Import Holdings
+            </Button>
+            <Button
+              className={classes.button}
+              color='secondary'
+              variant='contained'
+              component={RouterLink}
+              disabled={loading}
+              to='/app/holdings/create'
+              startIcon={
+                <SvgIcon fontSize='small'>
+                  <PlusCircleIcon />
+                </SvgIcon>
+              }
+            >
+              Add Holding
+            </Button>
+          </>
+        )}
       </Grid>
     </Grid>
   );
