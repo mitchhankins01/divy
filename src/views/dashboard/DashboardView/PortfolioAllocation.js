@@ -2,7 +2,6 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
 import {
   Box,
@@ -22,7 +21,7 @@ import useData from 'src/hooks/useData';
 const useStyles = makeStyles((theme) => ({
   root: {},
   chart: {
-    height: 600,
+    height: 750,
   },
 }));
 
@@ -34,23 +33,25 @@ export default ({ className, ...rest }) => {
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [percentagesOfPortfolio, setPercentagesOfPortfolio] = useState([]);
   const [chartType, setChartType] = useState('pie');
-  const { listStatistics: { data, marketValue } } = useData();
+  const { listStatistics: { sortedMarketValueData, marketValue } } = useData();
 
   useEffect(() => {
     const _labels = [];
     const _percentagesOfPortfolio = [];
 
     if (isMountedRef.current && marketValue > 0) {
-      data.forEach((holding) => {
-        const percentageOfPortfolio = Number((Number(holding.marketValue) / Number(marketValue)) * 100).toFixed(1);
-        _labels.push(holding.symbol);
-        _percentagesOfPortfolio.push(percentageOfPortfolio);
+      sortedMarketValueData.forEach((holding, index) => {
+        if (index <= 50) {
+          const percentageOfPortfolio = Number((Number(holding.marketValue) / Number(marketValue)) * 100).toFixed(1);
+          _labels.push(holding.symbol);
+          _percentagesOfPortfolio.push(percentageOfPortfolio);
+        }
       });
 
       setLabels(_labels);
       setPercentagesOfPortfolio(_percentagesOfPortfolio);
     }
-  }, [isMountedRef, data, marketValue]);
+  }, [isMountedRef, sortedMarketValueData, marketValue]);
 
   useEffect(() => {
     if (isMobileDevice) {
@@ -64,7 +65,7 @@ export default ({ className, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        title='Portfolio Allocation'
+        title={`Portfolio Allocation ${labels.length > 49 ? '(Top 50)' : ''}`}
         action={
           <Select value={chartType} onChange={e => setChartType(e.target.value)}>
             <MenuItem value={'pie'}>Pie Chart</MenuItem>
@@ -75,15 +76,13 @@ export default ({ className, ...rest }) => {
         }
       />
       <Divider />
-      <PerfectScrollbar>
-        <Box p={3} className={classes.chart}>
-        <Charts
+        <Box p={0} className={classes.chart}>
+          <Charts
             labels={labels}
             type={chartType}
             data={percentagesOfPortfolio}
           />
         </Box>
-      </PerfectScrollbar>
     </Card>
   );
 };

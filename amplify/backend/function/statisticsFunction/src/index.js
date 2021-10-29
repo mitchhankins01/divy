@@ -84,7 +84,7 @@ exports.handler = async (event) => {
   const client = await graphqlClient.hydrated();
   const { data } = await client.query({
     query,
-    variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'] }
+    variables: { owner: event.identity.claims[true ? 'sub' : 'cognito:username'], limit: 500 }
   });
   const symbols = data.holdingsByOwner.items.map(holding => holding.symbol);
   const list = [];
@@ -145,7 +145,7 @@ exports.handler = async (event) => {
           quantity: match.quantity,
           marketPrice: regularMarketPrice,
           totalDividends: latestDividendRate * match.quantity,
-          id: `${symbol}.${regularMarketPrice}`,
+          id: match.id,
           holdingID: match.id
         });
       } else {
