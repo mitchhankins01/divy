@@ -49,7 +49,7 @@
         },
         "importHoldingsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/importHoldingsFunction-77584774656c4b756667-build.zip",
+          "s3Key": "amplify-builds/importHoldingsFunction-563774656364304d4f56-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
           "yahooHost": "yh-finance.p.rapidapi.com"
         }

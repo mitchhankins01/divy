@@ -75,6 +75,14 @@
       "service": "Lambda",
       "dependsOn": [
         {
+          "category": "api",
+          "resourceName": "holdings",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
           "category": "storage",
           "resourceName": "importHoldingsStorage",
           "attributes": [

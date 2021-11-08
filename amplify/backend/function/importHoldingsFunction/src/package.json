@@ -7,6 +7,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "cross-fetch": "^3.1.4",
+    "graphql-tag": "^2.12.6",
     "xlsx": "^0.17.3"
   }
 }
