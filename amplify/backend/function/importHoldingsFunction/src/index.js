@@ -135,6 +135,7 @@ exports.handler = async (event) => {
         const newSymbols = [];
         const failSymbols = [];
         const updateSymbols = [];
+        console.log('jsonSheet', JSON.stringify(jsonSheet, null, 2))
 
         let yahooToDo = [];
         const existingSymbols = data.holdingsByOwner.items.map(holding => holding.symbol);
@@ -263,6 +264,7 @@ exports.handler = async (event) => {
         return { newSymbols, failSymbols, updateSymbols };
     }
 
+    console.log('event.arguments.type', event.arguments.type);
     switch (event.arguments.type) {
         case 'tastyworks':
             return await processInput({
