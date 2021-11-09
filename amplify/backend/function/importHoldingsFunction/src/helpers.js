@@ -1,6 +1,5 @@
 require('cross-fetch/polyfill');
 const gql = require('graphql-tag');
-const AWSAppSyncClient = require('aws-appsync').default;
 
 const chunkArray = sourceArray => {
     return sourceArray.reduce((resultArray, item, index) => {
@@ -77,31 +76,9 @@ updateHolding(input: $input, condition: $condition) {
 }
 `;
 
-const graphqlClient = new AWSAppSyncClient({
-    url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
-    region: process.env.AWS_REGION,
-    auth: {
-        type: 'AWS_IAM',
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-            sessionToken: process.env.AWS_SESSION_TOKEN
-        }
-    },
-    disableOffline: true
-}, {
-    defaultOptions: {
-        query: {
-            fetchPolicy: 'network-only',
-            errorPolicy: 'all',
-        },
-    },
-});
-
 module.exports = {
     chunkArray,
     holdingsByOwnerQuery,
     addHoldingMutation,
     updateHoldingMutation,
-    graphqlClient
 }
