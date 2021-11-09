@@ -78,7 +78,7 @@ exports.handler = async (event) => {
                     reason: 'Symbol is a duplicate in the import file.'
                 });
                 return false;
-            } else if (e[symbolKey] && e[quantityKey]) {
+            } else if (e[symbolKey] && e[quantityKey] && e[priceKey]) {
                 seenSymbols.add(e[symbolKey]);
                 return true;
             }
