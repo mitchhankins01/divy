@@ -52,7 +52,7 @@ exports.handler = async (event) => {
             Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
             Key: `public/${event.arguments.fileKey}`,
             // Bucket: 'importholdingsbucket183939-dev',
-            // Key: 'test.xlsx'
+            // Key: 'import.xlsx'
             // Key: 'Portfolio_Positions_Nov-05-2021.csv'
             // Key: 'tastyworks_positions_mitchhankins_2021-11-04.csv'
         };
@@ -210,7 +210,7 @@ exports.handler = async (event) => {
             });
         case 'spreadsheet':
             return await processInput({
-                symbolKey: 'symbol',
+                symbolKey: 'ticker',
                 quantityKey: 'numberOfShares',
                 priceKey: 'pricePerShare',
                 symbolReplace: undefined
