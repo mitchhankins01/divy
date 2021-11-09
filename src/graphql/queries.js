@@ -27,19 +27,34 @@ export const querySymbol = /* GraphQL */ `
   }
 `;
 export const importHoldings = /* GraphQL */ `
-  query ImportHoldings($fileKey: String!, $existingSymbols: String) {
-    importHoldings(fileKey: $fileKey, existingSymbols: $existingSymbols) {
+  query ImportHoldings(
+    $type: String!
+    $fileKey: String!
+    $existingSymbols: String
+  ) {
+    importHoldings(
+      type: $type
+      fileKey: $fileKey
+      existingSymbols: $existingSymbols
+    ) {
       failSymbols {
         id
         symbol
         reason
       }
-      successSymbols {
+      newSymbols {
         id
         symbol
         numberOfShares
         pricePerShare
         comments
+      }
+      updateSymbols {
+        id
+        symbol
+        numberOfShares
+        pricePerShare
+        reason
       }
     }
   }
