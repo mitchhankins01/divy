@@ -12,13 +12,34 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const xlsx = require('xlsx');
 const axios = require('axios');
+const AWSAppSyncClient = require('aws-appsync').default;
 const {
     chunkArray,
     holdingsByOwnerQuery,
     addHoldingMutation,
     updateHoldingMutation,
-    graphqlClient
 } = require('./helpers');
+
+const graphqlClient = new AWSAppSyncClient({
+    url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
+    region: process.env.AWS_REGION,
+    auth: {
+        type: 'AWS_IAM',
+        credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: process.env.AWS_SESSION_TOKEN
+        }
+    },
+    disableOffline: true
+}, {
+    defaultOptions: {
+        query: {
+            fetchPolicy: 'network-only',
+            errorPolicy: 'all',
+        },
+    },
+});
 
 exports.handler = async (event) => {
 
@@ -26,7 +47,7 @@ exports.handler = async (event) => {
 
         const client = await graphqlClient.hydrated();
         const { data } = await client.query({ query: holdingsByOwnerQuery, variables: { owner: event.identity.claims['sub'], limit: 500 } });
-        
+
         const params = {
             Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
             Key: `public/${event.arguments.fileKey}`,
