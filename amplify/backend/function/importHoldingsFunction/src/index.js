@@ -15,7 +15,7 @@ const axios = require('axios');
 const AWSAppSyncClient = require('aws-appsync').default;
 const {
     chunkArray,
-    holdingsByOwnerQuery,
+    listHoldingsQuery,
     addHoldingMutation,
     updateHoldingMutation,
 } = require('./helpers');
@@ -42,11 +42,20 @@ const graphqlClient = new AWSAppSyncClient({
 });
 
 exports.handler = async (event) => {
-
     const processInput = async ({ symbolKey, quantityKey, priceKey, symbolReplace }) => {
-
+        const selectedPortfolioId = event.arguments.selectedPortfolioId;
         const client = await graphqlClient.hydrated();
-        const { data } = await client.query({ query: holdingsByOwnerQuery, variables: { owner: event.identity.claims['sub'], limit: 500 } });
+        const queryOptions = {
+            query: listHoldingsQuery,
+            variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
+        };
+
+        if (!selectedPortfolioId || selectedPortfolioId === 'default') {
+            queryOptions.variables.filter = { not: { portfolioID: { gt: "0" } } };
+        } else {
+            queryOptions.variables.filter.portfolioID = { eq: selectedPortfolioId };
+        }
+        const { data } = await client.query(queryOptions);
 
         const params = {
             Bucket: process.env.STORAGE_IMPORTHOLDINGSSTORAGE_BUCKETNAME,
@@ -67,7 +76,7 @@ exports.handler = async (event) => {
         const updateSymbols = [];
 
         let yahooToDo = [];
-        const existingSymbols = data.holdingsByOwner.items.map(holding => holding.symbol);
+        const existingSymbols = data.listHoldings.items.map(holding => holding.symbol);
 
         const seenSymbols = new Set();
         const uniques = jsonSheet.filter((e, i) => {
@@ -90,7 +99,7 @@ exports.handler = async (event) => {
             const tradePrice = Math.abs(e[priceKey]);
 
             if (existingSymbols.includes(symbol)) {
-                const match = data.holdingsByOwner.items.find(item => item.symbol === symbol);
+                const match = data.listHoldings.items.find(item => item.symbol === symbol);
 
                 if (quantity === Number(match.quantity) && tradePrice === Number(match.price)) {
                     failSymbols.push({
@@ -170,6 +179,7 @@ exports.handler = async (event) => {
                                 price: chunkedItem.tradePrice,
                                 quantity: chunkedItem.quantity,
                                 owner: event.identity.claims['sub'],
+                                portfolioID: selectedPortfolioId === 'default' ? undefined : selectedPortfolioId
                             }
                         }
                     });

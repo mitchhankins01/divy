@@ -7,13 +7,23 @@
         "Mutation",
         "Subscription"
       ]
+    },
+    "storage": {
+      "Portfolio:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Holding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
     }
   },
   "environmentVariableList": [
-    {
-      "cloudFormationParameterName": "benzingaToken",
-      "environmentVariableName": "BENZINGA_TOKEN"
-    },
     {
       "cloudFormationParameterName": "benzingaToken",
       "environmentVariableName": "BENZINGA_TOKEN"

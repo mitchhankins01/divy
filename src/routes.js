@@ -132,6 +132,16 @@ const routes = [
       },
       {
         exact: true,
+        path: '/app/portfolios',
+        component: lazy(() => import('src/views/portfolios/PortfoliosListView'))
+      },
+      {
+        exact: true,
+        path: '/app/portfolios/create',
+        component: lazy(() => import('src/views/portfolios/PortfoliosEditView'))
+      },
+      {
+        exact: true,
         path: '/app/holdings/bulk',
         component: lazy(() => import('src/views/holdings/Bulk'))
       },

@@ -23,6 +23,7 @@ import {
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import ShowChartIcon from '@material-ui/icons/Timeline';
+import WorkIcon from '@material-ui/icons/WorkOutline';
 import Logo from 'src/components/Logo';
 import useAuth from 'src/hooks/useAuth';
 import NavItem from './NavItem';
@@ -56,6 +57,11 @@ const sections = [
   {
     subheader: 'Portfolio',
     items: [
+      {
+        title: 'Portfolios',
+        href: '/app/portfolios',
+        icon: WorkIcon
+      },
       {
         title: 'Holdings',
         href: '/app/holdings',

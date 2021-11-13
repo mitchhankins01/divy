@@ -108,6 +108,7 @@ export default () => {
         </Button>
       )
     },
+    { headerName: 'Portfolio', field: 'portfolio', valueFormatter: ({ value }) => value?.name || 'Default', flex: 1 },
     { headerName: 'Quantity', field: 'quantity', flex: 1 },
     { headerName: 'Buy Price', field: 'price', flex: 1, valueFormatter: params => formatter.format(params.value) },
     { headerName: 'Market Price', field: 'marketPrice', flex: 1, valueFormatter: params => formatter.format(params.value) },

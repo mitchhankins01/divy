@@ -9,6 +9,10 @@ import {
   TextField,
   Typography,
   CircularProgress,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -16,7 +20,7 @@ import { useSnackbar } from 'notistack';
 import { useDebounce } from 'use-debounce';
 import { Delete as DeleteIcon, Save as SaveIcon } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth, Cache } from 'aws-amplify';
 import Header from './Header';
 import useData from 'src/hooks/useData';
 import Page from 'src/components/Page';
@@ -48,7 +52,7 @@ export default () => {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const { processRefetch, listStatistics } = useData();
+  const { processRefetch, portfolios } = useData();
   const [autoCompleteSearch, setAutoCompleteSearch] = useState('');
   const [autoCompleteResults, setAutoCompleteResults] = useState([]);
   const [autoCompleteLoading, setAutoCompleteLoading] = useState(false);
@@ -93,6 +97,7 @@ export default () => {
           <Card>
             <Formik
               initialValues={{
+                portfolioId: (holding.portfolio && holding.portfolio.id) || 'default',
                 price: holding.price || '',
                 quantity: holding.quantity || '',
                 symbol: holding.symbol || '',
@@ -100,6 +105,7 @@ export default () => {
                 submit: null
               }}
               validationSchema={Yup.object().shape({
+                portfolioId: Yup.string(),
                 price: Yup.number().required('Price per share is required'),
                 quantity: Yup.number().required('Number of shares are required'),
                 symbol: Yup.string().max(255).required('Symbol is required'),
@@ -130,30 +136,34 @@ export default () => {
                     history.push('/app/holdings');
                     enqueueSnackbar('Holding Updated', { variant: 'success' });
                   } else {
+                    const cachedListStatistics = Cache.getItem('listStatistics');
                     const formattedSymbol = String(values.symbol).toUpperCase().replace(/[\W_]+/g, '-');
-                    console.log('listStatistics', listStatistics)
-                    const symbolExists = listStatistics.data.some(({ symbol }) => symbol === formattedSymbol);
 
-                    if (symbolExists) {
-                      setErrors({ submit: 'Symbol already exists in portfolio.' });
-                    } else {
-                      const { attributes } = await Auth.currentAuthenticatedUser();
-                      await API.graphql(graphqlOperation(createHolding, {
-                        input: {
-                          price: parseFloat(values.price),
-                          comments: values.comments,
-                          quantity: values.quantity,
-                          owner: attributes.sub,
-                          symbol: formattedSymbol,
-                        }
-                      }));
-                      processRefetch();
-                      resetForm();
-                      setStatus({ success: true });
-                      setSubmitting(false);
-                      history.push('/app/holdings');
-                      enqueueSnackbar('Holding Added', { variant: 'success' });
+                    for (const e of cachedListStatistics) {
+                      if (e.symbol === formattedSymbol && e.portfolio?.id === values.portfolioId) {
+                        return setErrors({ submit: 'Symbol already exists in selected portfolio.' });
+                      } else if (e.symbol === formattedSymbol && !e.portfolio && values.portfolioId === 'default') {
+                        return setErrors({ submit: 'Symbol already exists in selected portfolio.' });
+                      }
                     }
+
+                    const { attributes } = await Auth.currentAuthenticatedUser();
+                    await API.graphql(graphqlOperation(createHolding, {
+                      input: {
+                        price: parseFloat(values.price),
+                        comments: values.comments,
+                        quantity: values.quantity,
+                        owner: attributes.sub,
+                        symbol: formattedSymbol,
+                        portfolioID: values.portfolioId === 'default' ? undefined : values.portfolioId
+                      }
+                    }));
+                    processRefetch();
+                    resetForm();
+                    setStatus({ success: true });
+                    setSubmitting(false);
+                    history.push('/app/holdings');
+                    enqueueSnackbar('Holding Added', { variant: 'success' });
                   }
                 } catch (err) {
                   console.error(err);
@@ -175,6 +185,21 @@ export default () => {
               }) => (
                 <form onSubmit={handleSubmit}>
                   <CardContent>
+                    <FormControl variant="outlined" className={classes.textField} style={{ display: 'flex' }}>
+                      <InputLabel>Portfolio</InputLabel>
+                      <Select
+                        required
+                        fullWidth
+                        value={values.portfolioId || 'default'}
+                        disabled={Boolean(holding.holdingID)}
+                        onChange={e => setFieldValue('portfolioId', e.target.value || '')}
+                        label="Portfolio"
+                      >
+                        {portfolios.map(e => (
+                          <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     {holding.holdingID ? (
                       <TextField
                         fullWidth

@@ -42,8 +42,9 @@ export default () => {
     const [error, setError] = React.useState(null);
     const [tabIndex, setTabIndex] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
-    const { listStatistics, processRefetch } = useData();
+    const { processRefetch, portfolios } = useData();
     const [selectedBroker, setSelectedBroker] = React.useState('');
+    const [selectedPortfolio, setSelectedPortfolio] = React.useState('default');
     const [importHoldingsResponse, setImportHoldingsResponse] = React.useState(null);
 
     const onUploadFile = async (event) => {
@@ -51,12 +52,11 @@ export default () => {
             setError(null);
             setLoading(true);
             const selectedFile = event.target.files[0];
-            const existingSymbols = listStatistics.data.map(item => item.symbol).join(',');
             const formData = new FormData();
             formData.append('file', selectedFile);
             // const s3Result = await Storage.put(selectedFile.name, selectedFile, { contentType: selectedFile.type });
             const s3Result = await Storage.put(`${new Date().getTime()}.xlsx`, selectedFile, { contentType: selectedFile.type });
-            const { data } = await API.graphql(graphqlOperation(importHoldings, { type: selectedBroker, existingSymbols, fileKey: s3Result.key }));
+            const { data } = await API.graphql(graphqlOperation(importHoldings, { type: selectedBroker, selectedPortfolioId: selectedPortfolio, fileKey: s3Result.key }));
             setImportHoldingsResponse(data.importHoldings);
             await Storage.remove(s3Result.key);
             if (data.importHoldings.newSymbols.length || data.importHoldings.updateSymbols.length) {
@@ -80,6 +80,10 @@ export default () => {
         setImportHoldingsResponse(null);
     };
 
+    const handleSelectPortfolioChange = (event) => {
+        setSelectedPortfolio(event.target.value);
+    };
+
     if (importHoldingsResponse) {
         return <Review data={importHoldingsResponse} resetHoldingsResponse={resetHoldingsResponse} />
     }
@@ -88,7 +92,20 @@ export default () => {
         <>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 1:
+                    Step 1: Select which of your porfolios you'd like to import to.
+                </Typography>
+                <FormControl className={classes.brokerFormControl}>
+                    <InputLabel>Portfolio</InputLabel>
+                    <Select disabled={loading} value={selectedPortfolio} onChange={handleSelectPortfolioChange}>
+                        {portfolios.map(e => (
+                            <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </Box>
+            <Box p={1}>
+                <Typography variant="body1">
+                    Step 2:
                     <Button disabled={loading} style={{ marginLeft: 5 }} variant="outlined" size='small' component="a" href='/import.xlsx' download>
                         Download the spreadsheet template
                     </Button>
@@ -96,7 +113,7 @@ export default () => {
             </Box>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 2: Under the header "symbol" list your holdings.
+                    Step 3: Under the header "symbol" list your holdings.
                 </Typography>
                 <Typography color='textPrimary' variant="body1" component="a" href="https://finance.yahoo.com/" rel="noopener noreferrer" target="_blank">
                     NOTE: You must use the same structure as Yahoo Finance, click here to check your symbol.
@@ -104,22 +121,22 @@ export default () => {
             </Box>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 3: Under the header "numberOfShares" enter the number of shares you own per holding.
+                    Step 4: Under the header "numberOfShares" enter the number of shares you own per holding.
                 </Typography>
             </Box>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 4: Under the header "pricePerShare" enter your cost basis per holding.
+                    Step 5: Under the header "pricePerShare" enter your cost basis per holding.
                 </Typography>
             </Box>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 5: Upload your spreadsheet.
+                    Step 6: Upload your spreadsheet.
                 </Typography>
             </Box>
             <Box p={1}>
                 <Typography variant="body1">
-                    Step 6: Review the import.
+                    Step 7: Review the import.
                 </Typography>
             </Box>
             <Box p={1}>
@@ -169,7 +186,20 @@ export default () => {
                 </Box>
                 <Box p={1}>
                     <Typography variant="body1">
-                        Step 2: Upload your broker's CSV file and click the "Upload My Broker CSV" button.
+                        Step 2: Select which of your porfolios you'd like to import to.
+                    </Typography>
+                    <FormControl className={classes.brokerFormControl}>
+                        <InputLabel>Portfolio</InputLabel>
+                        <Select disabled={loading} value={selectedPortfolio} onChange={handleSelectPortfolioChange}>
+                            {portfolios.map(e => (
+                                <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box p={1}>
+                    <Typography variant="body1">
+                        Step 3: Upload your broker's CSV file.
                     </Typography>
                 </Box>
                 <Box p={1}>
