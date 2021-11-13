@@ -14,33 +14,33 @@ const chunkArray = sourceArray => {
     }, []);
 };
 
-const holdingsByOwnerQuery = gql`query HoldingsByOwner(
-    $owner: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelHoldingFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    holdingsByOwner(
-      owner: $owner
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
+const listHoldingsQuery = gql`query ListHoldings(
+  $filter: ModelHoldingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      symbol
+      price
+      quantity
+      comments
+      owner
+      createdAt
+      updatedAt
+      portfolio {
         id
-        symbol
-        price
-        quantity
-        comments
-        owner
+        name
         createdAt
         updatedAt
+        owner
       }
-      nextToken
     }
-  }`;
+    nextToken
+  }
+}
+`;
 
 const addHoldingMutation = gql`mutation CreateHolding(
     $input: CreateHoldingInput!
@@ -78,7 +78,7 @@ updateHolding(input: $input, condition: $condition) {
 
 module.exports = {
     chunkArray,
-    holdingsByOwnerQuery,
+    listHoldingsQuery,
     addHoldingMutation,
     updateHoldingMutation,
 }

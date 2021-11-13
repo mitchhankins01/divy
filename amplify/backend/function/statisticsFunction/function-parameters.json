@@ -9,9 +9,23 @@
       ]
     },
     "storage": {
+      "Portfolio:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Holding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
       "StripeEvent:@model(appsync)": [
         "create",
-        "read"
+        "read",
+        "update",
+        "delete"
       ]
     }
   },

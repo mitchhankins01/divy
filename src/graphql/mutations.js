@@ -43,6 +43,90 @@ export const deleteStripeEvent = /* GraphQL */ `
     }
   }
 `;
+export const createPortfolio = /* GraphQL */ `
+  mutation CreatePortfolio(
+    $input: CreatePortfolioInput!
+    $condition: ModelPortfolioConditionInput
+  ) {
+    createPortfolio(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      createdAt
+      updatedAt
+      holdings {
+        items {
+          id
+          portfolioID
+          symbol
+          price
+          quantity
+          comments
+          owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const updatePortfolio = /* GraphQL */ `
+  mutation UpdatePortfolio(
+    $input: UpdatePortfolioInput!
+    $condition: ModelPortfolioConditionInput
+  ) {
+    updatePortfolio(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      createdAt
+      updatedAt
+      holdings {
+        items {
+          id
+          portfolioID
+          symbol
+          price
+          quantity
+          comments
+          owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deletePortfolio = /* GraphQL */ `
+  mutation DeletePortfolio(
+    $input: DeletePortfolioInput!
+    $condition: ModelPortfolioConditionInput
+  ) {
+    deletePortfolio(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      createdAt
+      updatedAt
+      holdings {
+        items {
+          id
+          portfolioID
+          symbol
+          price
+          quantity
+          comments
+          owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const createHolding = /* GraphQL */ `
   mutation CreateHolding(
     $input: CreateHoldingInput!
@@ -50,6 +134,7 @@ export const createHolding = /* GraphQL */ `
   ) {
     createHolding(input: $input, condition: $condition) {
       id
+      portfolioID
       symbol
       price
       quantity
@@ -57,6 +142,16 @@ export const createHolding = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      portfolio {
+        id
+        name
+        owner
+        createdAt
+        updatedAt
+        holdings {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -67,6 +162,7 @@ export const updateHolding = /* GraphQL */ `
   ) {
     updateHolding(input: $input, condition: $condition) {
       id
+      portfolioID
       symbol
       price
       quantity
@@ -74,6 +170,16 @@ export const updateHolding = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      portfolio {
+        id
+        name
+        owner
+        createdAt
+        updatedAt
+        holdings {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -84,6 +190,7 @@ export const deleteHolding = /* GraphQL */ `
   ) {
     deleteHolding(input: $input, condition: $condition) {
       id
+      portfolioID
       symbol
       price
       quantity
@@ -91,6 +198,16 @@ export const deleteHolding = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      portfolio {
+        id
+        name
+        owner
+        createdAt
+        updatedAt
+        holdings {
+          nextToken
+        }
+      }
     }
   }
 `;

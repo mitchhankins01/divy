@@ -18,12 +18,12 @@
       "function": {
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-4f43547a4d73754e732b-build.zip",
+          "s3Key": "amplify-builds/dividendsFunction-4c79684d75514c546749-build.zip",
           "benzingaToken": "871b3e8d86f34211b2fe278e1f347d23"
         },
         "statisticsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/statisticsFunction-476c774a51323232322f-build.zip",
+          "s3Key": "amplify-builds/statisticsFunction-4f5a4f4171646e757770-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
           "yahooHost": "yh-finance.p.rapidapi.com"
         },
@@ -49,7 +49,7 @@
         },
         "importHoldingsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/importHoldingsFunction-47527372652f45357257-build.zip",
+          "s3Key": "amplify-builds/importHoldingsFunction-765777706b587434686e-build.zip",
           "yahooKey": "9ea30f36b7msh44578fed17f43b8p19d68bjsn7efdcdb2cfae",
           "yahooHost": "yh-finance.p.rapidapi.com"
         }
