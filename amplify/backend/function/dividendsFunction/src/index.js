@@ -8,10 +8,10 @@
     ENV
     REGION
 Amplify Params - DO NOT EDIT */
-// require('cross-fetch/polyfill');
-// const axios = require('axios');
-// const gql = require('graphql-tag');
-// const AWSAppSyncClient = require('aws-appsync').default;
+require('cross-fetch/polyfill');
+const axios = require('axios');
+const gql = require('graphql-tag');
+const AWSAppSyncClient = require('aws-appsync').default;
 
 // const graphqlClient = new AWSAppSyncClient({
 //     url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
