@@ -9,7 +9,7 @@ import { listStatistics, listDividends, listPortfolios } from 'src/graphql/queri
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useAuth from 'src/hooks/useAuth';
 
-const disableCache = true;
+const disableCache = false;
 
 const initialDataState = {
     loading: true,
