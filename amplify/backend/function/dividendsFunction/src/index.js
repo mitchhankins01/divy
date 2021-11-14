@@ -45,9 +45,10 @@ Amplify Params - DO NOT EDIT */
 
 //     return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
 // }
-exports.handler = event => {
+exports.handler = async event => {
     return 'string';
 }
+
 // exports.handler = async (event) => {
 //     try {
 //         const query = gql`query ListHoldings(
