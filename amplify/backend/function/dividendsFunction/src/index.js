@@ -1,15 +1,15 @@
 /* Amplify Params - DO NOT EDIT
-	API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT
-	API_HOLDINGS_GRAPHQLAPIIDOUTPUT
-	API_HOLDINGS_HOLDINGTABLE_ARN
-	API_HOLDINGS_HOLDINGTABLE_NAME
-	API_HOLDINGS_PORTFOLIOTABLE_ARN
-	API_HOLDINGS_PORTFOLIOTABLE_NAME
-	ENV
-	REGION
+    API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT
+    API_HOLDINGS_GRAPHQLAPIIDOUTPUT
+    API_HOLDINGS_HOLDINGTABLE_ARN
+    API_HOLDINGS_HOLDINGTABLE_NAME
+    API_HOLDINGS_PORTFOLIOTABLE_ARN
+    API_HOLDINGS_PORTFOLIOTABLE_NAME
+    ENV
+    REGION
 Amplify Params - DO NOT EDIT */
-const axios = require('axios');
 require('cross-fetch/polyfill');
+const axios = require('axios');
 const gql = require('graphql-tag');
 const AWSAppSyncClient = require('aws-appsync').default;
 
@@ -76,18 +76,14 @@ exports.handler = async (event) => {
     `;
 
     const client = await graphqlClient.hydrated();
-    const result = await client.query({
+    const { data } = await client.query({
         query,
         variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
     });
-    const data = result.data;
-    console.log('event.identity.claims[]', event.identity.claims['sub'])
-console.log('result', result);
-    const list = [];
-    const symbols = data.listHoldings.items.map(holding => holding.symbol);
-console.log('symbols', symbols);
+    const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
+
     if (!symbols.length) {
-        return JSON.stringify(list);
+        return JSON.stringify([]);
     }
 
     const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
