@@ -11,28 +11,28 @@ Amplify Params - DO NOT EDIT */
 require('cross-fetch/polyfill');
 const axios = require('axios');
 const gql = require('graphql-tag');
-const AWSAppSyncClient = require('aws-appsync').default;
+// const AWSAppSyncClient = require('aws-appsync').default;
 
-const graphqlClient = new AWSAppSyncClient({
-    url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
-    region: process.env.AWS_REGION,
-    auth: {
-        type: 'AWS_IAM',
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-            sessionToken: process.env.AWS_SESSION_TOKEN
-        }
-    },
-    disableOffline: true
-}, {
-    defaultOptions: {
-        query: {
-            fetchPolicy: 'network-only',
-            errorPolicy: 'all',
-        },
-    },
-});
+// const graphqlClient = new AWSAppSyncClient({
+//     url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
+//     region: process.env.AWS_REGION,
+//     auth: {
+//         type: 'AWS_IAM',
+//         credentials: {
+//             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//             sessionToken: process.env.AWS_SESSION_TOKEN
+//         }
+//     },
+//     disableOffline: true
+// }, {
+//     defaultOptions: {
+//         query: {
+//             fetchPolicy: 'network-only',
+//             errorPolicy: 'all',
+//         },
+//     },
+// });
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
@@ -76,11 +76,12 @@ exports.handler = async (event) => {
           }
         `;
     
-        const client = await graphqlClient.hydrated();
-        const { data } = await client.query({
-            query,
-            variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
-        });
+        // const client = await graphqlClient.hydrated();
+        // const { data } = await client.query({
+        //     query,
+        //     variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
+        // });
+        const data = { listHoldings: { items: [] } }
         const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
     
         if (!symbols.length) {
