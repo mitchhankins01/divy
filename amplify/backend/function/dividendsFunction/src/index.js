@@ -47,57 +47,57 @@ const formatNumber = number => {
 }
 
 exports.handler = async (event) => {
-    const query = gql`query ListHoldings(
-        $filter: ModelHoldingFilterInput
-        $limit: Int
-        $nextToken: String
-      ) {
-        listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
-          items {
-            id
-            symbol
-            price
-            quantity
-            comments
-            owner
-            createdAt
-            updatedAt
-            portfolio {
-              id
-              name
-              createdAt
-              updatedAt
-              owner
+    try {
+        const query = gql`query ListHoldings(
+            $filter: ModelHoldingFilterInput
+            $limit: Int
+            $nextToken: String
+          ) {
+            listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+              items {
+                id
+                symbol
+                price
+                quantity
+                comments
+                owner
+                createdAt
+                updatedAt
+                portfolio {
+                  id
+                  name
+                  createdAt
+                  updatedAt
+                  owner
+                }
+              }
+              nextToken
             }
           }
-          nextToken
+        `;
+    
+        const client = await graphqlClient.hydrated();
+        const { data } = await client.query({
+            query,
+            variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
+        });
+        const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
+    
+        if (!symbols.length) {
+            return JSON.stringify([]);
         }
-      }
-    `;
+    
+        const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
+            const chunkIndex = Math.floor(index / 50);
+    
+            if (!resultArray[chunkIndex]) {
+                resultArray[chunkIndex] = [];
+            }
+    
+            resultArray[chunkIndex].push(item);
+            return resultArray;
+        }, []);
 
-    const client = await graphqlClient.hydrated();
-    const { data } = await client.query({
-        query,
-        variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
-    });
-    const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
-
-    if (!symbols.length) {
-        return JSON.stringify([]);
-    }
-
-    const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
-        const chunkIndex = Math.floor(index / 50);
-
-        if (!resultArray[chunkIndex]) {
-            resultArray[chunkIndex] = [];
-        }
-
-        resultArray[chunkIndex].push(item);
-        return resultArray;
-    }, []);
-
-    try {
         const benzingaData = {};
 
         for (const chunkedItems of chunkedSymbols) {
