@@ -8,9 +8,9 @@
     ENV
     REGION
 Amplify Params - DO NOT EDIT */
-require('cross-fetch/polyfill');
-const axios = require('axios');
-const gql = require('graphql-tag');
+// require('cross-fetch/polyfill');
+// const axios = require('axios');
+// const gql = require('graphql-tag');
 // const AWSAppSyncClient = require('aws-appsync').default;
 
 // const graphqlClient = new AWSAppSyncClient({
@@ -34,115 +34,117 @@ const gql = require('graphql-tag');
 //     },
 // });
 
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
+// function replaceAll(str, find, replace) {
+//     return str.replace(new RegExp(find, 'g'), replace);
+// }
+
+// const formatNumber = number => {
+//     if (isNaN(Number(number))) {
+//         return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
+//     }
+
+//     return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
+// }
+exports.handler = event => {
+    return '';
 }
-
-const formatNumber = number => {
-    if (isNaN(Number(number))) {
-        return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
-    }
-
-    return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
-}
-
-exports.handler = async (event) => {
-    try {
-        const query = gql`query ListHoldings(
-            $filter: ModelHoldingFilterInput
-            $limit: Int
-            $nextToken: String
-          ) {
-            listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
-              items {
-                id
-                symbol
-                price
-                quantity
-                comments
-                owner
-                createdAt
-                updatedAt
-                portfolio {
-                  id
-                  name
-                  createdAt
-                  updatedAt
-                  owner
-                }
-              }
-              nextToken
-            }
-          }
-        `;
+// exports.handler = async (event) => {
+//     try {
+//         const query = gql`query ListHoldings(
+//             $filter: ModelHoldingFilterInput
+//             $limit: Int
+//             $nextToken: String
+//           ) {
+//             listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+//               items {
+//                 id
+//                 symbol
+//                 price
+//                 quantity
+//                 comments
+//                 owner
+//                 createdAt
+//                 updatedAt
+//                 portfolio {
+//                   id
+//                   name
+//                   createdAt
+//                   updatedAt
+//                   owner
+//                 }
+//               }
+//               nextToken
+//             }
+//           }
+//         `;
     
-        // const client = await graphqlClient.hydrated();
-        // const { data } = await client.query({
-        //     query,
-        //     variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
-        // });
-        const data = { listHoldings: { items: [] } }
-        const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
+//         // const client = await graphqlClient.hydrated();
+//         // const { data } = await client.query({
+//         //     query,
+//         //     variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
+//         // });
+//         const data = { listHoldings: { items: [] } }
+//         const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
     
-        if (!symbols.length) {
-            return JSON.stringify([]);
-        }
+//         if (!symbols.length) {
+//             return JSON.stringify([]);
+//         }
     
-        const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
-            const chunkIndex = Math.floor(index / 50);
+//         const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
+//             const chunkIndex = Math.floor(index / 50);
     
-            if (!resultArray[chunkIndex]) {
-                resultArray[chunkIndex] = [];
-            }
+//             if (!resultArray[chunkIndex]) {
+//                 resultArray[chunkIndex] = [];
+//             }
     
-            resultArray[chunkIndex].push(item);
-            return resultArray;
-        }, []);
+//             resultArray[chunkIndex].push(item);
+//             return resultArray;
+//         }, []);
 
-        const benzingaData = {};
+//         const benzingaData = {};
 
-        for (const chunkedItems of chunkedSymbols) {
-            const { data } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(chunkedItems.join(','), '-', '/')}`);
-            if (data['dividends']) {
-                for (const result of data['dividends']) {
-                    benzingaData[result.ticker] = [
-                        ...benzingaData[result.ticker] || [],
-                        result
-                    ];
-                }
-            }
-        }
+//         for (const chunkedItems of chunkedSymbols) {
+//             const { data } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(chunkedItems.join(','), '-', '/')}`);
+//             if (data['dividends']) {
+//                 for (const result of data['dividends']) {
+//                     benzingaData[result.ticker] = [
+//                         ...benzingaData[result.ticker] || [],
+//                         result
+//                     ];
+//                 }
+//             }
+//         }
 
-        const list = [];
-        data.listHoldings.items.forEach(e => {
-            const benzingaItemsArray = benzingaData[e.symbol];
+//         const list = [];
+//         data.listHoldings.items.forEach(e => {
+//             const benzingaItemsArray = benzingaData[e.symbol];
 
-            if (benzingaItemsArray?.length) {
-                benzingaItemsArray.forEach(benzingaItem => {
-                    if (benzingaItem) {
-                        const { dividend, payable_date, ticker, ...rest } = benzingaItem;
-                        const amount = formatNumber(Number(e.quantity) * Number(dividend));
+//             if (benzingaItemsArray?.length) {
+//                 benzingaItemsArray.forEach(benzingaItem => {
+//                     if (benzingaItem) {
+//                         const { dividend, payable_date, ticker, ...rest } = benzingaItem;
+//                         const amount = formatNumber(Number(e.quantity) * Number(dividend));
 
-                        list.push({
-                            ...e,
-                            ...rest,
-                            quantity: e.quantity,
-                            allDay: true,
-                            title: `${ticker} $${amount}`,
-                            symbol: e.symbol,
-                            id: `${e.id} $${payable_date}`,
-                            start: payable_date,
-                            paymentDate: payable_date,
-                            extendedProps: { amount },
-                        });
-                    }
-                });
-            }
-        });
+//                         list.push({
+//                             ...e,
+//                             ...rest,
+//                             quantity: e.quantity,
+//                             allDay: true,
+//                             title: `${ticker} $${amount}`,
+//                             symbol: e.symbol,
+//                             id: `${e.id} $${payable_date}`,
+//                             start: payable_date,
+//                             paymentDate: payable_date,
+//                             extendedProps: { amount },
+//                         });
+//                     }
+//                 });
+//             }
+//         });
 
-        return JSON.stringify(list);
-    } catch (error) {
-        console.log(error);
-        return JSON.stringify([]);
-    }
-};
+//         return JSON.stringify(list);
+//     } catch (error) {
+//         console.log(error);
+//         return JSON.stringify([]);
+//     }
+// };
