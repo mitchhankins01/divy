@@ -13,7 +13,8 @@ import {
   FormGroup,
   Checkbox,
   FormControlLabel,
-  Divider
+  Divider,
+  useTheme
 } from '@material-ui/core';
 import { WorkOutline } from '@material-ui/icons'
 import useData from 'src/hooks/useData';
@@ -33,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const ref = useRef(null);
+  const theme = useTheme();
   const classes = useStyles();
-  const { portfolios, loading, selectedPortfolios, setSelectedPortfolios } = useData();
-
+  const { portfolios, loading, selectedPortfolios, setSelectedPortfolios, getSelectedPortfoliosLength } = useData();
   const [isOpen, setOpen] = useState(false);
   const [noPortfoliosSelected, setNoPortfoliosSelected] = React.useState(false);
   const [allPortfoliosSelected, setAllPortfoliosSelected] = React.useState(true);
@@ -93,7 +94,7 @@ export default () => {
       <Tooltip title="Selected Portfolios">
         <span>
           <Button
-            variant="outlined"
+            // variant="outlined"
             onClick={handleOpen}
             ref={ref}
             disabled={loading}
@@ -101,8 +102,9 @@ export default () => {
             startIcon={<WorkOutline />}
             color='inherit'
             size='large'
+            style={{ color: getSelectedPortfoliosLength() !== 0 && getSelectedPortfoliosLength() !== 'All' && theme.palette.error.main }}
           >
-            Portfolios
+            {`Portfolios (${getSelectedPortfoliosLength()})`}
           </Button>
         </span>
       </Tooltip>
@@ -142,12 +144,12 @@ export default () => {
           </FormControl>
         </Box>
         <Box mt={2}>
-        <Typography
-          variant='subtitle2'
-          color={noPortfoliosSelected ? 'error' : 'textPrimary'}
-        >
-          {noPortfoliosSelected ? 'You must select at least one portfolio.' : 'You can create new Portfolios on the Portfolios page.'}
-        </Typography>
+          <Typography
+            variant='subtitle2'
+            color={noPortfoliosSelected ? 'error' : 'textPrimary'}
+          >
+            {noPortfoliosSelected ? 'You must select at least one portfolio.' : 'You can create new Portfolios on the Portfolios page.'}
+          </Typography>
         </Box>
         <Box mt={2}>
           <Button

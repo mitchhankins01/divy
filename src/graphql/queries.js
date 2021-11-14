@@ -188,3 +188,40 @@ export const listHoldings = /* GraphQL */ `
     }
   }
 `;
+export const holdingsByOwner = /* GraphQL */ `
+  query HoldingsByOwner(
+    $owner: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelHoldingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    holdingsByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        portfolioID
+        symbol
+        price
+        quantity
+        comments
+        owner
+        createdAt
+        updatedAt
+        portfolio {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+  }
+`;

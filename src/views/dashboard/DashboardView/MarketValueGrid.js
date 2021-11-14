@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { listStatistics: { data, marketValue } } = useData();
+  const { listStatistics: { sortedMarketValueData, marketValue } } = useData();
   const columns = [
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
     // { headerName: 'Cost Basis', field: 'costBasis', flex: 1, renderCell: cell => formatter.format(cell.value), hide: isMobileDevice },
@@ -62,7 +62,7 @@ export default ({ className, ...rest }) => {
       <Box style={{ height: 750 }}>
         <DataGrid
           className={classes.dataGrid}
-          rows={data}
+          rows={sortedMarketValueData}
           columns={columns}
           autoPageSize={true}
           // loading={loading}
