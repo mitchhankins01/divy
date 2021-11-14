@@ -46,7 +46,7 @@ Amplify Params - DO NOT EDIT */
 //     return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
 // }
 exports.handler = event => {
-    return '';
+    return 'string';
 }
 // exports.handler = async (event) => {
 //     try {

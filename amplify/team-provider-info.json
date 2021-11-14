@@ -18,7 +18,7 @@
       "function": {
         "dividendsFunction": {
           "deploymentBucketName": "amplify-divy-dev-183939-deployment",
-          "s3Key": "amplify-builds/dividendsFunction-437870324d734c776937-build.zip",
+          "s3Key": "amplify-builds/dividendsFunction-3976612b315263533042-build.zip",
           "benzingaToken": "871b3e8d86f34211b2fe278e1f347d23"
         },
         "statisticsFunction": {
