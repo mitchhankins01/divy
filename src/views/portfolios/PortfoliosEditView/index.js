@@ -7,6 +7,7 @@ import {
   Button,
   CardContent,
   TextField,
+  useTheme,
   Typography,
 } from '@material-ui/core';
 import * as Yup from 'yup';
@@ -18,7 +19,8 @@ import { API, graphqlOperation, Auth } from 'aws-amplify';
 import Header from './Header';
 import useData from 'src/hooks/useData';
 import Page from 'src/components/Page';
-import { deletePortfolio, createPortfolio, updatePortfolio } from 'src/graphql/mutations';
+import { listHoldings } from 'src/graphql/queries';
+import { deletePortfolio, createPortfolio, updatePortfolio, deleteHolding } from 'src/graphql/mutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,10 +43,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
+  const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const { refetchPortfolios, loading, portfolios } = useData();
+  const [confirmDelete, setConfirmDelete] = React.useState(false);
 
   let portfolio;
   if (history.location.state) {
@@ -54,8 +58,18 @@ export default () => {
   }
 
   const handleDeleteClick = async () => {
-    const answer = window.confirm(`Are you sure you want to delete ${portfolio.name}? This action cannot be undone.`);
-    if (answer) {
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+    } else {
+      const { data } = await API.graphql(graphqlOperation(listHoldings, {
+        limit: 1000,
+        filter: { portfolioID: { eq: portfolio.id } }
+      }));
+
+      for (const holding of data.listHoldings.items) {
+        await API.graphql(graphqlOperation(deleteHolding, { input: { id: holding.id } }));
+      }
+
       await API.graphql(graphqlOperation(deletePortfolio, { input: { id: portfolio.id } }));
       refetchPortfolios();
       enqueueSnackbar('Portfolio Deleted', { variant: 'success' });
@@ -87,7 +101,7 @@ export default () => {
                   if (portfolio.id) {
                     const portfolioExists = portfolios.some(({ name }) => name.toLowerCase() === values.name.toLowerCase());
                     if (portfolioExists) {
-                        return setErrors({ submit: `You already have a portfolio named ${values.name}.` });
+                      return setErrors({ submit: `You already have a portfolio named ${values.name}.` });
                     }
 
                     await API.graphql(graphqlOperation(updatePortfolio, {
@@ -168,20 +182,22 @@ export default () => {
                           onClick={handleDeleteClick}
                           variant="outlined"
                           disabled={isSubmitting || loading}
-                          style={{ marginRight: 'auto' }}
+                          style={{ marginRight: 'auto', color: confirmDelete && theme.palette.error.main, borderColor: confirmDelete && theme.palette.error.main }}
                         >
-                          Delete
+                          {confirmDelete ? 'Are you sure? All of the portfolio\'s holdings will be deleted, this cannot be undone. Click here to confirm.' : 'Delete'}
                         </Button>
                       )}
-                      <Button
-                        variant='contained'
-                        color='secondary'
-                        type='submit'
-                        startIcon={<SaveIcon />}
-                        disabled={isSubmitting || loading}
-                      >
-                        {portfolio.id ? 'Update Portfolio' : 'Add Portfolio'}
-                      </Button>
+                      {!confirmDelete && (
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          type='submit'
+                          startIcon={<SaveIcon />}
+                          disabled={isSubmitting || loading}
+                        >
+                          {portfolio.id ? 'Update Portfolio' : 'Add Portfolio'}
+                        </Button>
+                      )}
                     </Box>
                   </CardContent>
                 </form>

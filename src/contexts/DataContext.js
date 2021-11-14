@@ -32,6 +32,7 @@ const DataContext = createContext({
     ...initialDataState,
     processRefetch: () => { },
     refetchPortfolios: () => { },
+    getSelectedPortfoliosLength: () => { }
 });
 
 export const DataProvider = ({ children }) => {
@@ -81,18 +82,41 @@ export const DataProvider = ({ children }) => {
     const processStatistics = list => {
         console.log('processing statistics');
         setIsStatisticsLoading(true);
+
+        const statisticsObject = list.map(object => ({ ...object })).reduce((a, v) => {
+            const computedProperty = [v.symbol];
+
+            if (a[computedProperty]) {
+                a[computedProperty].quantity = Number(a[computedProperty].quantity) + Number(v.quantity);
+                a[computedProperty].buyPrice = Number(a[computedProperty].buyPrice) + Number(v.buyPrice);
+                a[computedProperty].costBasis = Number(a[computedProperty].costBasis) + Number(v.costBasis);
+                a[computedProperty].gain = Number(a[computedProperty].gain) + Number(v.gain);
+                a[computedProperty].marketValue = Number(a[computedProperty].marketValue) + Number(v.marketValue);
+                a[computedProperty].price = Number(a[computedProperty].price) + Number(v.price);
+                a[computedProperty].totalDividends = Number(a[computedProperty].totalDividends) + Number(v.totalDividends);
+            } else {
+                a[computedProperty] = v;
+            }
+            return a;
+        }, {});
+
+        const mergedStatistics = [];
+        for (const key in statisticsObject) {
+            mergedStatistics.push(statisticsObject[key]);
+        }
+
         let costBasis = 0;
         let marketValue = 0;
         let totalDividends = 0;
 
-        list.forEach(holding => {
+        mergedStatistics.forEach(holding => {
             costBasis += holding.costBasis;
             marketValue += holding.marketValue;
             totalDividends += holding.totalDividends;
         });
 
-        const _sortedDividendData = [...list].sort((a, b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
-        const _sortedMarketValueData = [...list].sort((a, b) => (a.marketValue < b.marketValue) ? 1 : ((b.marketValue < a.marketValue) ? -1 : 0))
+        const _sortedDividendData = mergedStatistics.sort((a, b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
+        const _sortedMarketValueData = mergedStatistics.sort((a, b) => (a.marketValue < b.marketValue) ? 1 : ((b.marketValue < a.marketValue) ? -1 : 0))
 
         setState(s => ({ ...s, listStatistics: { data: list, sortedMarketValueData: _sortedMarketValueData, sortedDividendData: _sortedDividendData, costBasis, marketValue, totalDividends } }));
         setIsStatisticsLoading(false);
@@ -129,6 +153,7 @@ export const DataProvider = ({ children }) => {
     */
     const processDividends = filteredDividends => {
         console.log('processing dividends');
+        setIsDividendsLoading(true);
         const dividendsObject = filteredDividends.reduce((a, v) => {
             const computedProperty = [`${v.symbol}-${v.paymentDate}`];
 
@@ -268,6 +293,18 @@ export const DataProvider = ({ children }) => {
         getPortfolios();
     };
 
+    const getSelectedPortfoliosLength = () => {
+        if (!loading) {
+            const length = Object.entries(selectedPortfolios).filter(([_, val]) => val).length;
+
+            if (length === state.portfolios.length) {
+                return 'All';
+            }
+            return length;
+        }
+        return 0;
+    };
+
 
     return (
         <DataContext.Provider value={{
@@ -276,7 +313,8 @@ export const DataProvider = ({ children }) => {
             processRefetch,
             refetchPortfolios,
             selectedPortfolios,
-            setSelectedPortfolios
+            setSelectedPortfolios,
+            getSelectedPortfoliosLength
         }}>
             {children}
         </DataContext.Provider>

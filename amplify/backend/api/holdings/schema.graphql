@@ -59,7 +59,7 @@ type Portfolio @model @auth(
 
 type Holding @model
   @key(name: "byPortfolio", fields: ["portfolioID"])
-  # @key(name: "holdingsByOwner", fields: ["owner"], queryField: "holdingsByOwner")
+  @key(name: "holdingsByOwner", fields: ["owner"], queryField: "holdingsByOwner")
   @auth(
     rules: [
         { allow: owner }
