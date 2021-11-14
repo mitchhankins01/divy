@@ -7,177 +7,11 @@
 	API_HOLDINGS_PORTFOLIOTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT */// const axios = require('axios');
-// require('cross-fetch/polyfill');
-// const gql = require('graphql-tag');
-// const AWSAppSyncClient = require('aws-appsync').default;
-// const fs = require('fs');
-
-// const graphqlClient = new AWSAppSyncClient({
-//     url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
-//     region: process.env.AWS_REGION,
-//     auth: {
-//         type: 'AWS_IAM',
-//         credentials: {
-//             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//             sessionToken: process.env.AWS_SESSION_TOKEN
-//         }
-//     },
-//     disableOffline: true
-// }, {
-//     defaultOptions: {
-//         query: {
-//             fetchPolicy: 'network-only',
-//             errorPolicy: 'all',
-//         },
-//     },
-// });
-
-// function replaceAll(str, find, replace) {
-//     return str.replace(new RegExp(find, 'g'), replace);
-// }
-
-// const formatNumber = number => {
-//     if (isNaN(Number(number))) {
-//         return (0).toLocaleString(undefined, { maximumFractionDigits: 2 });
-//     }
-
-//     return Number(number).toLocaleString(undefined, { maximumFractionDigits: 2 });
-// }
-
-// exports.handler = async (event) => {
-//     const query = gql`query ListHoldings(
-//         $filter: ModelHoldingFilterInput
-//         $limit: Int
-//         $nextToken: String
-//       ) {
-//         listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
-//           items {
-//             id
-//             symbol
-//             price
-//             quantity
-//             comments
-//             owner
-//             createdAt
-//             updatedAt
-//             portfolio {
-//               id
-//               name
-//               createdAt
-//               updatedAt
-//               owner
-//             }
-//           }
-//           nextToken
-//         }
-//       }
-//     `;
-
-//     const client = await graphqlClient.hydrated();
-//     const { data } = await client.query({
-//         query,
-//         variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
-//     });
-
-//     const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
-
-//     if (!symbols.length) {
-//         return JSON.stringify([]);
-//     }
-
-//     const chunkedSymbols = symbols.reduce((resultArray, item, index) => {
-//         const chunkIndex = Math.floor(index / 50);
-
-//         if (!resultArray[chunkIndex]) {
-//             resultArray[chunkIndex] = [];
-//         }
-
-//         resultArray[chunkIndex].push(item);
-//         return resultArray;
-//     }, []);
-
-//     try {
-//         const benzingaData = {};
-
-//         for (const chunkedItems of chunkedSymbols) {
-//             const { data } = await axios.get(`https://api.benzinga.com/api/v2.1/calendar/dividends?token=${process.env.BENZINGA_TOKEN}&parameters[tickers]=${replaceAll(chunkedItems.join(','), '-', '/')}`);
-
-// if (data['dividends']) {
-//     for (const result of data['dividends']) {
-//         benzingaData[result.ticker] = [
-//             ...benzingaData[result.ticker] || [],
-//             result
-//         ];
-//     }
-// }
-//         }
-
-// const toProcess = [];
-// data.listHoldings.items.forEach(e => {
-//     const benzingaItemsArray = benzingaData[e.symbol];
-
-//     if (benzingaItemsArray?.length) {
-//         benzingaItemsArray.forEach(benzingaItem => {
-//             if (benzingaItem) {
-//                 const { dividend, payable_date, ticker, ...rest } = benzingaItem;
-//                 const amount = formatNumber(Number(e.quantity) * Number(dividend));
-
-//                 toProcess.push({
-//                     ...rest,
-//                     quantity: e.quantity,
-//                     allDay: true,
-//                     title: `${ticker} $${amount}`,
-//                     symbol: e.symbol,
-//                     id: `${e.id} $${payable_date}`,
-//                     start: payable_date,
-//                     paymentDate: payable_date,
-//                     extendedProps: { amount },
-//                 });
-//             }
-//         });
-//     }
-// });
-
-        // const dividendsObject = toProcess.reduce((a, v) => {
-        //     const computedProperty = [`${v.symbol}-${v.paymentDate}`];
-        //     console.log(computedProperty)
-
-        //     if (a[computedProperty]) {
-        //         const amount = formatNumber(Number(a[computedProperty].extendedProps.amount) + Number(v.extendedProps.amount));
-        //         a[computedProperty].title = `${a[computedProperty].symbol} $${amount}`;
-        //         a[computedProperty].extendedProps.amount = amount;
-        //         a[computedProperty].quantity = Number(a[computedProperty].quantity) + Number(v.quantity);
-        //     } else {
-        //         a[computedProperty] = v;
-        //     }
-        //     return a;
-        // }, {});
-
-        // const list = [];
-        // for (const key in dividendsObject) {
-        //     list.push(dividendsObject[key]);
-        // }
-
-//         return JSON.stringify(list);
-//     } catch (error) {
-//         console.log(error);
-//         return JSON.stringify([]);
-//     }
-// };
-
-
-
-
-
-
-
+Amplify Params - DO NOT EDIT */
 const axios = require('axios');
 require('cross-fetch/polyfill');
 const gql = require('graphql-tag');
 const AWSAppSyncClient = require('aws-appsync').default;
-const fs = require('fs');
 
 const graphqlClient = new AWSAppSyncClient({
     url: process.env.API_HOLDINGS_GRAPHQLAPIENDPOINTOUTPUT,
@@ -242,14 +76,16 @@ exports.handler = async (event) => {
     `;
 
     const client = await graphqlClient.hydrated();
-    const { data } = await client.query({
+    const result = await client.query({
         query,
         variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
     });
-
+    const data = result.data;
+    console.log('event.identity.claims[]', event.identity.claims['sub'])
+console.log('result', result);
     const list = [];
     const symbols = data.listHoldings.items.map(holding => holding.symbol);
-
+console.log('symbols', symbols);
     if (!symbols.length) {
         return JSON.stringify(list);
     }
