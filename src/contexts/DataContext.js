@@ -115,8 +115,8 @@ export const DataProvider = ({ children }) => {
             totalDividends += holding.totalDividends;
         });
 
-        const _sortedDividendData = mergedStatistics.sort((a, b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
-        const _sortedMarketValueData = mergedStatistics.sort((a, b) => (a.marketValue < b.marketValue) ? 1 : ((b.marketValue < a.marketValue) ? -1 : 0))
+        const _sortedDividendData = [...mergedStatistics].sort((a, b) => (a.totalDividends < b.totalDividends) ? 1 : ((b.totalDividends < a.totalDividends) ? -1 : 0))
+        const _sortedMarketValueData = [...mergedStatistics].sort((a, b) => (a.marketValue < b.marketValue) ? 1 : ((b.marketValue < a.marketValue) ? -1 : 0))
 
         setState(s => ({ ...s, listStatistics: { data: list, sortedMarketValueData: _sortedMarketValueData, sortedDividendData: _sortedDividendData, costBasis, marketValue, totalDividends } }));
         setIsStatisticsLoading(false);
