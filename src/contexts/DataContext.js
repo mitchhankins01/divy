@@ -196,7 +196,6 @@ export const DataProvider = ({ children }) => {
                 console.log('caching listDividends');
 
                 const { data } = await API.graphql(graphqlOperation(listDividends));
-                return console.log(data)
                 const parsed = JSON.parse(data.listDividends);
                 try {
                     Cache.setItem(
