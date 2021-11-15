@@ -12,7 +12,7 @@ import useAuth from 'src/hooks/useAuth';
 const disableCache = false;
 
 const initialDataState = {
-    loading: true,
+    loading: false,
     portfolios: [],
     listStatistics: {
         data: [],
@@ -42,9 +42,9 @@ export const DataProvider = ({ children }) => {
     const [state, setState] = useState(initialDataState);
     const [selectedPortfolios, setSelectedPortfolios] = React.useState({});
 
-    const [isPortfoliosLoading, setIsPortfoliosLoading] = useState(true);
-    const [isDividendsLoading, setIsDividendsLoading] = useState(true);
-    const [isStatisticsLoading, setIsStatisticsLoading] = useState(true);
+    const [isPortfoliosLoading, setIsPortfoliosLoading] = useState(false);
+    const [isDividendsLoading, setIsDividendsLoading] = useState(false);
+    const [isStatisticsLoading, setIsStatisticsLoading] = useState(false);
     const loading = isStatisticsLoading || isDividendsLoading || isPortfoliosLoading;
 
     /*
@@ -71,8 +71,8 @@ export const DataProvider = ({ children }) => {
                         { expires: new Date().setHours(new Date().getHours() + 1) }
                     );
                 } catch { }
-                setIsPortfoliosLoading(false);
             }
+            setIsPortfoliosLoading(false);
         }
     }, [isMountedRef]);
 
@@ -225,6 +225,7 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
         if (state.portfolios.length) {
+            console.log('updating selected portfolios');
             try {
                 const selectedPortfolios = localStorage.getItem('selectedPortfolios');
                 if (selectedPortfolios) {
