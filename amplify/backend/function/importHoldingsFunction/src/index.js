@@ -100,6 +100,7 @@ exports.handler = async (event) => {
 
             if (existingSymbols.includes(symbol)) {
                 const match = data.listHoldings.items.find(item => item.symbol === symbol);
+                console.log('match', JSON.stringify(match, 5, null))
 
                 if (quantity === Number(match.quantity) && tradePrice === Number(match.price)) {
                     failSymbols.push({
