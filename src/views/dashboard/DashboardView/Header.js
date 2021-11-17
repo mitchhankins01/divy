@@ -6,9 +6,10 @@ import {
   Grid,
   Link,
   Typography,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -16,6 +17,8 @@ const useStyles = makeStyles(() => ({
 
 const Header = ({ className, ...rest }) => {
   const classes = useStyles();
+  const { getSelectedPortfoliosLength } = useData();
+  const selectedPortfoliosLength = getSelectedPortfoliosLength();
 
   return (
     <Grid
@@ -45,6 +48,16 @@ const Header = ({ className, ...rest }) => {
             Dashboard
           </Typography>
         </Breadcrumbs>
+      </Grid>
+      <Grid item>
+        {selectedPortfoliosLength !== 0 && selectedPortfoliosLength !== 'All' && (
+          <Typography
+            variant="body1"
+            color="error"
+          >
+            Only showing data from selected portfolios.
+          </Typography>
+        )}
       </Grid>
     </Grid>
   );

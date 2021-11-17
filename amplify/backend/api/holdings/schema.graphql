@@ -42,23 +42,38 @@ type Query {
   listDividends: String! @function(name: "dividendsFunction-${env}")
   listStatistics: String! @function(name: "statisticsFunction-${env}")
   querySymbol(symbol: String!): [AutoCompleteSymbolType]! @function(name: "querySymbolFunction-${env}")
-  importHoldings(type: String!, fileKey: String!, existingSymbols: String): ImportHoldingsResponse! @function(name: "importHoldingsFunction-${env}")
+  importHoldings(type: String!, fileKey: String!, selectedPortfolioId: String!): ImportHoldingsResponse! @function(name: "importHoldingsFunction-${env}")
+}
+
+type Portfolio @model @auth(
+    rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read, create, update, delete] }
+      ]
+  ){
+  id: ID!
+  name: String!
+  owner: String!
+  holdings: [Holding] @connection(keyName: "byPortfolio", fields: ["id"])
 }
 
 type Holding @model
+  @key(name: "byPortfolio", fields: ["portfolioID"])
   @key(name: "holdingsByOwner", fields: ["owner"], queryField: "holdingsByOwner")
   @auth(
     rules: [
         { allow: owner }
         { allow: private, provider: iam, operations: [read, create, update, delete] }
       ]
-  ) {
+  ){
     id: ID!
+    portfolioID: ID
     symbol: String!
     price: Float!
     quantity: Float!
     comments: String!
     owner: String!
+    portfolio: Portfolio @connection(fields: ["portfolioID"])
 }
 
 type StripeEvent @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {

@@ -30,12 +30,12 @@ export const importHoldings = /* GraphQL */ `
   query ImportHoldings(
     $type: String!
     $fileKey: String!
-    $existingSymbols: String
+    $selectedPortfolioId: String!
   ) {
     importHoldings(
       type: $type
       fileKey: $fileKey
-      existingSymbols: $existingSymbols
+      selectedPortfolioId: $selectedPortfolioId
     ) {
       failSymbols {
         id
@@ -88,10 +88,57 @@ export const listStripeEvents = /* GraphQL */ `
     }
   }
 `;
+export const getPortfolio = /* GraphQL */ `
+  query GetPortfolio($id: ID!) {
+    getPortfolio(id: $id) {
+      id
+      name
+      owner
+      createdAt
+      updatedAt
+      holdings {
+        items {
+          id
+          portfolioID
+          symbol
+          price
+          quantity
+          comments
+          owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listPortfolios = /* GraphQL */ `
+  query ListPortfolios(
+    $filter: ModelPortfolioFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPortfolios(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        owner
+        createdAt
+        updatedAt
+        holdings {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getHolding = /* GraphQL */ `
   query GetHolding($id: ID!) {
     getHolding(id: $id) {
       id
+      portfolioID
       symbol
       price
       quantity
@@ -99,6 +146,16 @@ export const getHolding = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      portfolio {
+        id
+        name
+        owner
+        createdAt
+        updatedAt
+        holdings {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -111,6 +168,7 @@ export const listHoldings = /* GraphQL */ `
     listHoldings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        portfolioID
         symbol
         price
         quantity
@@ -118,6 +176,13 @@ export const listHoldings = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        portfolio {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
       }
       nextToken
     }
@@ -140,6 +205,7 @@ export const holdingsByOwner = /* GraphQL */ `
     ) {
       items {
         id
+        portfolioID
         symbol
         price
         quantity
@@ -147,6 +213,13 @@ export const holdingsByOwner = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        portfolio {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
       }
       nextToken
     }

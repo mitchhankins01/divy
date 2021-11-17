@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ className, ...rest }) => {
   const classes = useStyles();
-  const { listStatistics: { data, totalDividends } } = useData();
+  const { listStatistics: { sortedDividendData, totalDividends } } = useData();
   const columns = [
     { headerName: 'Symbol', field: 'symbol', flex: 0.7 },
     { 
@@ -49,7 +49,7 @@ export default ({ className, ...rest }) => {
       <Box style={{ height: 750 }}>
         <DataGrid
           className={classes.dataGrid}
-          rows={data}
+          rows={sortedDividendData}
           columns={columns}
           disableSelectionOnClick={true}
           autoPageSize={true}

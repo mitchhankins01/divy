@@ -18,6 +18,7 @@ import Account from './Account';
 // import Notifications from './Notifications';
 // import Search from './Search';
 import Settings from './Settings';
+import Portfolios from './Portfolios';
 import useData from 'src/hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,7 @@ const TopBar = ({
         />
         {/* <Search /> */}
         {/* <Notifications /> */}
+        <Portfolios />
         <Settings />
         <Box ml={2}>
           <Account />
