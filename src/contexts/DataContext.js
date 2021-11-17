@@ -41,7 +41,7 @@ export const DataProvider = ({ children }) => {
     const isMountedRef = useIsMountedRef();
 
     const [state, setState] = useState(initialDataState);
-    const [selectedPortfolios, setSelectedPortfolios] = React.useState({});
+    const [selectedPortfolios, setSelectedPortfolios] = React.useState({ default: true });
 
     const [isPortfoliosLoading, setIsPortfoliosLoading] = useState(false);
     const [isDividendsLoading, setIsDividendsLoading] = useState(false);
@@ -243,6 +243,9 @@ export const DataProvider = ({ children }) => {
     }, [state.portfolios]);
 
     useEffect(() => {
+        const cachedListStatistics = Cache.getItem('listStatistics');
+        const cachedListDividends = Cache.getItem('listDividends');
+
         const portfolioIds = Object.entries(selectedPortfolios).map(([key, val]) => {
             if (val) {
                 return key;
@@ -250,35 +253,30 @@ export const DataProvider = ({ children }) => {
                 return undefined;
             }
         }).filter(e => e !== undefined);
+        
+        if (!loading && portfolioIds.length && cachedListStatistics && cachedListStatistics) {
+            console.log('selectedPortfolios', selectedPortfolios)
 
-        if (!loading) {
-            if (portfolioIds.length) {
-                const cachedListStatistics = Cache.getItem('listStatistics');
-                const cachedListDividends = Cache.getItem('listDividends');
+            const filteredStatistics = cachedListStatistics.filter(e => {
+                if (!e.portfolio && portfolioIds.includes('default')) {
+                    return true;
+                } else if (e.portfolio && e.portfolio.id && portfolioIds.includes(e.portfolio.id)) {
+                    return true;
+                }
+                return false;
+            });
 
-                const filteredStatistics = cachedListStatistics.filter(e => {
-                    if (!e.portfolio && portfolioIds.includes('default')) {
-                        return true;
-                    } else if (e.portfolio && e.portfolio.id && portfolioIds.includes(e.portfolio.id)) {
-                        return true;
-                    }
-                    return false;
-                });
+            const filteredDividends = cachedListDividends.filter(e => {
+                if (!e.portfolio && portfolioIds.includes('default')) {
+                    return true;
+                } else if (e.portfolio && e.portfolio.id && portfolioIds.includes(e.portfolio.id)) {
+                    return true;
+                }
+                return false;
+            });
 
-                const filteredDividends = cachedListDividends.filter(e => {
-                    if (!e.portfolio && portfolioIds.includes('default')) {
-                        return true;
-                    } else if (e.portfolio && e.portfolio.id && portfolioIds.includes(e.portfolio.id)) {
-                        return true;
-                    }
-                    return false;
-                });
-
-                processStatistics(filteredStatistics);
-                processDividends(filteredDividends);
-            } else {
-                setSelectedPortfolios({ default: true });
-            }
+            processStatistics(filteredStatistics);
+            processDividends(filteredDividends);
         }
     }, [selectedPortfolios, loading]);
 
