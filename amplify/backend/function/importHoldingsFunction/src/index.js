@@ -45,15 +45,30 @@ exports.handler = async (event) => {
     const processInput = async ({ symbolKey, quantityKey, priceKey, symbolReplace }) => {
         const selectedPortfolioId = event.arguments.selectedPortfolioId;
         const client = await graphqlClient.hydrated();
-        const queryOptions = {
-            query: listHoldingsQuery,
-            variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
-        };
+        let queryOptions;
 
         if (!selectedPortfolioId || selectedPortfolioId === 'default') {
-            queryOptions.variables.filter = { not: { portfolioID: { gt: "0" } } };
+            queryOptions = {
+                query: listHoldingsQuery,
+                variables: {
+                    limit: 1000,
+                    filter: {
+                        not: { portfolioID: { gt: '0' } },
+                        owner: { eq: event.identity.claims['sub'] }
+                    }
+                },
+            };
         } else {
-            queryOptions.variables.filter.portfolioID = { eq: selectedPortfolioId };
+            queryOptions = {
+                query: listHoldingsQuery,
+                variables: {
+                    limit: 1000,
+                    filter: {
+                        portfolioID: { eq: selectedPortfolioId },
+                        owner: { eq: event.identity.claims['sub'] }
+                    }
+                },
+            };
         }
         const { data } = await client.query(queryOptions);
 
