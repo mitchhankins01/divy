@@ -77,7 +77,7 @@ exports.handler = async (event) => {
             Key: `public/${event.arguments.fileKey}`,
             // Bucket: 'importholdingsbucket183939-dev',
             // Key: 'import.xlsx'
-            // Key: 'Portfolio_Positions_Nov-05-2021.csv'
+            // Key: 'Portfolio_Posi S&C_Nov-19-2021.csv'
             // Key: 'tastyworks_positions_mitchhankins_2021-11-04.csv'
         };
         const s3Data = await s3.getObject(params).promise();
@@ -112,10 +112,21 @@ exports.handler = async (event) => {
             const symbol = e[symbolKey].replace(symbolReplace, '-');
             const quantity = Number(e[quantityKey]);
             const tradePrice = Math.abs(e[priceKey]);
-
-            if (existingSymbols.includes(symbol)) {
+            
+            if (isNaN(quantity)) {
+                failSymbols.push({
+                    symbol,
+                    id: symbol + 'invalid_quantity',
+                    reason: `Invalid quantity "${e[quantityKey]}" in import file.`
+                });
+            } else if (isNaN(tradePrice)) {
+                failSymbols.push({
+                    symbol,
+                    id: symbol + 'invalid_price',
+                    reason: `Invalid price "${e[priceKey]}" in import file.`
+                });
+            } else if (existingSymbols.includes(symbol)) {
                 const match = data.listHoldings.items.find(item => item.symbol === symbol);
-                console.log('match', JSON.stringify(match, 5, null))
 
                 if (quantity === Number(match.quantity) && tradePrice === Number(match.price)) {
                     failSymbols.push({
@@ -213,8 +224,7 @@ exports.handler = async (event) => {
                 failSymbols.push({ symbol: e.symbol, id: `${e.symbol}${index}`, reason: 'Symbol could not be found.' });
             });
         } catch (error) {
-            console.log(error.message);
-            return { newSymbols: [], failSymbols: [], updateSymbols: [] };
+            throw new Error(error);
         }
         return { newSymbols, failSymbols, updateSymbols };
     }
