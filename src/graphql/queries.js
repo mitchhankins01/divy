@@ -7,8 +7,8 @@ export const listDividends = /* GraphQL */ `
   }
 `;
 export const listStatistics = /* GraphQL */ `
-  query ListStatistics {
-    listStatistics
+  query ListStatistics($userId: String) {
+    listStatistics(userId: $userId)
   }
 `;
 export const querySymbol = /* GraphQL */ `

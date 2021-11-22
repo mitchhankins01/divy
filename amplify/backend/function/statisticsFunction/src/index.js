@@ -85,13 +85,18 @@ exports.handler = async (event) => {
   }
 `;
 
+  let owner = event.identity.claims['sub'];
+  if (event.identity.claims['cognito:groups'] && event.identity.claims['cognito:groups'].includes('Admin') && event.arguments.userId) {
+    owner = event.arguments.userId;
+  }
+
   const client = await graphqlClient.hydrated();
   const { data } = await client.query({
     query,
-    variables: { limit: 1000, filter: { owner: { eq: event.identity.claims['sub'] } } },
+    variables: { limit: 1000, filter: { owner: { eq: owner } } },
   });
   const symbols = [...new Set(data.listHoldings.items.map(holding => holding.symbol))];
-
+  
   if (!symbols.length) {
     return JSON.stringify([]);
   }

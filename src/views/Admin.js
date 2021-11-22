@@ -1,16 +1,39 @@
 import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import ReactJson from 'react-json-view';
-import { Box, Button, Card, CardContent, CardHeader, IconButton } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, IconButton, TextField } from '@material-ui/core';
 import { listStripeEvents } from 'src/graphql/queries';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { DeleteOutline } from '@material-ui/icons';
 import { deleteStripeEvent } from 'src/graphql/mutations';
+import useData from 'src/hooks/useData';
 
 export default () => {
     const isMountedRef = useIsMountedRef();
     const [events, setEvents] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
+    const [impersonateUser, setImpersonateUser] = React.useState('');
+    const { processRefetch } = useData();
+
+    React.useEffect(() => {
+        const stored = localStorage.getItem('impersonateUser');
+        if (stored) {
+            setImpersonateUser(stored);
+        }
+    },[]);
+
+    const onClickImpersonateUser = () => {
+        if (impersonateUser) {
+            localStorage.setItem('impersonateUser', impersonateUser);
+            processRefetch();
+        }
+    };
+
+    const onClearImpersonateUser = () => {
+        setImpersonateUser('');
+        localStorage.removeItem('impersonateUser');
+        processRefetch();
+    }
 
     const getData = React.useCallback(async () => {
         if (isMountedRef.current) {
@@ -28,6 +51,11 @@ export default () => {
 
     return (
         <Box p={5} mt={0}>
+            <Box pb={3} pl={1}>
+                <TextField label='User ID' value={impersonateUser} onChange={(e) => setImpersonateUser(e.target.value)} />
+                <Button disabled={loading} onClick={onClickImpersonateUser}>Set ID</Button>
+                <Button disabled={loading} onClick={onClearImpersonateUser}>Clear</Button>
+            </Box>
             <Button disabled={loading} onClick={getData}>Refresh</Button>
             {loading && 'Loading...'}
             {events.map(event => (

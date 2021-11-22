@@ -132,8 +132,9 @@ export const DataProvider = ({ children }) => {
                 // processStatistics(cachedListStatistics);
             } else {
                 console.log('caching listStatistics');
+                const impersonateUser = localStorage.getItem('impersonateUser');
 
-                const { data: listStatisticsData } = await API.graphql(graphqlOperation(listStatistics));
+                const { data: listStatisticsData } = await API.graphql(graphqlOperation(listStatistics, { userId: impersonateUser }));
                 const parsedListStatisticsData = JSON.parse(listStatisticsData.listStatistics);
                 try {
                     Cache.setItem(

@@ -40,7 +40,7 @@ type ImportHoldingsResponse {
 
 type Query {
   listDividends: String! @function(name: "dividendsFunction-${env}")
-  listStatistics: String! @function(name: "statisticsFunction-${env}")
+  listStatistics(userId: String): String! @function(name: "statisticsFunction-${env}")
   querySymbol(symbol: String!): [AutoCompleteSymbolType]! @function(name: "querySymbolFunction-${env}")
   importHoldings(type: String!, fileKey: String!, selectedPortfolioId: String!): ImportHoldingsResponse! @function(name: "importHoldingsFunction-${env}")
 }
