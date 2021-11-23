@@ -2,18 +2,17 @@ import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import ReactJson from 'react-json-view';
 import { Box, Button, Card, CardContent, CardHeader, IconButton, TextField } from '@material-ui/core';
-import { listStripeEvents } from 'src/graphql/queries';
+import { listStripeEvents, listStatistics } from 'src/graphql/queries';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { DeleteOutline } from '@material-ui/icons';
 import { deleteStripeEvent } from 'src/graphql/mutations';
-import useData from 'src/hooks/useData';
 
 export default () => {
     const isMountedRef = useIsMountedRef();
     const [events, setEvents] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [impersonateUser, setImpersonateUser] = React.useState('');
-    const { processRefetch } = useData();
+    const [statsData, setStatsData] = React.useState([]);
 
     React.useEffect(() => {
         const stored = localStorage.getItem('impersonateUser');
@@ -22,18 +21,13 @@ export default () => {
         }
     },[]);
 
-    const onClickImpersonateUser = () => {
+    const onClickImpersonateUser = async () => {
         if (impersonateUser) {
-            localStorage.setItem('impersonateUser', impersonateUser);
-            processRefetch();
+            const { data: listStatisticsData } = await API.graphql(graphqlOperation(listStatistics, { userId: impersonateUser }));
+            setStatsData(JSON.parse(listStatisticsData.listStatistics));
         }
     };
 
-    const onClearImpersonateUser = () => {
-        setImpersonateUser('');
-        localStorage.removeItem('impersonateUser');
-        processRefetch();
-    }
 
     const getData = React.useCallback(async () => {
         if (isMountedRef.current) {
@@ -53,8 +47,8 @@ export default () => {
         <Box p={5} mt={0}>
             <Box pb={3} pl={1}>
                 <TextField label='User ID' value={impersonateUser} onChange={(e) => setImpersonateUser(e.target.value)} />
-                <Button disabled={loading} onClick={onClickImpersonateUser}>Set ID</Button>
-                <Button disabled={loading} onClick={onClearImpersonateUser}>Clear</Button>
+                <Button disabled={loading} onClick={onClickImpersonateUser}>Get Stats</Button>
+                <ReactJson collapsed={1} theme='solarized' src={statsData} />
             </Box>
             <Button disabled={loading} onClick={getData}>Refresh</Button>
             {loading && 'Loading...'}
