@@ -56,7 +56,7 @@ export const DataProvider = ({ children }) => {
             setIsPortfoliosLoading(true);
             const cached = Cache.getItem('portfolios');
 
-            if (cached && !disableCache) {
+            if (cached && !disableCache && false) {
                 console.log('portfolios already cached');
                 setState(s => ({ ...s, portfolios: cached }));
             } else {
