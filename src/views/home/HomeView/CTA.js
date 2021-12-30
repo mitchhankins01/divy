@@ -6,9 +6,9 @@ import {
   Container,
   Typography,
   makeStyles,
-  Grid,
-  Paper,
-  Divider
+  // Grid,
+  // Paper,
+  // Divider
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ export default ({ className, ...rest }) => {
           you can cancel at any time.
         </Typography>
 
-        <Box mt={5}>
+        {/* <Box mt={5}>
           <Container maxWidth="md">
             <Grid container spacing={4}>
               <Grid item md={6} xs={12}>
@@ -180,7 +180,7 @@ export default ({ className, ...rest }) => {
             </Grid>
 
           </Container>
-        </Box>
+        </Box> */}
 
         <Box
           mt={6}

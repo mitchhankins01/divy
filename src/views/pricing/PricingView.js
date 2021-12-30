@@ -78,7 +78,7 @@ export default () => {
     return session;
   };
 
-  // redirect form stripe checkout
+  // redirect from stripe checkout
   if (location.search.includes('session_id')) {
     React.useEffect(() => {
       if (attributes['custom:subscription']) {
@@ -184,7 +184,7 @@ export default () => {
                         variant="h3"
                         color="textPrimary"
                       >
-                        $12.99
+                        $9.99
                       </Typography>
                       <Typography
                         component="span"
@@ -226,7 +226,7 @@ export default () => {
                       className={classes.chooseButton}
                       onClick={async () => {
                         try {
-                          const session = await fetchSession(process.env.REACT_APP_PRICE_ID_MONTHLY);
+                          const session = await fetchSession(process.env.REACT_APP_PRICE_ID_MONTHLYV2);
                           const stripe = await stripePromise;
                           stripe.redirectToCheckout({ sessionId: session.id });
                         } catch (error) {
@@ -253,7 +253,7 @@ export default () => {
                       variant="overline"
                       color="inherit"
                     >
-                      Yearly (35% Off!)
+                      Yearly ($20 Off!)
                     </Typography>
                     <div>
                       <Typography

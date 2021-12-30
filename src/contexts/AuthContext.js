@@ -22,6 +22,7 @@ const initialAuthState = {
   },
   SUBSCRIPTIONS: {
     [process.env.REACT_APP_PRICE_ID_MONTHLY]: 'Monthly',
+    [process.env.REACT_APP_PRICE_ID_MONTHLYV2]: 'Monthly',
     [process.env.REACT_APP_PRICE_ID_YEARLY]: 'Yearly'
   }
 };

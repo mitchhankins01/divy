@@ -116,7 +116,7 @@ const FAQS = ({ className, ...rest }) => {
                   variant="body1"
                   color="textSecondary"
                 >
-                  You can choose a monthly subscription for $12.99 or a yearly subscription for $99 (35% discount).
+                  You can choose a monthly subscription for $9.99 or a yearly subscription for $99.
                 </Typography>
               </dd>
             </Box>

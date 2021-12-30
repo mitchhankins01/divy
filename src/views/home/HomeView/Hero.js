@@ -70,21 +70,21 @@ export default ({ className, ...rest }) => {
                 variant="overline"
                 color="secondary"
               >
-                Introducing
+                Divy
               </Typography>
               <Typography
                 variant="h1"
                 color="textPrimary"
               >
-                Divy - Dividend Tracker
+                Ditch the Spreadsheets
               </Typography>
               <Box mt={3}>
                 <Typography
                   variant="body1"
                   color="textSecondary"
                 >
-                  The ultimate divided tracking tool for dividend investors, created by a dividend investor.
-                  It's simple and beautifully designed just for you.
+                  As a dividend investor, I got tired of dealing with spreadsheets and the manual labor they involved.
+                  If you want to save time and make better investment decisions, Divy is for you.
                 </Typography>
               </Box>
             </Box>
